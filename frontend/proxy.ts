@@ -28,34 +28,37 @@ export async function proxy(request: NextRequest) {
 
       if (setCookie) {
         const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
+
+        const response = NextResponse.next();
+
         for (const cookieStr of cookieArray) {
           const parsed = parse(cookieStr);
+
           const options = {
             expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
             path: parsed.Path,
             maxAge: Number(parsed["Max-Age"]),
           };
-          if (parsed.accessToken)
-            cookieStore.set("accessToken", parsed.accessToken, options);
-          if (parsed.refreshToken)
-            cookieStore.set("refreshToken", parsed.refreshToken, options);
+
+          if (parsed.accessToken) {
+            response.cookies.set("accessToken", parsed.accessToken, options);
+          }
+
+          if (parsed.refreshToken) {
+            response.cookies.set("refreshToken", parsed.refreshToken, options);
+          }
         }
-        // Якщо сесія все ще активна:
-        // для приватного маршруту — виконуємо редірект на головну.
+
+        // Якщо користувач намагається зайти на /sign-in або /sign-up
         if (isAuthRoute) {
           return NextResponse.redirect(new URL("/", request.url), {
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
+            headers: response.headers,
           });
         }
-        // для приватного маршруту — дозволяємо доступ
+
+        // Якщо приватний маршрут — пропускаємо
         if (isPrivateRoute) {
-          return NextResponse.next({
-            headers: {
-              Cookie: cookieStore.toString(),
-            },
-          });
+          return response;
         }
       }
     }
