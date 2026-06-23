@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { I18nContext } from "./context";
 import { getMessages } from "./index";
-import { useI18nStore } from "../store/i18nStore";
+import { Locale, useI18nStore } from "../store/i18nStore";
 
 export default function I18nProvider({
   children,
@@ -17,7 +17,7 @@ export default function I18nProvider({
 
   // 1. Ініціалізація мови з localStorage
   useEffect(() => {
-    const saved = localStorage.getItem("lang") || "pl";
+    const saved = (localStorage.getItem("lang") as Locale) || "pl";
     setLocale(saved);
   }, [setLocale]);
 
