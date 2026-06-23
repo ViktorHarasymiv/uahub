@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Account from "./Account";
 
 import "./Style.css";
+import Menu from "./Menu";
 
 export default function ModalContainer() {
   const modal = useModalStore((s) => s.modal);
@@ -73,6 +74,7 @@ export default function ModalContainer() {
         }}
       >
         <div className="content">{modal === "account" && <Account />}</div>
+        <div className="content">{modal === "menu" && <Menu />}</div>
       </div>
     </div>
   );

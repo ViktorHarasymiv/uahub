@@ -80,7 +80,8 @@
   font-size: 20px;
 }
 
-.top_header .MuiMenu-paper {
+.MuiMenu-paper {
+  z-index: 9999 !important;
   background-color: var(--white-opacity) !important;
 }
 

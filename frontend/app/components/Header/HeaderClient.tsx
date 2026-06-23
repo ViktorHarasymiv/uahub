@@ -22,7 +22,7 @@ export default function HeaderClient() {
   return (
     <header
       className={`${device > 768 ? style.header : style.header_mobile} ${
-        direction === "down" ? style.hide : style.show
+        device > 768 && direction === "down" ? style.hide : style.show
       }`}
     >
       {device > 768 ? (

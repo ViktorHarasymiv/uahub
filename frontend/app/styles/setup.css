@@ -27,8 +27,10 @@ main {
   flex: 1;
 }
 
-.main {
-  margin-top: var(--header-height);
+@media screen and (min-width: 768px) {
+  .main {
+    margin-top: var(--header-height);
+  }
 }
 
 /* SECTION */
@@ -70,8 +72,6 @@ button {
 
   color: var(--white);
 
-  /* border-bottom: 2px solid transparent; */
-
   transition: var(--transition2);
 }
 
@@ -86,9 +86,6 @@ button:hover::after {
 button:active {
   transform: scale(1);
   border-bottom-color: transparent;
-}
-
-.accent_btn {
 }
 
 .accent_btn::after {

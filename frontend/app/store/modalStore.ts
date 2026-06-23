@@ -1,7 +1,7 @@
 // store/modalStore.ts
 import { create } from "zustand";
 
-type Modal = "home" | "search" | "offers" | "account" | null;
+type Modal = "home" | "offers" | "account" | "menu" | null;
 
 interface ModalState {
   modal: Modal;

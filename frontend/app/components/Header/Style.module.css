@@ -226,7 +226,7 @@
 
   left: 50%;
 
-  width: 90%;
+  width: 95%;
   height: 50px; /* або твоя висота */
   z-index: 999;
 
@@ -255,6 +255,16 @@
 
   justify-content: space-around;
   align-items: center;
+}
+
+.mobile_nav_list > * {
+  flex: 1;
+  text-align: center;
+  border-right: 1px solid rgba(3, 3, 3, 0.1);
+}
+
+.mobile_nav_list > *:last-child {
+  border-right: none;
 }
 
 .mobile_nav_list button {
