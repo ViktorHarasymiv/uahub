@@ -7,7 +7,7 @@ import style from "./Style.module.css";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useI18nStore } from "@/app/store/i18nStore";
+import { Locale, useI18nStore } from "@/app/store/i18nStore";
 
 const Top = () => {
   const [language, setLanguage] = React.useState("pl");
@@ -22,7 +22,7 @@ const Top = () => {
   }, []);
 
   const handleChange = (event: SelectChangeEvent) => {
-    const newLang = event.target.value;
+    const newLang = event.target.value as Locale;
     setLanguage(newLang);
 
     const locale = newLang.toLowerCase();
