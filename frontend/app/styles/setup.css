@@ -12,9 +12,13 @@ body {
   flex-direction: column;
 
   flex: 1;
+
+  font-size: var(--font-size-base);
 }
 
 main {
+  position: relative;
+
   display: flex;
   flex-direction: column;
 

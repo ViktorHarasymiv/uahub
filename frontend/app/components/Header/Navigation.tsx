@@ -30,7 +30,7 @@ function Navigation() {
         {navigation_list.map((item) => {
           return (
             <li key={item.id} className={style.nav_item}>
-              <Link href={`/${item.path}`}>{item.label}</Link>
+              <Link href={`${item.path}`}>{item.label}</Link>
             </li>
           );
         })}

@@ -1,27 +1,39 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import style from "./Style.module.css";
 
 import CategoryUA from "@/app/json/Categories_UA.json";
 import CategoryPL from "@/app/json/Categories_PL.json";
+import CategoryEN from "@/app/json/Categories_EN.json";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useI18nStore } from "@/app/store/i18nStore";
 
 function PopularCategory() {
-  const { locale } = useParams();
+  const locale = useI18nStore((s) => s.locale);
 
-  const categories = locale === "pl" ? CategoryPL : CategoryUA;
+  let category_list;
+
+  switch (locale) {
+    case "pl":
+      category_list = CategoryPL;
+      break;
+    case "en":
+      category_list = CategoryEN;
+      break;
+    default:
+      category_list = CategoryUA;
+  }
 
   return (
     <section id={style.popular}>
       <h2>Популярні категорії</h2>
 
       <ul className={style.list}>
-        {categories.map((cat) => (
+        {category_list.map((cat) => (
           <li key={cat.id} className={style.item}>
-            <Link href={`/${locale}/category/${cat.slug}`}>
+            <Link href={`/category/${cat.slug}`}>
               <div
                 className={style.icon_wrapper}
                 style={{ backgroundColor: cat.background }}

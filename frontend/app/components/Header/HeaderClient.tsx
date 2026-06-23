@@ -1,7 +1,5 @@
 "use client";
 
-import { useParams } from "next/navigation";
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,31 +12,42 @@ import Navigation from "./Navigation";
 import Action from "./Action";
 import Top from "./Top";
 
+import { useWindowWidth } from "../../hook/useWindowWidth";
+
 export default function HeaderClient() {
   const direction = useScrollDirection();
-  const { locale } = useParams();
+
+  const device = useWindowWidth();
 
   return (
     <header
-      className={`${style.header} ${
+      className={`${device > 768 ? style.header : style.header_mobile} ${
         direction === "down" ? style.hide : style.show
       }`}
     >
-      <Top />
-      <div className={style.wrapper}>
-        <Link href={`/${locale}`} className={style.root_link}>
-          <Image
-            src={logo}
-            alt="Дошка оголошень - Варшава"
-            className="logo"
-            title="Дошка оголошень - Варшава"
-          />
-        </Link>
-        <div className={style.navigation_wrapper}>
-          <Navigation />
-          <Action />
+      {device > 768 ? (
+        <>
+          <Top />
+          <div className={style.wrapper}>
+            <Link href="/" className={style.root_link}>
+              <Image
+                src={logo}
+                alt="Дошка оголошень - Варшава"
+                className="logo"
+                title="Дошка оголошень - Варшава"
+              />
+            </Link>
+            <div className={style.navigation_wrapper}>
+              <Navigation />
+              <Action />
+            </div>
+          </div>
+        </>
+      ) : (
+        <div>
+          <h1>mobile</h1>
         </div>
-      </div>
+      )}
     </header>
   );
 }

@@ -1,8 +1,10 @@
+import type { Metadata, Viewport } from "next";
+
+import { AuthProvider } from "./components/Auth/AuthProvider";
 import I18nProvider from "./i18n/I18nProvider";
 
-import type { Metadata, Viewport } from "next";
 import "./styles/globals.css";
-import { AuthProvider } from "./components/Auth/AuthProvider";
+
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Modal from "./ui/Modal/Modal";
@@ -30,6 +32,7 @@ export default function RootLayout({
       <body>
         <I18nProvider>
           <AuthProvider />
+
           <Header />
           <main className="main">{children}</main>
           <Footer />
