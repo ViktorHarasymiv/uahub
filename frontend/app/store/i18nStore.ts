@@ -2,9 +2,11 @@
 
 import { create } from "zustand";
 
+export type Locale = "pl" | "ua" | "en";
+
 interface I18nState {
-  locale: string;
-  setLocale: (lang: string) => void;
+  locale: Locale;
+  setLocale: (lang: Locale) => void;
 }
 
 export const useI18nStore = create<I18nState>((set) => ({

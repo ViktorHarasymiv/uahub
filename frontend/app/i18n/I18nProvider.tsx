@@ -27,8 +27,6 @@ export default function I18nProvider({
     getMessages(locale).then((m) => setMessages(m));
   }, [locale]);
 
-  console.log(locale);
-
   if (!messages) return null;
 
   return (
