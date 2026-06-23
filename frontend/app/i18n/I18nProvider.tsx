@@ -5,11 +5,15 @@ import { I18nContext } from "./context";
 import { getMessages } from "./index";
 import { useI18nStore } from "../store/i18nStore";
 
-export default function I18nProvider({ children }) {
+export default function I18nProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const locale = useI18nStore((s) => s.locale);
   const setLocale = useI18nStore((s) => s.setLocale);
 
-  const [messages, setMessages] = useState<any>(null);
+  const [messages, setMessages] = useState<Record<string, string> | null>(null);
 
   // 1. Ініціалізація мови з localStorage
   useEffect(() => {
