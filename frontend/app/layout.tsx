@@ -7,7 +7,8 @@ import "./styles/globals.css";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import Modal from "./ui/Modal/Modal";
+import Modal from "./ui/Modal/AuthModal/Modal";
+import MobileNavigation from "./ui/Modal/MobileNavModal/MobileNavigation";
 
 export const metadata: Metadata = {
   title: "Warszawiak.pl | Darmowe ogłoszenie w Warszawie",
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body>
         <I18nProvider>
           <AuthProvider />
+          <MobileNavigation />
 
           <Header />
           <main className="main">{children}</main>
