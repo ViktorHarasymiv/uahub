@@ -1,0 +1,106 @@
+:root {
+  --base-font: "Manrope", sans-serif;
+  --base-font-weight: 400;
+  --base-line-height: 1.5;
+  --base-color: #000;
+
+  --header-height: 94px;
+
+  --accent-color: rgb(206, 44, 68);
+  --border-color: #0d7c7e;
+  --border-gray: #f2f4f5ff;
+
+  --bar-top-background: rgba(15, 84, 111, 1);
+  --bar-background: #07364b;
+
+  --button-active: rgb(16, 44, 58);
+
+  --white-opacity: rgba(255, 255, 255, 0.6);
+  --dark-opacity: rgba(0, 0, 0, 0.7);
+
+  --white: rgba(255, 255, 255, 1);
+  --icon-color: var(--dark-opacity);
+
+  --round-b-r: 100%;
+  --button-b-r: 6px;
+
+  --input-border: 2px solid var(--bar-background);
+  --auth-border: 2px solid #000000;
+
+  /* button setup */
+
+  --btn-width: 24px;
+  --btn-height: auto;
+
+  /* TRANSITION */
+
+  --transition: all 0.5s ease-in-out;
+  --transition2: all 0.3s ease-in-out;
+
+  /* THUMB */
+
+  --thumb-color: rgba(13, 124, 126, 0.8);
+}
+
+/* ============================================== RESERVE IDEAS */
+
+/* 
+  --light-yellow: #fff9d9;
+  --light-blue: #d9f2ff;
+
+  --light-yellow2: #f7e27a;
+  --light-blue2: #8dd4f7;
+
+  --light-yellow-background: #fdf9e0;
+  --light-blue-background: #f5fbfe; */
+
+/* --widthNone: 0px;
+    --widthSmall: 1px;
+    --widthMedium: 2px;
+    --widthLarge: 3px;
+    --colorsBackgroundPrimary: #FFFFFFFF;
+    --colorsBackgroundSecondary: #F2F4F5FF;
+    --colorsBackgroundInverse: #02282CFF;
+    --colorsBackgroundElevated: #FFFFFFFF;
+    --colorsBackgroundDisabled: #D8DFE0FF;
+    --colorsBackgroundActionPrimary: #02282CFF;
+    --colorsBackgroundAccent: #23E5DBFF;
+    --colorsBackgroundAccentSubtle: #C8F8F6FF;
+    --colorsBackgroundTransparent: #FFFFFF00;
+    --colorsForegroundPrimary: #02282CFF;
+    --colorsBorderStrong: #02282CFF;
+    --colorsBorderMedium: #7F9799FF;
+    --colorsBorderSubtle: #D8DFE0FF;
+    --colorsBorderInverse: #FFFFFFFF;
+    --colorsBorderActionPrimary: #02282CFF;
+    --colorsBorderAccent: #23E5DBFF;
+    --colorsBorderFocus: #00A49FFF;
+    --colorsBorderDisabled: #D8DFE0FF;
+    --colorsBorderStatusSuccess: #00000000;
+    --colorsBorderStatusWarning: #00000000;
+    --colorsBorderStatusError: #D02C0DFF;
+    --colorsForegroundSecondary: #406367FF;
+    --colorsForegroundAccent: #00A49FFF;
+    --colorsForegroundActionPrimary: #02282CFF;
+    --colorsForegroundDisabled: #7F9799FF;
+    --colorsForegroundPlaceholder: #7F9799FF;
+    --colorsForegroundOnActionPrimary: #FFFFFFFF;
+    --colorsForegroundOnAccent: #02282CFF;
+    --colorsForegroundOnAccentSubtle: #FFFFFFFF;
+    --colorsForegroundOnSuccess: #FFFFFFFF;
+    --colorsForegroundOnWarning: #02282CFF;
+    --colorsForegroundOnError: #FFFFFFFF;
+    --colorsForegroundOnInverse: #FFFFFFFF;
+    --colorsForegroundOnDark: #FFFFFFFF;
+    --colorsForegroundOnLight: #02282CFF;
+    --colorsForegroundStatusSuccess: #085C5DFF;
+    --colorsForegroundStatusWarning: #71674EFF;
+    --colorsForegroundStatusError: #D02C0DFF;
+    --colorsOpacityPrimaryStrong: #0000007A;
+    --colorsOpacityPrimaryMedium: #0000003D;
+    --colorsOpacityPrimarySubtle: #00000029;
+    --colorsOpacitySecondaryStrong: #FFFFFFA3;
+    --colorsOpacitySecondaryMedium: #FFFFFF66;
+    --colorsOpacitySecondarySubtle: #FFFFFF3D;
+    --colorsOpacityOverlayShadow: #00000029;
+    --colorsOpacityOverlayBackdrop: #02282CCC; */

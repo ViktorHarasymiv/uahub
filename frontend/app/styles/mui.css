@@ -1,0 +1,89 @@
+.MuiFormControl-root {
+  margin: 0 !important;
+
+  height: 100% !important;
+
+  background: var(--white-opacity) !important;
+}
+
+.MuiInputBase-root {
+  padding: 1.2rem;
+  height: 100%;
+
+  font-family: inherit !important;
+  color: inherit !important;
+
+  border-radius: 0px !important;
+}
+
+.MuiOutlinedInput-input {
+  padding: 0 !important;
+}
+
+.MuiSelect-select {
+  height: 100% !important;
+}
+
+.MuiInputLabel-root {
+  font-family: inherit !important;
+
+  margin-top: 10px;
+}
+
+.css-ex8a5f-MuiNotchedOutlined-root {
+  font-size: 1.5em !important;
+}
+
+.MuiInputLabel-root.Mui-focused {
+  margin-top: 0 !important;
+  color: inherit !important;
+}
+
+.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--bar-background) !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: transparent !important;
+  border-left: 1.5px solid var(--border-gray) !important;
+}
+
+.MuiSvgIcon-root {
+  fill: var(--bar-background) !important;
+}
+
+/* TOP HEADER */
+
+.top_header .MuiFormControl-root {
+  background: transparent !important;
+}
+
+.top_header .MuiInputBase-root {
+  padding: 0px !important;
+
+  font-size: 12px !important;
+}
+
+.top_header .MuiOutlinedInput-input {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.top_header .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+
+.top_header .MuiSelect-icon {
+  right: 10px !important;
+
+  fill: var(--white) !important;
+  font-size: 20px;
+}
+
+.top_header .MuiMenu-paper {
+  background-color: var(--white-opacity) !important;
+}
+
+.MuiSelect-nativeInput {
+  padding: 0px !important;
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "id": 0,
+    "label": "Wydarzenia",
+    "path": "/events",
+    "icon": ""
+  },
+  {
+    "id": 1,
+    "label": "Aktualności",
+    "path": "/news",
+    "icon": ""
+  }
+]

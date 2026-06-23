@@ -1,0 +1,290 @@
+/* MAIN */
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+
+  gap: 44px;
+
+  flex: 1;
+}
+
+.main {
+  margin-top: var(--header-height);
+}
+
+/* SECTION */
+
+section {
+  background-color: var(--white);
+}
+
+/* FOOTER */
+
+footer {
+  color: var(--white);
+  background-color: var(--bar-background);
+
+  border-top: 1px solid #000;
+}
+
+/* LOGO */
+
+.logo {
+  width: 190px;
+  max-height: 100%;
+
+  height: auto;
+}
+
+/* BUTTON */
+
+button {
+  position: relative;
+
+  padding: 0.5rem 1rem;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+
+  align-items: center;
+
+  color: var(--white);
+
+  border-bottom: 2px solid transparent;
+
+  transition: var(--transition2);
+}
+
+button:hover {
+  transform: scale(1.02);
+}
+
+button:hover::after {
+  opacity: 1;
+}
+
+button:active {
+  transform: scale(1);
+  border-bottom-color: transparent;
+}
+
+.accent_btn {
+}
+
+.accent_btn::after {
+  opacity: 0;
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 0px;
+
+  transform: translateX(-50%);
+
+  width: 90%;
+  height: 3px;
+
+  background: var(--white);
+
+  transition: var(--transition2);
+}
+
+.dark_button {
+  color: var(--white);
+
+  background: var(--accent-color);
+
+  text-align: end;
+}
+
+.dark_button:hover {
+  transform: scale(1.01);
+}
+
+.dark_button:active {
+  border-bottom: none;
+}
+
+.dark_button svg {
+  color: var(--white);
+}
+
+/* SVG */
+
+svg {
+  margin-right: 14px;
+  color: var(--white);
+
+  width: 18px;
+  height: 18px;
+}
+
+.svg_color_black {
+  color: var(--base-color);
+}
+
+/* PATTERN */
+
+.active {
+  position: relative;
+}
+
+.active::after {
+  position: absolute;
+
+  content: "";
+
+  width: 100%;
+
+  height: 1px;
+
+  top: 0;
+
+  background-color: var(--white);
+}
+
+/* PARAGRAPH */
+
+h2 {
+  color: #02282c;
+  font-weight: 700;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 32px;
+  line-height: 34px;
+  margin: 0 0 5px;
+  text-align: center;
+
+  margin-bottom: 56px;
+}
+
+/* MARKETING LAYOUT */
+
+.marketing-bg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  background-attachment: fixed;
+}
+
+/* INPUT */
+
+input {
+  padding: 1.5em;
+
+  width: 100%;
+
+  border: none;
+  background: var(--white-opacity);
+
+  border: 2px solid transparent;
+}
+
+input:focus {
+  outline: none;
+  border: var(--input-border);
+}
+
+input[type="search" i]::-webkit-search-cancel-button {
+  display: none;
+  opacity: 0;
+}
+
+/* CLOSE */
+
+/* import { RiCloseLargeLine } from "react-icons/ri"; */
+
+.close {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  right: 20px;
+
+  transform: translateY(-50%);
+
+  width: var(--btn-width);
+  height: var(--btn-height);
+
+  color: var(--light-dark);
+}
+
+/* CHECKBOX */
+
+.checkbox_label {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+}
+
+.checkbox_label span:hover {
+  text-decoration: underline;
+}
+
+.checkbox_input {
+  opacity: 0;
+
+  width: 20px;
+  height: 20px;
+}
+
+.checkbox_input_custom {
+  position: absolute;
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 5px;
+
+  border: 1px solid var(--bar-background);
+}
+
+/* Галочка */
+.checkbox_input_custom::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 10px;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(45deg);
+  top: 2.5px;
+  left: 6px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Коли чекбокс активний */
+.checkbox_input:checked + .checkbox_input_custom {
+  background: var(--button-active);
+  border-color: var(--button-active);
+}
+
+.checkbox_input:checked + .checkbox_input_custom::after {
+  opacity: 1;
+}
+
+.label {
+  margin-left: 7px;
+  font-size: 12px;
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "id": 0,
+    "label": "Події",
+    "path": "/events",
+    "icon": ""
+  },
+  {
+    "id": 1,
+    "label": "Новини",
+    "path": "/news",
+    "icon": ""
+  }
+]

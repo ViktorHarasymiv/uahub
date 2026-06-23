@@ -1,0 +1,107 @@
+[
+  {
+    "id": 0,
+    "name": "Одяг",
+    "slug": "clothes",
+    "icon": "TbShirt",
+    "show": true,
+    "background": "#fff9d9",
+    "children": [
+      { "id": 101, "name": "Чоловічий", "slug": "men" },
+      { "id": 102, "name": "Жіночий", "slug": "women" },
+      { "id": 103, "name": "Дитячий", "slug": "kids" }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Нерухомість",
+    "slug": "dwelling",
+    "icon": "TbHouse",
+    "show": true,
+    "background": "#fff9d9",
+    "children": [
+      { "id": 201, "name": "Квартири", "slug": "apartments" },
+      { "id": 202, "name": "Кімнати", "slug": "rooms" },
+      { "id": 203, "name": "Будинки", "slug": "houses" }
+    ]
+  },
+
+  {
+    "id": 2,
+    "name": "Меблі",
+    "slug": "interior",
+    "icon": "TbSofa",
+    "show": true,
+    "background": "#d9f2ff",
+    "children": [
+      { "id": 301, "name": "Легкові", "slug": "passenger" },
+      { "id": 302, "name": "Мотоцикли", "slug": "motorcycles" },
+      { "id": 303, "name": "Запчастини", "slug": "parts" }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Авто",
+    "slug": "cars",
+    "icon": "TbCars",
+    "show": true,
+    "background": "#00A49FFF",
+    "children": [
+      { "id": 401, "name": "Легкові", "slug": "passenger" },
+      { "id": 402, "name": "Мотоцикли", "slug": "motorcycles" },
+      { "id": 403, "name": "Запчастини", "slug": "parts" }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Робота",
+    "slug": "jobs",
+    "icon": "TbJob",
+    "show": true,
+    "background": "#f7e27a",
+    "children": [
+      { "id": 501, "name": "Офіс", "slug": "office" },
+      { "id": 502, "name": "Будівництво", "slug": "construction" },
+      { "id": 503, "name": "Логістика", "slug": "logistics" }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Для дітей",
+    "slug": "kids",
+    "icon": "TbChildren",
+    "show": true,
+    "background": "#8dd4f7",
+    "children": [
+      { "id": 601, "name": "Одяг", "slug": "clothes" },
+      { "id": 602, "name": "Іграшки", "slug": "toys" },
+      { "id": 603, "name": "Візочки", "slug": "strollers" }
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Послуги",
+    "slug": "services",
+    "icon": "TbOffer",
+    "show": true,
+    "background": "#23E5DBFF",
+    "children": [
+      { "id": 701, "name": "Ремонт", "slug": "repair" },
+      { "id": 702, "name": "Кур'єри", "slug": "courier" },
+      { "id": 703, "name": "Краса", "slug": "beauty" }
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Віддам",
+    "slug": "zaDarmo",
+    "icon": "TbFree",
+    "show": true,
+    "background": "#F2F4F5FF",
+    "children": [
+      { "id": 801, "name": "Ремонт", "slug": "repair" },
+      { "id": 802, "name": "Кур'єри", "slug": "courier" },
+      { "id": 803, "name": "Краса", "slug": "beauty" }
+    ]
+  }
+]
