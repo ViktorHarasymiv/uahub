@@ -254,4 +254,9 @@
   flex-wrap: nowrap;
 
   justify-content: space-around;
+  align-items: center;
+}
+
+.mobile_nav_list button {
+  color: var(--base-color);
 }

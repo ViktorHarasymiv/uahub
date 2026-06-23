@@ -7,7 +7,7 @@ import "./styles/globals.css";
 
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import Modal from "./ui/Modal/AuthModal/Modal";
+import Modal from "./ui/Modal/Modal";
 import MobileNavigation from "./ui/Modal/MobileNavModal/MobileNavigation";
 
 export const metadata: Metadata = {

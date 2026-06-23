@@ -14,7 +14,6 @@ import { LuEyeOff } from "react-icons/lu";
 
 import { useModalStore } from "@/app/store/useModalStore";
 import { useState } from "react";
-import { login } from "@/app/lib/api";
 import { useAuthStore } from "@/app/store/useAuthState";
 
 export default function LoginModal() {

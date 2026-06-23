@@ -13,13 +13,11 @@ import Action from "./Action";
 import Top from "./Top";
 
 import { useWindowWidth } from "../../hook/useWindowWidth";
-import { useModalStore } from "@/app/store/modalStore";
+import MobileNavigation from "./MobileNavigation";
 
 export default function HeaderClient() {
   const direction = useScrollDirection();
   const device = useWindowWidth();
-
-  const open = useModalStore((s) => s.open);
 
   return (
     <header
@@ -46,14 +44,7 @@ export default function HeaderClient() {
           </div>
         </>
       ) : (
-        <nav className={style.mobile_nav}>
-          <div className={style.mobile_nav_list}>
-            <button onClick={() => open("home")}>Home</button>
-            <button onClick={() => open("search")}>Search</button>
-            <button onClick={() => open("offers")}>Offers</button>
-            <button onClick={() => open("account")}>Account</button>
-          </div>
-        </nav>
+        <MobileNavigation />
       )}
     </header>
   );

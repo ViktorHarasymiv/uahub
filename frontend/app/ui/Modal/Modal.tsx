@@ -5,8 +5,8 @@ import { useModalStore } from "@/app/store/useModalStore";
 
 import style from "./Style.module.css";
 
-import LoginModal from "./LoginModal";
-import SignUpModal from "./SignUpModal";
+import LoginModal from "./AuthModal/LoginModal";
+import SignUpModal from "./AuthModal/SignUpModal";
 
 export default function Modal() {
   const { open, type } = useModalStore();

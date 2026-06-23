@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import style from "./Style.module.css";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
-import style from "./Style.module.css";
 
 // ICONS
 
