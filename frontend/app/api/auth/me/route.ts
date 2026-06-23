@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     });
 
     // 2. Беремо cookieStore
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
 
     // 3. Приймаємо set-cookie з бекенду (оновлений accessToken)
     const setCookie = apiRes.headers["set-cookie"];
