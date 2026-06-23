@@ -44,9 +44,25 @@ export default function HeaderClient() {
           </div>
         </>
       ) : (
-        <div>
-          <h1>mobile</h1>
-        </div>
+        <nav className={style.mobile_nav}>
+          <ul className={style.mobile_nav_list}>
+            <li>
+              <a href="">Home</a>
+            </li>
+            <li>
+              <a href="">Seurch</a>
+            </li>
+            <li>
+              <a href="">Ofers</a>
+            </li>
+            <li>
+              <a href="">Konto</a>
+            </li>
+            <li>
+              <a href="">Menu</a>
+            </li>
+          </ul>
+        </nav>
       )}
     </header>
   );
