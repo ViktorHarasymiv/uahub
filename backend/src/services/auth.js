@@ -8,6 +8,9 @@ import createHttpError from 'http-errors';
 import { UsersCollection } from '../db/models/user.js';
 import { SessionsCollection } from '../db/models/session.js';
 
+import { ONE_DAY, TWO_HOUR } from '../constants/index.js';
+import { createSession } from '../utils/createSession.js';
+
 // REGISTRATION
 
 export const registerUser = async (payload) => {
@@ -24,38 +27,37 @@ export const registerUser = async (payload) => {
 
 // LOGIN
 
-export const loginService = async (email, password) => {
-  const user = await UsersCollection.findOne({ email });
-  if (!user) return null;
+export const loginService = async (payload) => {
+  const user = await UsersCollection.findOne({ email: payload.email });
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return null;
+  if (!user) {
+    throw createHttpError(401, 'Користувача не знайдено');
+  }
 
-  // 1. Створюємо сесію (поки без токенів)
-  const session = await SessionsCollection.create({
+  const isEqual = await bcrypt.compare(payload.password, user.password);
+
+  if (!isEqual) {
+    throw createHttpError(401, 'Невірний пароль');
+  }
+
+  await SessionsCollection.deleteOne({ userId: user._id });
+
+  const accessToken = randomBytes(30).toString('base64');
+  const refreshToken = randomBytes(30).toString('base64');
+
+  return await SessionsCollection.create({
     userId: user._id,
-    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    accessToken,
+    refreshToken,
+    accessTokenValidUntil: new Date(Date.now() + TWO_HOUR),
+    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
   });
+};
 
-  // 2. Генеруємо JWT токени
-  const accessToken = jwt.sign(
-    { id: user._id, sessionId: session._id },
-    process.env.JWT_SECRET,
-    { expiresIn: '15m' },
-  );
+// LOG OUT
 
-  const refreshToken = jwt.sign(
-    { sessionId: session._id },
-    process.env.JWT_SECRET,
-    { expiresIn: '7d' },
-  );
-
-  // 3. Оновлюємо сесію токенами
-  session.accessToken = accessToken;
-  session.refreshToken = refreshToken;
-  await session.save();
-
-  return { user, accessToken, refreshToken };
+export const logoutUser = async (sessionId) => {
+  await SessionsCollection.deleteOne({ _id: sessionId });
 };
 
 // CHECK EMAIL
@@ -71,52 +73,92 @@ export const checkSessionService = async (req, res) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
 
-  // 1. Немає токенів → немає сесії
-  if (!accessToken && !refreshToken) {
-    return { user: null };
-  }
+  if (!accessToken && !refreshToken) return { user: null };
 
-  // 2. Пробуємо accessToken
+  // 1. Пробуємо accessToken
   try {
-    const payload = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
-    const user = await getUserById(payload.userId);
-    return { user };
-  } catch (err) {
-    // accessToken протух — йдемо далі
-  }
+    const decoded = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
 
-  // 3. Пробуємо refreshToken
+    const session = await SessionsCollection.findOne({
+      userId: decoded.userId,
+    });
+
+    if (!session) return { user: null };
+
+    const user = await getUserById(decoded.userId);
+    return { user };
+  } catch (err) {}
+
+  // 2. Пробуємо refreshToken
   if (!refreshToken) return { user: null };
 
-  let payload;
+  let decodedRefresh;
   try {
-    payload = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    decodedRefresh = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
   } catch (err) {
     return { user: null };
   }
 
-  // 4. Генеруємо нові токени
-  const { accessToken: newAccess, refreshToken: newRefresh } = generateTokens(
-    payload.userId,
-  );
+  const userId = decodedRefresh.userId;
 
-  // 5. Ставимо нові cookies
-  res.cookie('accessToken', newAccess, {
+  const session = await SessionsCollection.findOne({
+    userId,
+    refreshToken,
+  });
+
+  if (!session) return { user: null };
+
+  // 3. Генеруємо нові токени
+  const newAccessToken = jwt.sign({ userId }, process.env.JWT_ACCESS_SECRET, {
+    expiresIn: '15m',
+  });
+
+  const newRefreshToken = jwt.sign({ userId }, process.env.JWT_REFRESH_SECRET, {
+    expiresIn: '7d',
+  });
+
+  res.cookie('accessToken', newAccessToken, {
     httpOnly: true,
-    secure: true,
-    sameSite: 'strict',
+    secure: false,
+    sameSite: 'lax',
     path: '/',
   });
 
-  res.cookie('refreshToken', newRefresh, {
+  res.cookie('refreshToken', newRefreshToken, {
     httpOnly: true,
-    secure: true,
-    sameSite: 'strict',
+    secure: false,
+    sameSite: 'lax',
     path: '/',
   });
 
-  // 6. Повертаємо user
-  const user = await getUserById(payload.userId);
-
+  const user = await getUserById(userId);
   return { user };
+};
+
+// REFRESH SESSION
+
+export const refreshUsersSession = async ({ refreshToken }) => {
+  const session = await SessionsCollection.findOne({ refreshToken });
+
+  if (!session) {
+    throw createHttpError(401, 'Refresh token not found');
+  }
+
+  const isExpired = new Date() > new Date(session.refreshTokenValidUntil);
+  if (isExpired) {
+    throw createHttpError(401, 'Refresh token expired');
+  }
+
+  // 1. Видаляємо стару сесію
+  await SessionsCollection.deleteOne({ refreshToken });
+
+  // 2. Створюємо нову
+  const newSessionData = createSession();
+
+  const newSession = await SessionsCollection.create({
+    userId: session.userId,
+    ...newSessionData,
+  });
+
+  return newSession;
 };

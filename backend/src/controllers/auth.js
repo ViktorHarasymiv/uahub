@@ -1,12 +1,16 @@
 // src/controllers/auth.js
-
+import jwt from 'jsonwebtoken';
+import { SessionsCollection } from '../db/models/session.js';
 import { UsersCollection } from '../db/models/user.js';
 import {
   checkEmailService,
+  checkSessionService,
   loginService,
+  logoutUser,
+  refreshUsersSession,
   registerUser,
 } from '../services/auth.js';
-import { createToken } from '../utils/createToken.js';
+import { setupSession } from '../utils/setupSession.js';
 
 // REGISTATION
 
@@ -22,29 +26,38 @@ export const registerUserController = async (req, res) => {
 
 // LOGIN
 
-export const loginController = async (req, res) => {
-  const { email, password } = req.body;
+export const loginUserController = async (req, res, next) => {
+  try {
+    const session = await loginService(req.body);
 
-  const { user, accessToken, refreshToken } = await loginService(
-    email,
-    password,
-  );
+    setupSession(res, session);
 
-  res.cookie('accessToken', accessToken, {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: false,
-    maxAge: 1000 * 60 * 15, // 15m
-  });
+    res.json({
+      status: 200,
+      message: 'Successfully logged',
+      data: {
+        accessToken: session.accessToken,
+        refreshToken: session.refreshToken,
+        sessionId: session.userId,
+      },
+    });
+  } catch (error) {
+    next(error); // передаємо до глобального error handler
+  }
+};
 
-  res.cookie('refreshToken', refreshToken, {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: false,
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 7d
-  });
+// LOG OUT
 
-  return res.json({ user: { id: user._id, email: user.email } });
+export const logoutUserController = async (req, res) => {
+  if (req.cookies.sessionId) {
+    await logoutUser(req.cookies.sessionId);
+  }
+
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
+  res.clearCookie('sessionId');
+
+  res.status(204).send();
 };
 
 // FETCH ME
@@ -85,10 +98,52 @@ export const checkEmailController = async (req, res) => {
 
 export const sessionController = async (req, res) => {
   try {
-    const result = await checkSessionService(req, res);
-    return res.status(200).json(result);
+    const accessToken = req.cookies.accessToken;
+
+    if (!accessToken) {
+      return res.status(401).json({ valid: false });
+    }
+
+    // let decoded;
+    // try {
+    //   decoded = jwt.verify(rawAccessToken, process.env.JWT_ACCESS_SECRET);
+    // } catch (err) {
+    //   return res.status(401).json({ valid: false });
+    // }
+
+    // Перевіряємо, чи існує сесія в БД
+    const session = await SessionsCollection.findOne({
+      accessToken: accessToken,
+    });
+
+    if (!session) {
+      return res.status(401).json({ valid: false });
+    }
+
+    return res.json({ valid: true });
   } catch (err) {
-    console.error('SESSION CONTROLLER ERROR:', err);
-    return res.status(500).json({ error: 'Server error' });
+    return res.status(401).json({ valid: false });
   }
+};
+
+// REFRESH SESSION
+
+export const refreshUserSessionController = async (req, res) => {
+  const rawToken = decodeURIComponent(req.cookies.refreshToken);
+
+  const session = await refreshUsersSession({
+    refreshToken: rawToken,
+  });
+
+  setupSession(res, session);
+
+  res.json({
+    status: 200,
+    message: 'Successfully refreshed a session!',
+    data: {
+      accessToken: session.accessToken,
+      refreshToken: session.refreshToken,
+      sessionId: session._id,
+    },
+  });
 };
