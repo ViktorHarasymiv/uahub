@@ -14,21 +14,28 @@ function Action() {
   const openModal = useModalStore((s) => s.openModal);
 
   const isAuth = useAuthStore((s) => s.isAuth);
+  const logOut = useAuthStore((s) => s.logout);
   const user = useAuthStore((s) => s.user);
 
   return (
     <>
       {isAuth ? (
         <ul className={style.action_wrapper}>
-          <li>{user?.email}</li>
+          <li className={style.user_block}>
+            {user?.email}
+            {/* DROP NAVIGATION */}
+            <div className={style.drop_user_nav}>
+              <Button action={logOut}>Вихід</Button>
+            </div>
+          </li>
+          <li>
+            <span className={style.line}></span>
+          </li>
           <li>
             <Button accent={true}>
               <GrWorkshop />
               {messages["navigation.add"]}
             </Button>
-          </li>
-          <li>
-            <span className={style.line}></span>
           </li>
           {/* <li>
             <Button

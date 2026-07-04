@@ -1,9 +1,6 @@
-// proxy.ts
-
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { parse } from "cookie";
-import { checkServerSession } from "@/app/lib/serverApi";
+import { refreshSession } from "./app/lib/api";
 
 const privateRoutes = ["/profile"];
 const authRoutes = ["/sign-in", "/sign-up"];
@@ -11,6 +8,7 @@ const authRoutes = ["/sign-in", "/sign-up"];
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const cookieStore = await cookies();
+
   const accessToken = cookieStore.get("accessToken")?.value;
   const refreshToken = cookieStore.get("refreshToken")?.value;
 
@@ -19,67 +17,44 @@ export async function proxy(request: NextRequest) {
     pathname.startsWith(route),
   );
 
+  // ---------------------------
+  // 1. Немає accessToken
+  // ---------------------------
   if (!accessToken) {
+    // Є refreshToken → пробуємо refresh
     if (refreshToken) {
-      // Якщо accessToken відсутній, але є refreshToken — потрібно перевірити сесію навіть для маршруту аутентифікації,
-      // адже сесія може залишатися активною, і тоді потрібно заборонити доступ до маршруту аутентифікації.
-      const data = await checkServerSession();
-      const setCookie = data.headers["set-cookie"];
+      const refreshed = await refreshSession();
 
-      if (setCookie) {
-        const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
-
-        const response = NextResponse.next();
-
-        for (const cookieStr of cookieArray) {
-          const parsed = parse(cookieStr);
-
-          const options = {
-            expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-            path: parsed.Path,
-            maxAge: Number(parsed["Max-Age"]),
-          };
-
-          if (parsed.accessToken) {
-            response.cookies.set("accessToken", parsed.accessToken, options);
-          }
-
-          if (parsed.refreshToken) {
-            response.cookies.set("refreshToken", parsed.refreshToken, options);
-          }
-        }
-
+      if (refreshed?.accessToken) {
         // Якщо користувач намагається зайти на /sign-in або /sign-up
         if (isAuthRoute) {
-          return NextResponse.redirect(new URL("/", request.url), {
-            headers: response.headers,
-          });
+          return NextResponse.redirect(new URL("/", request.url));
         }
 
-        // Якщо приватний маршрут — пропускаємо
+        // Приватний маршрут → пропускаємо
         if (isPrivateRoute) {
-          return response;
+          return NextResponse.next();
         }
       }
     }
-    // Якщо refreshToken або сесії немає:
-    // маршрут аутентифікації — дозволяємо доступ
+
+    // Немає refreshToken → юзер не авторизований
     if (isAuthRoute) {
       return NextResponse.next();
     }
 
-    // приватний маршрут — редірект на сторінку входу
     if (isPrivateRoute) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
   }
 
-  // Якщо accessToken існує:
-  // приватний маршрут — виконуємо редірект на головну
+  // ---------------------------
+  // 2. Є accessToken
+  // ---------------------------
   if (isAuthRoute) {
     return NextResponse.redirect(new URL("/", request.url));
   }
-  // приватний маршрут — дозволяємо доступ
+
   if (isPrivateRoute) {
     return NextResponse.next();
   }

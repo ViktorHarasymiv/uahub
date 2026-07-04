@@ -22,12 +22,38 @@ export const checkEmail = async (email: string) => {
 
 export const login = async (data: LoginRequest) => {
   const res = await nextServer.post("/auth/login", data);
+
+  return { success: true, data: res.data };
+};
+
+// LOGOUT
+
+export const logout = async () => {
+  await nextServer.post("/auth/logout", {}, { withCredentials: true });
+};
+
+export const getMe = async () => {
+  const res = await nextServer.get("/auth/me");
   return res.data;
 };
 
-export const fetchMe = async () => {
-  const res = await nextServer.get("/auth/me");
-  console.log(res);
+// RERFRESH SESSION
 
+export const refreshSession = async () => {
+  const res = await nextServer.post(
+    "/auth/refresh",
+    {},
+    {
+      withCredentials: true,
+    },
+  );
+
+  return res.data;
+};
+
+// SESSION
+
+export const checkServerSession = async () => {
+  const res = await nextServer.get("/auth/session");
   return res.data;
 };

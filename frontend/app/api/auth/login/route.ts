@@ -1,53 +1,49 @@
 // app/api/auth/login/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
-import { api, ApiError } from "../../api";
-import { parse } from "cookie";
-import { cookies } from "next/headers";
+import { api } from "../../api";
+import { AxiosError } from "axios";
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-
   try {
-    const apiRes = await api.post("auth/login", body);
+    const body = await req.json();
+    const apiRes = await api.post("/auth/login", body);
 
-    const cookieStore = await cookies(); // ✔️ без await
+    const { accessToken, refreshToken, sessionId } = apiRes.data.data;
 
-    const setCookie = apiRes.headers["set-cookie"];
+    const response = NextResponse.json(apiRes.data, { status: apiRes.status });
 
-    if (setCookie) {
-      const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
+    // Ставимо куки напряму
+    response.cookies.set("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 900,
+    });
 
-      for (const cookieStr of cookieArray) {
-        const parsed = parse(cookieStr);
+    response.cookies.set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 7 * 24 * 3600,
+    });
 
-        const options = {
-          expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-          path: parsed.Path,
-          maxAge: Number(parsed["Max-Age"]),
-        };
+    response.cookies.set("sessionId", sessionId, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 7 * 24 * 3600,
+    });
 
-        if (parsed.accessToken) {
-          cookieStore.set("accessToken", parsed.accessToken, options);
-        }
+    return response;
+  } catch (err) {
+    const error = err as AxiosError<{ message?: string }>;
+    const status = error.response?.status ?? 500;
+    const message = error.response?.data?.message ?? "Login failed";
 
-        if (parsed.refreshToken) {
-          cookieStore.set("refreshToken", parsed.refreshToken, options);
-        }
-      }
-
-      return NextResponse.json(apiRes.data);
-    }
-
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  } catch (error) {
-    return NextResponse.json(
-      {
-        error:
-          (error as ApiError).response?.data?.error ??
-          (error as ApiError).message,
-      },
-      { status: (error as ApiError).status },
-    );
+    return NextResponse.json({ error: message }, { status });
   }
 }

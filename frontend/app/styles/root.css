@@ -16,10 +16,12 @@
 
   --button-active: rgb(16, 44, 58);
 
-  --white-opacity: rgba(255, 255, 255, 0.6);
+  --dark: rgba(0, 0, 0, 1);
   --dark-opacity: rgba(0, 0, 0, 0.7);
 
   --white: rgba(255, 255, 255, 1);
+  --white-opacity: rgba(255, 255, 255, 0.6);
+
   --icon-color: var(--dark-opacity);
 
   --round-b-r: 100%;

@@ -11,10 +11,10 @@ import Modal from "./ui/Modal/Modal";
 import MobileNavigation from "./ui/Modal/MobileNavModal/MobileNavigation";
 
 export const metadata: Metadata = {
-  title: "Warszawiak.pl | Darmowe ogłoszenie w Warszawie",
+  title: "uahub.pl | Ukrainian community",
   description: "Ukrainian community platform",
-  keywords: ["Warszawiak.pl", "ukrainian community", "platform"],
-  authors: [{ name: "Warszawiak.pl" }],
+  keywords: ["uahub.pl", "ukrainian community", "platform"],
+  authors: [{ name: "UaHub.pl" }],
   robots: "index, follow",
 };
 

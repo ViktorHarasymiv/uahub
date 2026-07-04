@@ -1,7 +1,13 @@
 import { create } from "zustand";
-import { fetchMe, login, register } from "../lib/api";
+import {
+  getMe,
+  login,
+  register,
+  refreshSession,
+  checkServerSession,
+  logout,
+} from "../lib/api";
 import { User } from "../types/auth";
-import { log } from "console";
 
 interface AuthState {
   user: User | null;
@@ -13,10 +19,11 @@ interface AuthState {
   login: (data: { email: string; password: string }) => Promise<boolean>;
   logout: () => Promise<void>;
   fetchMe: () => Promise<boolean>;
+  fetchData: () => Promise<boolean>;
   clearError: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuth: false,
   loading: false,
@@ -33,8 +40,8 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ loading: false });
 
       return true; // реєстрація успішна
-    } catch (err: any) {
-      set({ error: err.response?.data?.error || err.message, loading: false });
+    } catch (err) {
+      set({ error: "Error", loading: false });
       return false; // реєстрація неуспішна
     }
   },
@@ -43,60 +50,83 @@ export const useAuthStore = create<AuthState>((set) => ({
     try {
       set({ loading: true });
 
-      const user = await login(data); // axios already returns res.data
+      const ok = await login(data); // axios POST /auth/login
 
-      set({
-        user,
-        isAuth: true,
-        loading: false,
-      });
+      if (!ok) {
+        set({ loading: false });
+        return false;
+      }
 
-      return true;
-    } catch (err: any) {
-      set({
-        error: err.response?.data?.message || err.message,
-        loading: false,
-      });
+      // 🔥 одразу тягнемо юзера
+      const meOk = await get().fetchData();
 
+      set({ loading: false });
+
+      return meOk; // повертаємо true якщо юзер підтягнувся
+    } catch (err) {
+      set({ error: "Error", loading: false });
       return false;
     }
   },
 
   logout: async () => {
-    try {
-      await fetch("http://localhost:5000/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      set({ user: null, isAuth: false });
-    } catch (err) {
-      console.log(err);
-    }
+    await logout();
+    set({ isAuth: false, user: null });
   },
 
   fetchMe: async () => {
     try {
       set({ loading: true });
 
-      const res = await fetchMe();
+      // 1. Перевіряємо accessToken
+      const check = await checkServerSession(); // GET /auth/session або /auth/check
 
-      console.log(res.user);
+      if (check?.valid) {
+        // accessToken валідний → просто getMe()
+        const data = await getMe();
+        if (!data) {
+          set({ isAuth: false, user: null });
+          return false;
+        }
 
-      set({
-        user: res.user,
-        isAuth: true,
-        loading: false,
-      });
+        set({ isAuth: true, user: data.user });
+        return true;
+      }
 
+      // 2. Якщо accessToken протух → пробуємо refresh
+      const refreshed = await refreshSession();
+
+      if (!refreshed?.accessToken) {
+        // refreshToken протух → logout
+        set({ isAuth: false, user: null });
+        return false;
+      }
+
+      // 3. Після refresh → getMe()
+      const user = await getMe();
+
+      if (!user) {
+        set({ isAuth: false, user: null });
+        return false;
+      }
+
+      set({ isAuth: true, user });
       return true;
     } catch (err) {
-      set({
-        user: null,
-        isAuth: false,
-        loading: false,
-      });
+      set({ isAuth: false, user: null });
+      return false;
+    } finally {
+      set({ loading: false });
+    }
+  },
 
+  fetchData: async () => {
+    try {
+      const res = await getMe(); // axios GET /auth/me
+      set({ user: res.user, isAuth: true });
+      return true;
+    } catch (err) {
+      set({ user: null });
       return false;
     }
   },

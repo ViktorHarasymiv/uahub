@@ -1,7 +1,6 @@
 /* GENERAL */
 
 .header {
-  overflow: hidden;
   position: fixed;
 
   top: 0;
@@ -100,6 +99,14 @@
   flex-wrap: nowrap;
 
   background-color: var(--accent-color);
+}
+
+.action_wrapper li {
+  padding-inline: 5px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .line {
@@ -216,6 +223,34 @@
 
 .nav_sub_list li:hover {
   background-color: var(--colorsBackgroundSecondary);
+}
+
+/* DROP USER NAVIGATION */
+
+.user_block {
+  cursor: pointer;
+}
+
+.drop_user_nav {
+  pointer-events: none;
+  z-index: 999;
+
+  position: absolute;
+
+  bottom: -35px;
+
+  background-color: var(--white);
+
+  opacity: 0;
+}
+
+.user_block:hover .drop_user_nav {
+  pointer-events: all;
+  opacity: 1;
+}
+
+.drop_user_nav > button {
+  color: var(--dark) !important;
 }
 
 /* MOBILE HEADER */
