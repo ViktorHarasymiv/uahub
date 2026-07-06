@@ -24,8 +24,7 @@ export const startServer = () => {
   app.use(express.json());
   app.use(
     cors({
-      origin: ['http://localhost:3000'],
-      origin: ['uahub-two.vercel.app'],
+      origin: ['http://localhost:3000', 'https://uahub-two.vercel.app'],
       credentials: true,
     }),
   );
