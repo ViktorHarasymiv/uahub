@@ -1,9 +1,10 @@
 import axios from "axios";
-
 import { RegisterRequest, LoginRequest, User } from "@/app/types/auth";
 
+const DOMEN = process.env.DOMEN;
+
 export const nextServer = axios.create({
-  baseURL: "http://localhost:1997/api",
+  baseURL: `${DOMEN}/api`,
   withCredentials: true, // дозволяє axios працювати з cookie
 });
 
