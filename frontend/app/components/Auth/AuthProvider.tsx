@@ -5,9 +5,12 @@ import { useEffect } from "react";
 
 export function AuthProvider() {
   const fetchMe = useAuthStore((s) => s.fetchMe);
+  const isAuth = useAuthStore((s) => s.isAuth);
 
   useEffect(() => {
-    fetchMe();
+    if (!isAuth) {
+      fetchMe();
+    } else return;
   }, []);
 
   return null;
