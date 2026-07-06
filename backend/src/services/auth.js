@@ -28,6 +28,8 @@ export const registerUser = async (payload) => {
 // LOGIN
 
 export const loginService = async (payload) => {
+  const { rememberMe } = payload;
+
   const user = await UsersCollection.findOne({ email: payload.email });
 
   if (!user) {
@@ -45,12 +47,16 @@ export const loginService = async (payload) => {
   const accessToken = randomBytes(30).toString('base64');
   const refreshToken = randomBytes(30).toString('base64');
 
+  const refreshTokenValidUntil = rememberMe
+    ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 днів
+    : new Date(Date.now() + 5 * 60 * 1000); // 5 хв
+
   return await SessionsCollection.create({
     userId: user._id,
     accessToken,
     refreshToken,
     accessTokenValidUntil: new Date(Date.now() + TWO_HOUR),
-    refreshTokenValidUntil: new Date(Date.now() + ONE_DAY),
+    refreshTokenValidUntil: refreshTokenValidUntil,
   });
 };
 
@@ -138,6 +144,7 @@ export const checkSessionService = async (req, res) => {
 // REFRESH SESSION
 
 export const refreshUsersSession = async ({ refreshToken }) => {
+  // refreshToken тут вже raw
   const session = await SessionsCollection.findOne({ refreshToken });
 
   if (!session) {
@@ -149,16 +156,16 @@ export const refreshUsersSession = async ({ refreshToken }) => {
     throw createHttpError(401, 'Refresh token expired');
   }
 
-  // 1. Видаляємо стару сесію
-  await SessionsCollection.deleteOne({ refreshToken });
-
-  // 2. Створюємо нову
+  // Створюємо нову сесію
   const newSessionData = createSession();
 
   const newSession = await SessionsCollection.create({
     userId: session.userId,
     ...newSessionData,
   });
+
+  // Видаляємо стару сесію
+  await SessionsCollection.deleteOne({ refreshToken });
 
   return newSession;
 };

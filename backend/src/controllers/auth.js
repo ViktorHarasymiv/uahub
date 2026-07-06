@@ -100,29 +100,27 @@ export const sessionController = async (req, res) => {
   try {
     const accessToken = req.cookies.accessToken;
 
+    // Немає токена → просто valid: false
     if (!accessToken) {
-      return res.status(401).json({ valid: false });
+      return res.json({ valid: false });
     }
 
-    // let decoded;
-    // try {
-    //   decoded = jwt.verify(rawAccessToken, process.env.JWT_ACCESS_SECRET);
-    // } catch (err) {
-    //   return res.status(401).json({ valid: false });
-    // }
+    const session = await SessionsCollection.findOne({ accessToken });
 
-    // Перевіряємо, чи існує сесія в БД
-    const session = await SessionsCollection.findOne({
-      accessToken: accessToken,
-    });
-
+    // Немає сесії → valid: false
     if (!session) {
-      return res.status(401).json({ valid: false });
+      return res.json({ valid: false });
     }
 
+    // Токен протух → valid: false
+    if (session.accessTokenValidUntil < new Date()) {
+      return res.json({ valid: false });
+    }
+
+    // Все ок
     return res.json({ valid: true });
   } catch (err) {
-    return res.status(401).json({ valid: false });
+    return res.json({ valid: false });
   }
 };
 

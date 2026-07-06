@@ -1,6 +1,7 @@
 // src/server.js
 
 import express from 'express';
+import path from 'path';
 import pino from 'pino-http';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -13,6 +14,7 @@ import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
 import router from './routers/index.js';
+import { TEMP_UPLOAD_DIR, UPLOAD_DIR } from './constants/index.js';
 
 const PORT = Number(getEnvVar('PORT', '3000'));
 
@@ -23,6 +25,7 @@ export const startServer = () => {
   app.use(
     cors({
       origin: ['http://localhost:3000'],
+      origin: ['uahub-two.vercel.app'],
       credentials: true,
     }),
   );
@@ -36,6 +39,8 @@ export const startServer = () => {
       },
     }),
   );
+
+  app.use('/temp', express.static(TEMP_UPLOAD_DIR));
 
   app.get('/', (req, res) => {
     res.json({

@@ -14,7 +14,7 @@ export const AvatarUpdateForm = ({
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const [error, setError] = useState("");
-  const [previewUrl, setPreviewUrl] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
