@@ -125,15 +125,15 @@ export const checkSessionService = async (req, res) => {
 
   res.cookie('accessToken', newAccessToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
+    secure: true,
+    sameSite: 'none',
     path: '/',
   });
 
   res.cookie('refreshToken', newRefreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: 'lax',
+    secure: true,
+    sameSite: 'none',
     path: '/',
   });
 

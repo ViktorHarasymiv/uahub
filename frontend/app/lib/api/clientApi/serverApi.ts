@@ -12,6 +12,7 @@ export const checkServerSession = async () => {
       Cookie: cookieStore.toString(),
     },
   });
+
   // Повертаємо повний респонс, щоб proxy мав доступ до нових cookie
   return res;
 };

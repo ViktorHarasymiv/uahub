@@ -9,7 +9,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const apiRes = await api.post("/auth/login", body);
 
-    // НЕ ставимо куки тут!
     return NextResponse.json(apiRes.data, { status: apiRes.status });
   } catch (err) {
     const error = err as AxiosError<{ message?: string }>;
