@@ -3,9 +3,14 @@
   --font-size-base: 0.95em;
   --base-font-weight: 400;
   --base-line-height: 1.5;
-  --base-color: #000;
+  --base-color: rgb(16, 44, 58);
 
+  /* DEFAULT SIZE */
+
+  --margin-buttom-default: 24px;
   --header-height: 94px;
+
+  /* COLOR */
 
   --accent-color: rgb(206, 44, 68);
   --border-color: #0d7c7e;
@@ -27,22 +32,43 @@
   --round-b-r: 100%;
   --button-b-r: 6px;
 
-  --input-border: 2px solid var(--bar-background);
+  --input-border: 1px solid var(--bar-background);
   --auth-border: 2px solid #000000;
 
-  /* button setup */
+  /* BUTTON SETUP */
 
   --btn-width: 24px;
   --btn-height: auto;
 
-  /* TRANSITION */
+  /* TRANSITION SETUP */
 
   --transition: all 0.5s ease-in-out;
   --transition2: all 0.3s ease-in-out;
 
-  /* THUMB */
+  /* THUMB SETUP */
 
   --thumb-color: rgba(13, 124, 126, 0.8);
+
+  /* SHADOW SETUP */
+
+  --shadow-default: 0 0 15px rgb(0 0 0/12%);
+
+  /* BLOCK SETUP */
+
+  --block-padding: 12px;
+  --block-b-radius: 8px;
+
+  /* TAB SETUP */
+
+  --tab-border-r: 15px;
+
+  /* HOVER */
+
+  --colorsBackgroundSecondary: #f2f4f5ff;
+
+  /* ACTIVE LINK */
+
+  --colorsOpacitySecondaryMedium: #acacac66;
 }
 
 /* ============================================== RESERVE IDEAS */
@@ -99,11 +125,11 @@
     --colorsForegroundStatusSuccess: #085C5DFF;
     --colorsForegroundStatusWarning: #71674EFF;
     --colorsForegroundStatusError: #D02C0DFF;
-    --colorsOpacityPrimaryStrong: #0000007A;
+    
     --colorsOpacityPrimaryMedium: #0000003D;
     --colorsOpacityPrimarySubtle: #00000029;
-    --colorsOpacitySecondaryStrong: #FFFFFFA3;
-    --colorsOpacitySecondaryMedium: #FFFFFF66;
+    
+   
     --colorsOpacitySecondarySubtle: #FFFFFF3D;
     --colorsOpacityOverlayShadow: #00000029;
     --colorsOpacityOverlayBackdrop: #02282CCC; */

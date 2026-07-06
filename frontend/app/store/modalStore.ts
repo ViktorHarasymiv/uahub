@@ -11,6 +11,10 @@ interface ModalState {
 
 export const useModalStore = create<ModalState>((set) => ({
   modal: null,
-  open: (m) => set({ modal: m }),
+  open: (m) =>
+    set((state) => ({
+      modal: state.modal === m ? null : m,
+    })),
+
   close: () => set({ modal: null }),
 }));

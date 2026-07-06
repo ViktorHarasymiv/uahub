@@ -5,16 +5,25 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   styles?: CSSProperties;
   accent?: boolean;
+  disable?: boolean;
   action?: () => void;
 }
 
-function Button({ children, type, styles, accent, action }: ButtonProps) {
+function Button({
+  children,
+  type,
+  disable,
+  styles,
+  accent,
+  action,
+}: ButtonProps) {
   return (
     <button
       type={type}
+      disabled={disable}
       onClick={action}
       style={styles}
-      className={accent ? "accent_btn" : undefined}
+      className={accent ? "accent_btn" : ""}
     >
       {children}
     </button>

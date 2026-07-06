@@ -9,36 +9,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const apiRes = await api.post("/auth/login", body);
 
-    const { accessToken, refreshToken, sessionId } = apiRes.data.data;
-
-    const response = NextResponse.json(apiRes.data, { status: apiRes.status });
-
-    // Ставимо куки напряму
-    response.cookies.set("accessToken", accessToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 900,
-    });
-
-    response.cookies.set("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 7 * 24 * 3600,
-    });
-
-    response.cookies.set("sessionId", sessionId, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 7 * 24 * 3600,
-    });
-
-    return response;
+    // НЕ ставимо куки тут!
+    return NextResponse.json(apiRes.data, { status: apiRes.status });
   } catch (err) {
     const error = err as AxiosError<{ message?: string }>;
     const status = error.response?.status ?? 500;

@@ -73,8 +73,16 @@ export default function ModalContainer() {
           transform: `translate(-50%, calc(${modal ? "0%" : "100%"} + ${offset}px))`,
         }}
       >
-        <div className="content">{modal === "account" && <Account />}</div>
-        <div className="content">{modal === "menu" && <Menu />}</div>
+        {modal === "account" && (
+          <div className="content">
+            <Account />
+          </div>
+        )}
+        {modal === "menu" && (
+          <div className="content">
+            <Menu />
+          </div>
+        )}
       </div>
     </div>
   );

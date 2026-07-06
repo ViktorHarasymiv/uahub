@@ -9,10 +9,42 @@ export type LoginRequest = {
 };
 
 export type User = {
-  id: string;
-  email: string;
-  userName?: string;
+  id?: string;
+  email?: string;
+
+  // Basic profile
+  firstName?: string;
+  lastName?: string;
   photoUrl?: string;
-  createdAt: Date;
-  updatedAt: Date;
+
+  // Contact
+  phone?: string;
+  country?: string;
+  city?: string;
+
+  // Account status
+  isEmailVerified?: boolean;
+  isActive?: boolean;
+
+  // Security
+  lastLoginAt?: string;
+
+  // Timestamps
+  createdAt?: string;
+  updatedAt?: string;
+
+  // Localization
+  language?: "uk" | "pl" | "en";
+  timezone?: string;
+
+  // Social login
+  googleId?: string;
+  facebookId?: string;
+
+  // Subscription (optional)
+  subscription?: {
+    plan?: "free" | "pro" | "premium";
+    expiresAt?: string;
+    isAutoRenew?: boolean;
+  };
 };

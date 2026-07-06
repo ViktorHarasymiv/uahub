@@ -26,6 +26,18 @@ export const login = async (data: LoginRequest) => {
   return { success: true, data: res.data };
 };
 
+// PATCH
+
+export const editProfile = async (data: User) => {
+  const res = await nextServer.patch("/users", data);
+  return res.data;
+};
+
+export const uploadPhoto = async (formData: FormData) => {
+  const res = await nextServer.patch("/users/photo", formData);
+  return res.data;
+};
+
 // LOGOUT
 
 export const logout = async () => {
@@ -55,5 +67,6 @@ export const refreshSession = async () => {
 
 export const checkServerSession = async () => {
   const res = await nextServer.get("/auth/session");
+
   return res.data;
 };

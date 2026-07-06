@@ -1,12 +1,16 @@
-import Button from "@/app/ui/Button/Button";
+import Link from "next/link";
 
+import Button from "@/app/ui/Button/Button";
 import style from "./Style.module.css";
 
-import { GrWorkshop } from "react-icons/gr";
 import { useI18n } from "@/app/i18n/useI18n";
 
 import { useModalStore } from "@/app/store/useModalStore";
 import { useAuthStore } from "@/app/store/useAuthState";
+
+// ICONS
+
+import { Icons } from "@/app/ui/Icons/icons";
 
 function Action() {
   const { messages } = useI18n();
@@ -22,10 +26,21 @@ function Action() {
       {isAuth ? (
         <ul className={style.action_wrapper}>
           <li className={style.user_block}>
-            {user?.email}
+            <Icons.user />
+            <span>{user?.email}</span>
+
             {/* DROP NAVIGATION */}
             <div className={style.drop_user_nav}>
-              <Button action={logOut}>Вихід</Button>
+              <ul className={style.drop_user_list}>
+                <li className={style.user_item}>{user?.email}</li>
+                <li>
+                  <Link href="/profile">Мій кабінет</Link>
+                </li>
+                <li>
+                  <Icons.logout style={{ color: "var(--dark)" }} />
+                  <Button action={logOut}>Вихід</Button>
+                </li>
+              </ul>
             </div>
           </li>
           <li>
@@ -33,7 +48,7 @@ function Action() {
           </li>
           <li>
             <Button accent={true}>
-              <GrWorkshop />
+              <Icons.listing />
               {messages["navigation.add"]}
             </Button>
           </li>

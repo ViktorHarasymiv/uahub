@@ -15,6 +15,7 @@ import FormControl from "@mui/material/FormControl";
 import ListItemText from "@mui/material/ListItemText";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
+import { useWindowWidth } from "@/app/hook/useWindowWidth";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -91,6 +92,8 @@ function Search() {
     formRef.current?.reset();
   };
 
+  const width = useWindowWidth();
+
   return (
     <section
       className={style.wrapper}
@@ -124,10 +127,12 @@ function Search() {
         </label>
         {/* MUI SELECT LOCATION */}
         <div>
-          <FormControl sx={{ m: 1, width: 200 }}>
+          <FormControl sx={{ width: width > 767 ? 190 : 100 }}>
             <InputLabel id="location-checkbox-label">
               <GrLocation className={style.icon} style={{ left: "-2px" }} />
-              <span style={{ marginLeft: "32px" }}>Обери район</span>
+              <span style={{ marginLeft: "32px" }}>
+                {width > 767 && <span>Обери район</span>}
+              </span>
             </InputLabel>
             <Select
               labelId="location-checkbox-label"
@@ -153,7 +158,8 @@ function Search() {
           type="submit"
           className={`${style.submit_button} ${"dark_button"}`}
         >
-          <IoSearch className={style.icon} /> Знайти...
+          <IoSearch className={style.icon} />
+          {width > 767 && <span>Знайти...</span>}
         </button>
       </form>
     </section>

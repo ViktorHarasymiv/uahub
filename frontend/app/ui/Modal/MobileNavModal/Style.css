@@ -5,6 +5,8 @@
   pointer-events: none;
   transition: opacity 0.25s ease;
   z-index: 9998;
+
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .modal_overlay.show {
@@ -16,15 +18,17 @@
   position: absolute;
   left: 50%;
   bottom: 80px;
+
   width: 95%;
   height: 80%;
 
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--white);
+
   backdrop-filter: blur(40px) saturate(200%);
   -webkit-backdrop-filter: blur(40px) saturate(200%);
   will-change: transform, opacity, backdrop-filter;
 
-  border-radius: 24px;
+  border-radius: var(--block-b-radius);
   transform-style: preserve-3d;
 
   transform: translate(-50%, 100%); /* ← рух вниз */
@@ -38,4 +42,8 @@
 .modal_window.open {
   transform: translate(-50%, -80px); /* ← виїзд вверх */
   opacity: 1;
+}
+
+.content {
+  height: 100%;
 }

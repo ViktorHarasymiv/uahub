@@ -1,0 +1,23 @@
+.tabs_block {
+  margin-bottom: var(--margin-buttom-default);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  border-bottom: 1px solid var(--colorsOpacitySecondaryMedium);
+}
+
+.tab_link {
+  font-size: clamp(0.875rem, 0.919rem + -0.1878vw, 0.75rem);
+  font-weight: 600;
+
+  padding: var(--block-padding) 22px;
+
+  border-top-left-radius: var(--tab-border-r);
+  border-top-right-radius: var(--tab-border-r);
+}
+
+.tab_link:hover {
+  background-color: var(--colorsBackgroundSecondary);
+}

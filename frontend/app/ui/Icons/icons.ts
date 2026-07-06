@@ -1,0 +1,31 @@
+import {
+  CircleUser,
+  Settings,
+  Heart,
+  Star,
+  Bell,
+  LogOut,
+  Menu,
+  Bookmark,
+  PlusCircle,
+  Home,
+  LayersPlus,
+  UserStar,
+  Puzzle,
+} from "lucide-react";
+
+export const Icons = {
+  user: CircleUser,
+  settings: Settings,
+  heart: Heart,
+  star: Star,
+  bell: Bell,
+  logout: LogOut,
+  menu: Menu,
+  bookmark: Bookmark,
+  plus: PlusCircle,
+  home: Home,
+  listing: LayersPlus,
+  userStar: UserStar,
+  puzzle: Puzzle,
+} as const;

@@ -6,7 +6,7 @@ import {
   refreshSession,
   checkServerSession,
   logout,
-} from "../lib/api";
+} from "../lib/api/api";
 import { User } from "../types/auth";
 
 interface AuthState {
@@ -16,7 +16,11 @@ interface AuthState {
   error: string | null;
 
   register: (data: { email: string; password: string }) => Promise<boolean>;
-  login: (data: { email: string; password: string }) => Promise<boolean>;
+  login: (data: {
+    email: string;
+    password: string;
+    rememberMe: boolean;
+  }) => Promise<boolean>;
   logout: () => Promise<void>;
   fetchMe: () => Promise<boolean>;
   fetchData: () => Promise<boolean>;
@@ -98,6 +102,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       if (!refreshed?.accessToken) {
         // refreshToken протух → logout
+        await logout();
         set({ isAuth: false, user: null });
         return false;
       }

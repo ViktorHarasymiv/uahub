@@ -24,7 +24,7 @@ import { ApiError } from "@/app/api/api";
 import { RegisterRequest } from "@/app/types/auth";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/app/store/useAuthState";
-import { checkEmail } from "@/app/lib/api";
+import { checkEmail } from "@/app/lib/api/api";
 
 export default function SignUpModal() {
   const router = useRouter();

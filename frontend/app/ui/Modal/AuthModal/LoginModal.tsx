@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik";
 import * as Yup from "yup";
 
 import style from "./Style.module.css";
@@ -30,6 +30,7 @@ export default function LoginModal() {
   const initialValues = {
     email: "",
     password: "",
+    rememberMe: false,
   };
 
   const validationSchema = Yup.object({
@@ -39,17 +40,15 @@ export default function LoginModal() {
     password: Yup.string()
       .min(6, "Мінімум 6 символів")
       .required("Пароль обов'язковий"),
+    rememberMe: Yup.boolean(),
   });
 
   const handleSubmit = async (values: typeof initialValues) => {
-    console.log("Login:", values);
-
     const success = await login({
       email: values.email,
       password: values.password,
+      rememberMe: values.rememberMe,
     });
-
-    console.log(success);
 
     if (success) {
       closeModal();
@@ -121,17 +120,22 @@ export default function LoginModal() {
           {/* HELP DESC  */}
 
           <div className={style.help_wrapper}>
-            <div className="checkbox">
-              <label htmlFor="checkbox" className="checkbox_label">
-                <input
-                  type="checkbox"
-                  id="checkbox"
-                  className="checkbox_input"
-                />
-                <div className="checkbox_input_custom"></div>
-                <span>Запам`ятати мене?</span>
-              </label>
-            </div>
+            <Field name="rememberMe">
+              {({ field }: FieldProps) => (
+                <label htmlFor="checkbox" className="checkbox_label">
+                  <input
+                    type="checkbox"
+                    id="checkbox"
+                    className="checkbox_input"
+                    {...field}
+                    checked={field.value}
+                  />
+                  <div className="checkbox_input_custom"></div>
+                  <span>Запам’ятати мене?</span>
+                </label>
+              )}
+            </Field>
+
             <Link href={"#"} className={style.forgot_pass}>
               Забули пароль?
             </Link>

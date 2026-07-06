@@ -1,0 +1,14 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+/* USER INFO */
+
+.user_info_block {
+  padding: var(--block-padding);
+  border-radius: var(--block-b-radius);
+
+  box-shadow: var(--shadow-default);
+}
