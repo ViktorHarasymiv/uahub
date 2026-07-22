@@ -30,7 +30,7 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isAuth: false,
-  loading: false,
+  loading: true,
   error: null,
 
   clearError: () => set({ error: null }),
@@ -79,14 +79,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   fetchMe: async () => {
-    try {
-      set({ loading: true });
+    set({ loading: true });
 
-      // 1. Перевіряємо accessToken
-      const check = await checkServerSession(); // GET /auth/session або /auth/check
+    try {
+      const check = await checkServerSession();
 
       if (check?.valid) {
-        // accessToken валідний → просто getMe()
         const data = await getMe();
         if (!data) {
           set({ isAuth: false, user: null });
@@ -97,17 +95,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         return true;
       }
 
-      // 2. Якщо accessToken протух → пробуємо refresh
       const refreshed = await refreshSession();
 
       if (!refreshed?.accessToken) {
-        // refreshToken протух → logout
         await logout();
         set({ isAuth: false, user: null });
         return false;
       }
 
-      // 3. Після refresh → getMe()
       const user = await getMe();
 
       if (!user) {
@@ -117,7 +112,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       set({ isAuth: true, user });
       return true;
-    } catch (err) {
+    } catch {
       set({ isAuth: false, user: null });
       return false;
     } finally {
@@ -126,13 +121,23 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   fetchData: async () => {
+    set({ loading: true });
+
     try {
-      const res = await getMe(); // axios GET /auth/me
+      const res = await getMe();
+
+      if (!res || !res.user) {
+        set({ user: null, isAuth: false });
+        return false;
+      }
+
       set({ user: res.user, isAuth: true });
       return true;
-    } catch (err) {
-      set({ user: null });
+    } catch {
+      set({ user: null, isAuth: false });
       return false;
+    } finally {
+      set({ loading: false });
     }
   },
 }));

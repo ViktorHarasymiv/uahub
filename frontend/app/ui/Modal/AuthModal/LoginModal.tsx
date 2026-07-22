@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik";
@@ -17,6 +18,7 @@ import { useState } from "react";
 import { useAuthStore } from "@/app/store/useAuthState";
 
 export default function LoginModal() {
+  const router = useRouter();
   // STORE
   const openModal = useModalStore((s) => s.openModal);
   const closeModal = useModalStore((s) => s.closeModal);
@@ -52,6 +54,7 @@ export default function LoginModal() {
 
     if (success) {
       closeModal();
+      router.push("/profile");
     } else {
       return;
     }

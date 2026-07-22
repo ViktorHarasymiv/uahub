@@ -1,0 +1,35 @@
+.footer_nav {
+  padding-inline: 8em;
+  padding-block: 4em;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  gap: 44px;
+}
+
+.nav_wrapper {
+}
+
+.nav_list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  gap: 4px;
+}
+
+.nav_list li:hover a {
+  text-decoration: underline;
+}
+
+.title {
+  margin-bottom: 15px;
+
+  font-size: clamp(1.125rem, 0.9733rem + 0.6472vw, 1.75rem);
+}
+
+.link {
+  font-size: clamp(0.75rem, 0.7045rem + 0.1942vw, 0.9375rem);
+}

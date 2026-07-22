@@ -11,6 +11,7 @@ import { AvatarUpdateForm } from "@/app/components/AvatarPicker/AvatarPicker";
 
 export default function Setup() {
   const user = useAuthStore((s) => s.user);
+  const fetchData = useAuthStore((s) => s.fetchData);
 
   const initialValues: User = {
     firstName: user?.firstName || "",
@@ -34,6 +35,10 @@ export default function Setup() {
   ) => {
     try {
       const res = await editProfile(formValues);
+      if (res) {
+        fetchData();
+      }
+
       return res;
     } catch (error) {
       console.log(error);

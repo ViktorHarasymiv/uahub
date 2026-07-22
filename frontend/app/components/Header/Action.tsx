@@ -11,6 +11,12 @@ import { useAuthStore } from "@/app/store/useAuthState";
 // ICONS
 
 import { Icons } from "@/app/ui/Icons/icons";
+import { usePathname } from "next/navigation";
+import { useI18nStore } from "@/app/store/i18nStore";
+import AccountNav_PL from "@/app/json/AccountNav_PL";
+import AccountNav_EN from "@/app/json/AccountNav_EN";
+import AccountNav_UA from "@/app/json/AccountNav_UA";
+import { useState } from "react";
 
 function Action() {
   const { messages } = useI18n();
@@ -19,29 +25,105 @@ function Action() {
 
   const isAuth = useAuthStore((s) => s.isAuth);
   const logOut = useAuthStore((s) => s.logout);
+
   const user = useAuthStore((s) => s.user);
+
+  const [dropUp, setDropUp] = useState(false);
+
+  const firstLetter = (user?.lastName || "").slice(0, 1) + ".";
+  const userId = (user?._id || "").slice(0, 8);
+
+  const pathname = usePathname();
+  const locale = useI18nStore((s) => s.locale);
+
+  let nav;
+
+  switch (locale) {
+    case "pl":
+      nav = AccountNav_PL;
+      break;
+    case "en":
+      nav = AccountNav_EN;
+      break;
+    default:
+      nav = AccountNav_UA;
+  }
 
   return (
     <>
       {isAuth ? (
         <ul className={style.action_wrapper}>
-          <li className={style.user_block}>
-            <Icons.user />
-            <span>{user?.email}</span>
+          <li
+            className={style.user_block}
+            onMouseEnter={() => setDropUp(true)}
+            onMouseLeave={() => setDropUp(false)}
+          >
+            <div className={style.user_info}>
+              {user?.photoUrl ? (
+                <img
+                  src={`http://localhost:1997${user?.photoUrl}`}
+                  alt=""
+                  className={style.avatar}
+                />
+              ) : (
+                <Icons.user />
+              )}
+
+              <div className={style.user_name}>
+                {user?.firstName && user?.lastName
+                  ? `${user.firstName} ${firstLetter}`
+                  : `User: ${userId}`}
+              </div>
+
+              {dropUp ? (
+                <Icons.chevronUp
+                  style={{
+                    strokeWidth: "3px",
+                    marginRight: "0px",
+                  }}
+                />
+              ) : (
+                <Icons.chevronDown
+                  style={{ strokeWidth: "3px", marginRight: "0px" }}
+                />
+              )}
+            </div>
 
             {/* DROP NAVIGATION */}
-            <div className={style.drop_user_nav}>
+            <nav className={style.drop_user_nav}>
               <ul className={style.drop_user_list}>
-                <li className={style.user_item}>{user?.email}</li>
-                <li>
-                  <Link href="/profile">Мій кабінет</Link>
+                <li className={style.drop_user_block}>{user?.email}</li>
+                <li className={style.drop_nav}>
+                  {nav.map((item) => {
+                    const Icon = Icons[item.icon];
+
+                    const active =
+                      item.href === "/profile"
+                        ? pathname === "/profile"
+                        : pathname.startsWith(item.href);
+
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`${style.link}
+                ${active ? "active_link" : ""}
+              `}
+                      >
+                        <Icon className="icon" />
+                        {item.label}
+                      </Link>
+                    );
+                  })}
                 </li>
-                <li>
+                <li className={style.drop_logout_block}>
                   <Icons.logout style={{ color: "var(--dark)" }} />
-                  <Button action={logOut}>Вихід</Button>
+                  <button onClick={logOut} style={{ padding: "0px" }}>
+                    Вихід
+                  </button>
                 </li>
               </ul>
-            </div>
+            </nav>
           </li>
           <li>
             <span className={style.line}></span>

@@ -82,7 +82,7 @@
 
 .MuiMenu-paper {
   z-index: 9999 !important;
-  background-color: var(--white-opacity) !important;
+  background-color: var(--white) !important;
 }
 
 .MuiSelect-nativeInput {

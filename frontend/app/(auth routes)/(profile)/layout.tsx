@@ -2,6 +2,9 @@
 
 import AsideNav from "@/app/components/Profile/AsideNav/AsideNav";
 import { useWindowWidth } from "@/app/hook/useWindowWidth";
+
+import PrivateRoute from "@/app/components/PrivateRoute/PrivateRoute";
+
 export default function ProfileLayout({
   children,
 }: {
@@ -10,10 +13,12 @@ export default function ProfileLayout({
   const width = useWindowWidth();
 
   return (
-    <div className="container rotate_page">
-      {/* Бокова панель */}
-      {width > 767 && <AsideNav />}
-      <div className="layout">{children}</div>
-    </div>
+    <PrivateRoute>
+      <div className="container rotate_page">
+        {/* Бокова панель */}
+        {width > 767 && <AsideNav />}
+        <div className="layout">{children}</div>
+      </div>
+    </PrivateRoute>
   );
 }

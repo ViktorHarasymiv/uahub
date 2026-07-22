@@ -36,6 +36,8 @@ export default function AsideNav({ styles }: AsideNavProps) {
       nav = AccountNav_UA;
   }
 
+  const userId = (user?._id || "").slice(0, 8);
+
   return (
     <aside className={style.aside_block} style={styles}>
       <div className={style.profile_pulpit_block}>
@@ -50,10 +52,12 @@ export default function AsideNav({ styles }: AsideNavProps) {
           )}
         </div>
         <div className={style.user_info}>
-          <p>
-            {user?.firstName} {user?.lastName}
+          <p className={style.user_name}>
+            {user?.firstName && user?.lastName
+              ? `${user.firstName} ${user.lastName}`
+              : `User: ${userId}`}
           </p>
-          <p>{user?.email}</p>
+          <p className={style.user_email}>{user?.email}</p>
         </div>
       </div>
       <nav className={style.nav_list}>

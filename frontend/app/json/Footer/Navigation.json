@@ -1,0 +1,43 @@
+[
+  {
+    "title": "Dla kandydatów",
+    "items": [
+      "Pomoc",
+      "Pracuj w Grupie Pracuj",
+      "Festiwal Pracy",
+      "Porady zawodowe",
+      "Zarobki",
+      "Blog IT",
+      "Słownik pojęć IT"
+    ]
+  },
+  {
+    "title": "Narzędzia",
+    "items": [
+      "Kreator CV",
+      "Kalkulator wynagrodzeń",
+      "Kalkulator godzinowy",
+      "Kalkulator VAT",
+      "Kalkulator urlopu macierzyńskiego",
+      "Kalkulator podróży służbowej",
+      "Kalkulator ekwiwalentu za urlop"
+    ]
+  },
+  {
+    "title": "Dla firm",
+    "items": [
+      "Dodaj ogłoszenie",
+      "Konto pracodawcy",
+      "Pomoc dla firm",
+      "Porady dla firm",
+      "Porady rekrutacyjne",
+      "Słownik biznesowy HR",
+      "Kalkulator kosztów pracodawcy",
+      "Blog Wyzwania HR"
+    ]
+  },
+  {
+    "title": "Grupa Pracuj",
+    "items": ["O nas", "Centrum Prasowe", "Reklama", "Partnerzy"]
+  }
+]

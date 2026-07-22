@@ -12,6 +12,8 @@ import {
   LayersPlus,
   UserStar,
   Puzzle,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 
 export const Icons = {
@@ -28,4 +30,6 @@ export const Icons = {
   listing: LayersPlus,
   userStar: UserStar,
   puzzle: Puzzle,
+  chevronDown: ChevronDown,
+  chevronUp: ChevronUp,
 } as const;

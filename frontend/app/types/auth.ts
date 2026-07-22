@@ -9,7 +9,7 @@ export type LoginRequest = {
 };
 
 export type User = {
-  id?: string;
+  _id?: string;
   email?: string;
 
   // Basic profile

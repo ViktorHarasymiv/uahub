@@ -373,8 +373,8 @@ input[type="search" i]::-webkit-search-cancel-button {
 
   background-color: var(--colorsBackgroundSecondary);
 
-  width: 80px;
-  height: 80px;
+  width: 74px;
+  height: 74px;
 
   color: var(--button-active);
 

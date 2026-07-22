@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 import css from "./AvatarPicker.module.css";
 
 import { uploadPhoto } from "@/app/lib/api/api";
+import { useAuthStore } from "@/app/store/useAuthState";
 
 export const AvatarUpdateForm = ({
   initialPhoto,
@@ -17,6 +18,8 @@ export const AvatarUpdateForm = ({
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const fetchData = useAuthStore((s) => s.fetchData);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0];
@@ -43,6 +46,7 @@ export const AvatarUpdateForm = ({
 
     reader.readAsDataURL(selected);
   };
+
   const handleSubmit = async (selectedFile?: File) => {
     const fileToUpload = selectedFile || file;
 
@@ -58,13 +62,11 @@ export const AvatarUpdateForm = ({
 
       formData.append("photoUrl", fileToUpload);
 
-      console.log(fileToUpload);
-
       const res = await uploadPhoto(formData);
 
-      console.log(res);
-
-      console.log("Avatar updated:", res);
+      if (res) {
+        fetchData();
+      }
     } catch (err) {
       console.error(err);
       setError("Upload failed");
@@ -76,13 +78,17 @@ export const AvatarUpdateForm = ({
   return (
     <div className={css.avatar_picker_wrapper}>
       <div className={css.preview_avatar}>
-        <img
-          src={previewUrl || `http://localhost:1997${initialPhoto}`}
-          alt="Preview avatar"
-          width={132}
-          height={132}
-          className={css.avatar}
-        />
+        {initialPhoto || previewUrl ? (
+          <img
+            src={previewUrl || `http://localhost:1997${initialPhoto}`}
+            alt="Preview avatar"
+            width={132}
+            height={132}
+            className={css.avatar}
+          />
+        ) : (
+          "Dozwolony format pliku JPEG, GIF, JPG, BMP, PNG. Maksymalny rozmiar: 6,3 MB."
+        )}
       </div>
 
       <div className={css.photo_block}>
