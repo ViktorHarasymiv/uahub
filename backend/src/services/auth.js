@@ -25,7 +25,7 @@ export const registerUser = async (payload) => {
   });
 };
 
-// LOGIN
+// LOGIN SERVICE
 
 export const loginService = async (payload) => {
   const { rememberMe } = payload;

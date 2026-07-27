@@ -1,7 +1,35 @@
 export const setupSession = (res, session) => {
-  const accessCookie = `accessToken=${session.accessToken}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=${60 * 60 * 2}`;
-  const refreshCookie = `refreshToken=${session.refreshToken}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=${60 * 60 * 24 * 7}`;
-  const sessionCookie = `sessionId=${session.sessionId || session._id}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=${60 * 60 * 24 * 7}`;
+  // 2 години для accessToken
+  res.cookie('accessToken', session.accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    path: '/',
+    maxAge: 1000 * 60 * 60 * 2,
+  });
 
-  res.setHeader('Set-Cookie', [accessCookie, refreshCookie, sessionCookie]);
+  // Обчислюємо час життя refresh токена
+  let refreshMs = session.refreshTokenValidUntil.getTime() - Date.now();
+
+  // Якщо refreshMs негативний або занадто малий — ставимо fallback
+  if (refreshMs < 1000 * 60 * 60) {
+    refreshMs = 1000 * 60 * 60 * 24 * 7; // 7 днів
+  }
+
+  res.cookie('refreshToken', session.refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    path: '/',
+    maxAge: refreshMs,
+  });
+
+  // Узгоджуємо sessionId — ставимо саме session.sessionId
+  res.cookie('sessionId', String(session.sessionId || session._id), {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    path: '/',
+    maxAge: refreshMs,
+  });
 };
