@@ -1,5 +1,6 @@
-import style from "./Style.module.css";
+export const dynamic = "force-dynamic";
 
+import style from "./Style.module.css";
 import RightSidebar from "./RightSidebar";
 
 export default function ListingsLayout({ children }: React.PropsWithChildren) {
