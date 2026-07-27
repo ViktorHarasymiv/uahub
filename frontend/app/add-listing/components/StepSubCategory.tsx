@@ -7,18 +7,14 @@ import { Category } from "@/app/types/category";
 
 export default function StepCategory() {
   const { setCategory, setStep } = useQuickAdStore();
-
-  const categoriesData = useCategoriesStore((s) => s.categories);
   const subcategories = useCategoriesStore((s) => s.subcategories);
-
-  const loadSubcategories = useCategoriesStore((s) => s.loadSubcategories);
 
   const setSelectedCategoryFields = useCategoriesStore(
     (s) => s.setSelectedCategoryFields,
   );
 
   const handleSubcategoryClick = (sub: Category) => {
-    setCategory(sub.slug);
+    setCategory(sub.slug, sub.name);
     setSelectedCategoryFields(sub.fields);
     setStep(2);
   };
