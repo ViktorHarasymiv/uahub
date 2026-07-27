@@ -8,6 +8,8 @@ export const nextServer = axios.create({
   withCredentials: true, // дозволяє axios працювати з cookie
 });
 
+// AUTH
+
 export const register = async (data: RegisterRequest) => {
   const res = await nextServer.post<User>("/auth/register", data);
   return res.data;
@@ -53,13 +55,7 @@ export const getMe = async () => {
 // RERFRESH SESSION
 
 export const refreshSession = async () => {
-  const res = await nextServer.post(
-    "/auth/refresh",
-    {},
-    {
-      withCredentials: true,
-    },
-  );
+  const res = await nextServer.post("/auth/refresh", {});
 
   return res.data;
 };
@@ -69,5 +65,41 @@ export const refreshSession = async () => {
 export const checkServerSession = async () => {
   const res = await nextServer.get("/auth/session");
 
+  return res.data;
+};
+
+// LISTING
+
+export const getAllListings = async () => {
+  const res = await nextServer.get("/listing/all");
+  return res.data;
+};
+
+export const createListing = async (formData: FormData) => {
+  const res = await nextServer.post("/listing/create", formData);
+
+  return res;
+};
+
+// CATEGORIES
+
+// GET /categories/all
+
+export const getAllCategories = async () => {
+  const res = await nextServer.get("/categories/all");
+  return res.data;
+};
+
+// GET /categories/:slug
+
+export const getCategoryBySlug = async (slug: string) => {
+  const res = await nextServer.get(`/categories/${slug}`);
+  return res.data;
+};
+
+// GET /categories/:slug/children
+
+export const getSubcategories = async (slug: string) => {
+  const res = await nextServer.get(`/categories/${slug}/children`);
   return res.data;
 };

@@ -10,21 +10,24 @@
   --margin-buttom-default: 24px;
   --header-height: 94px;
 
+  --section-padding: 6em;
+
   /* COLOR */
 
-  --accent-color: rgb(206, 44, 68);
+  --accent-color: #d40000;
   --border-color: #0d7c7e;
   --border-gray: #f2f4f5ff;
 
-  --bar-top-background: rgba(15, 84, 111, 1);
-  --bar-background: #07364b;
+  --bar-top-background: #f5f5f7;
+  --bar-background: #1c1c1e;
 
   --button-active: rgb(16, 44, 58);
 
-  --dark: rgba(0, 0, 0, 1);
+  --dark: #1c1c1e;
   --dark-opacity: rgba(0, 0, 0, 0.7);
 
-  --white: rgba(255, 255, 255, 1);
+  --white: #f5f5f7;
+  --white-accent: #fff;
   --white-opacity: rgba(255, 255, 255, 0.6);
 
   --icon-color: var(--dark-opacity);

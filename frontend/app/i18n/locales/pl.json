@@ -2,5 +2,7 @@
   "navigation.add": "Dodaj ogłoszenie",
   "navigation.bisnes": "Dla biznesu",
   "navigation.signIn": "Zaloguj się",
-  "navigation.signUp": "Utwórz nowy profil"
+  "navigation.signUp": "Utwórz nowy profil",
+  "listing.title": "Dodaj szybkie ogłoszenie",
+  "listing.subtitle": "Zrób pierwszy krok — Twoje ogłoszenie może dziś pomóc komuś znaleźć to, czego szuka"
 }

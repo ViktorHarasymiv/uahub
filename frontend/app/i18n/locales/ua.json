@@ -2,5 +2,8 @@
   "navigation.add": "Додати оголошення",
   "navigation.bisnes": "Для бізнесу",
   "navigation.signIn": "Увійти в систему",
-  "navigation.signUp": "Створи новий профіль"
+  "navigation.signUp": "Створи новий профіль",
+  "listing.title": "Додай швидке оголошення",
+  "listing.subtitle": "Зроби перший крок — твоє оголошення вже сьогодні допоможе комусь знайти потрібне",
+  "listing.nextBtn": "Перейти далі"
 }

@@ -1,0 +1,98 @@
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.photo-slot {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.add-btn {
+  font-size: 32px;
+  color: #888;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.drag-handle {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 4px 6px;
+  border-radius: 6px;
+  cursor: grab;
+  font-size: 14px;
+  user-select: none;
+}
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.photo-slot {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.photo-slot.drag-over {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+}
+
+.add-btn {
+  font-size: 32px;
+  color: #aaa;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.photo-slot:hover .add-btn {
+  color: #e63946;
+  transform: scale(1.2);
+}
+
+.drag-handle {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 14px;
+  cursor: grab;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  user-select: none;
+}
+.drag-handle:active {
+  cursor: grabbing;
+}

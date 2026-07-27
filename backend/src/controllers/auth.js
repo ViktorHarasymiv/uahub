@@ -94,8 +94,6 @@ export const checkEmailController = async (req, res) => {
 
 // SESSION
 
-// controllers/auth.controller.ts
-
 export const sessionController = async (req, res) => {
   try {
     const accessToken = req.cookies.accessToken;

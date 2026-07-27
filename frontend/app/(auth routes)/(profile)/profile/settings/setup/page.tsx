@@ -47,13 +47,6 @@ export default function Setup() {
     }
   };
 
-  const submitVersion = {
-    padding: "var(--block-padding)",
-    borderRadius: "var(--block-b-radius)",
-    backgroundColor: "var(--accent-color)",
-    fontWeight: "600",
-  };
-
   if (!user) return null;
 
   return (
@@ -120,11 +113,7 @@ export default function Setup() {
                   className="input_error"
                 />
               </div>
-              <Button
-                type={"submit"}
-                disable={isSubmitting}
-                styles={submitVersion}
-              >
+              <Button type={"submit"} accent disable={isSubmitting}>
                 Zaktualizuj
               </Button>
             </Form>

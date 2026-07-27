@@ -15,6 +15,17 @@
   max-height: 44px;
 }
 
+.textarea {
+  margin-bottom: 34px;
+
+  width: 100%;
+  max-height: 140px;
+}
+
+.textarea > label {
+  z-index: 2;
+}
+
 .input_base {
   padding: 0;
 

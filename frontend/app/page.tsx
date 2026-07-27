@@ -1,11 +1,13 @@
-// import PopularCategory from "./components/PopularCategory/PopularCategory";
-import Search from "./components/Search/Search";
+import Hero from "./components/Hero/Hero";
+import PopularCategory from "./components/PopularCategory/PopularCategory";
 
 export default function Home() {
   return (
     <>
-      <Search />
-      {/* <PopularCategory /> */}
+      <Hero />
+      <div className="main_inside">
+        <PopularCategory />
+      </div>
     </>
   );
 }

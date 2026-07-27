@@ -1,5 +1,7 @@
 import { ReactNode, CSSProperties } from "react";
 
+import style from "./Style.module.css";
+
 interface ButtonProps {
   children: ReactNode;
   type?: "button" | "submit" | "reset";
@@ -23,7 +25,7 @@ function Button({
       disabled={disable}
       onClick={action}
       style={styles}
-      className={accent ? "accent_btn" : ""}
+      className={accent ? style.accent : ""}
     >
       {children}
     </button>

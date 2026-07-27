@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { api, ApiError } from "../../api";
-import { cookies } from "next/headers";
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,9 +18,15 @@ export async function POST(req: NextRequest) {
 
     const { accessToken, refreshToken, sessionId, userId } = apiRes.data.data;
 
-    const cookieStore = await cookies();
+    const response = NextResponse.json({
+      accessToken,
+      refreshToken,
+      sessionId,
+      userId,
+    });
 
-    cookieStore.set("accessToken", accessToken, {
+    // Встановлюємо куки правильно
+    response.cookies.set("accessToken", accessToken, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
@@ -29,7 +34,7 @@ export async function POST(req: NextRequest) {
       maxAge: 60 * 60 * 2,
     });
 
-    cookieStore.set("refreshToken", refreshToken, {
+    response.cookies.set("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
@@ -37,7 +42,7 @@ export async function POST(req: NextRequest) {
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    cookieStore.set("sessionId", sessionId, {
+    response.cookies.set("sessionId", sessionId, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
@@ -45,12 +50,7 @@ export async function POST(req: NextRequest) {
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    return NextResponse.json({
-      accessToken,
-      refreshToken,
-      sessionId,
-      userId,
-    });
+    return response;
   } catch (error) {
     return NextResponse.json(
       {

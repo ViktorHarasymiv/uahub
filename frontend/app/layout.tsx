@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
+import { Toaster } from "react-hot-toast";
 
 import { AuthProvider } from "./components/Auth/AuthProvider";
+import { Providers } from "./providers";
 import I18nProvider from "./i18n/I18nProvider";
 
 import "./styles/globals.css";
@@ -9,6 +11,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Modal from "./ui/Modal/Modal";
 import MobileNavigation from "./ui/Modal/MobileNavModal/MobileNavigation";
+import { PromoBanner } from "./components/Ads/PromoBanner";
 
 export const metadata: Metadata = {
   title: "uahub.pl | Ukrainian community",
@@ -32,13 +35,28 @@ export default function RootLayout({
     <html>
       <body>
         <I18nProvider>
-          <AuthProvider />
-          <MobileNavigation />
+          <Providers>
+            <AuthProvider />
+            <MobileNavigation />
 
-          <Header />
-          <main className="main">{children}</main>
-          <Footer />
-          <Modal />
+            <Header />
+            <main className="main">
+              {children}
+              <PromoBanner />
+            </main>
+            <Footer />
+            <Modal />
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 3000,
+                style: {
+                  background: "#333",
+                  color: "#fff",
+                },
+              }}
+            />
+          </Providers>
         </I18nProvider>
       </body>
     </html>

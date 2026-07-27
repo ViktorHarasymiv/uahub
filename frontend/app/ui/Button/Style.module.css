@@ -1,0 +1,8 @@
+.accent {
+  padding: var(--block-padding);
+  border-radius: var(--block-b-radius);
+  background-color: var(--accent-color);
+
+  color: var(--white);
+  font-weight: 600;
+}

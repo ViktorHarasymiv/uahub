@@ -14,6 +14,10 @@ import {
   Puzzle,
   ChevronDown,
   ChevronUp,
+  MoveLeft,
+  MoveRight,
+  Smile,
+  NotebookPen,
 } from "lucide-react";
 
 export const Icons = {
@@ -32,4 +36,8 @@ export const Icons = {
   puzzle: Puzzle,
   chevronDown: ChevronDown,
   chevronUp: ChevronUp,
+  moveLeft: MoveLeft,
+  moveRight: MoveRight,
+  smile: Smile,
+  notebookPen: NotebookPen,
 } as const;

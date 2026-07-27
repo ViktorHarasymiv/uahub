@@ -1,13 +1,20 @@
 export const setupSession = (res, session) => {
+  // 2 години для accessToken
   res.cookie('accessToken', session.accessToken, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',
     path: '/',
-    maxAge: 60 * 60 * 1000, // 15 хв
+    maxAge: 1000 * 60 * 60 * 2,
   });
 
-  const refreshMs = session.refreshTokenValidUntil.getTime() - Date.now();
+  // Обчислюємо час життя refresh токена
+  let refreshMs = session.refreshTokenValidUntil.getTime() - Date.now();
+
+  // Якщо refreshMs негативний або занадто малий — ставимо fallback
+  if (refreshMs < 1000 * 60 * 60) {
+    refreshMs = 1000 * 60 * 60 * 24 * 7; // 7 днів
+  }
 
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
@@ -17,7 +24,8 @@ export const setupSession = (res, session) => {
     maxAge: refreshMs,
   });
 
-  res.cookie('sessionId', String(session._id), {
+  // Узгоджуємо sessionId — ставимо саме session.sessionId
+  res.cookie('sessionId', String(session.sessionId || session._id), {
     httpOnly: true,
     secure: true,
     sameSite: 'none',

@@ -97,7 +97,7 @@ function Search() {
   return (
     <section
       className={style.wrapper}
-      style={{ background: "url(/image/navigation.jpg)" }}
+      // style={{ background: "url(/image/navigation.jpg)" }}
     >
       {/* BODY */}
       <form

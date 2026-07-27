@@ -3,5 +3,7 @@
   "navigation.add": "Add listing",
   "navigation.bisnes": "For business",
   "navigation.signIn": "Sign In",
-  "navigation.signUp": "Sign Up"
+  "navigation.signUp": "Sign Up",
+  "listing.title": "Add a quick listing",
+  "listing.subtitle": "Take the first step — your listing could help someone find exactly what they need today"
 }

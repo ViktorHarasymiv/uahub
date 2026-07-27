@@ -18,8 +18,6 @@ export const patchUserController = async (req, res, next) => {
       stripUnknown: true,
     });
 
-    console.log(value);
-
     if (error) {
       return res
         .status(400)
@@ -51,8 +49,6 @@ export const patchUserController = async (req, res, next) => {
 
 export const patchPhotoController = async (req, res) => {
   try {
-    console.log('req.file:', req.file);
-
     // multer додає req.file
     if (!req.file) {
       return res.status(400).json({ error: 'Avatar file is required' });

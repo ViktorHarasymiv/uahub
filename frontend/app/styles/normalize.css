@@ -251,18 +251,18 @@ input[disabled] {
 /* SCROLLBAR */
 
 /* Для всього документа */
-::-webkit-scrollbar {
-  width: 8px; /* Ширина вертикального скролла */
-  height: 8px; /* Висота горизонтального скролла */
-}
+/* ::-webkit-scrollbar {
+  width: 8px; 
+  height: 8px; 
+} */
 
 /* Смуга прокрутки (фоновий трек) */
-::-webkit-scrollbar-track {
-  background: white; /* Колір треку */
-}
+/* ::-webkit-scrollbar-track {
+  background: white; 
+} */
 
 /* Ручка прокрутки */
-::-webkit-scrollbar-thumb {
-  background: var(--thumb-color); /* Колір ручки */
+/* ::-webkit-scrollbar-thumb {
+  background: var(--thumb-color); 
   border-radius: var(--button-b-r);
-}
+} */

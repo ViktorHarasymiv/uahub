@@ -54,7 +54,7 @@ function Action() {
       {isAuth ? (
         <ul className={style.action_wrapper}>
           <li
-            className={style.user_block}
+            className={`${style.user_block} ${style.nav_item}`}
             onMouseEnter={() => setDropUp(true)}
             onMouseLeave={() => setDropUp(false)}
           >
@@ -128,23 +128,12 @@ function Action() {
           <li>
             <span className={style.line}></span>
           </li>
-          <li>
-            <Button accent={true}>
+          <li className={style.nav_item}>
+            <Link href={"/add-listing"} className={style.user_link}>
               <Icons.listing />
               {messages["navigation.add"]}
-            </Button>
+            </Link>
           </li>
-          {/* <li>
-            <Button
-              styles={{
-                backgroundColor: "transparent",
-                color: "var(--white)",
-              }}
-              accent={true}
-            >
-              <GrWorkshop /> {messages["navigation.bisnes"]}
-            </Button>
-          </li> */}
         </ul>
       ) : (
         <ul className={style.action_wrapper}>
@@ -152,9 +141,7 @@ function Action() {
             <Button
               styles={{
                 backgroundColor: "transparent",
-                color: "var(--white)",
               }}
-              accent={true}
               action={() => openModal("signIn")}
             >
               <span>{messages["navigation.signIn"]}</span>
@@ -166,7 +153,7 @@ function Action() {
           </li>
           {/* DECOR */}
           <li className={style.nav_item}>
-            <Button accent={true} action={() => openModal("signUp")}>
+            <Button action={() => openModal("signUp")}>
               <span>{messages["navigation.signUp"]}</span>
             </Button>
           </li>

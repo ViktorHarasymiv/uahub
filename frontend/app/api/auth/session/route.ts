@@ -1,53 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { api } from "../../api"; // твій axios nextServer
+import { api } from "../../api";
 import { parse } from "cookie";
 
 export async function GET(req: NextRequest) {
   try {
-    const cookieStore = await cookies();
-    const cookieHeader = cookieStore.toString();
+    const cookieHeader = req.headers.get("cookie") || "";
 
     const backendRes = await api.get("auth/session", {
-      headers: { Cookie: cookieHeader },
+      headers: {
+        Cookie: cookieHeader,
+      },
       withCredentials: true,
     });
 
     const response = NextResponse.json(backendRes.data);
 
     const setCookie = backendRes.headers["set-cookie"];
+
     if (setCookie) {
       const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
 
       for (const cookieStr of cookieArray) {
         const parsed = parse(cookieStr);
 
-        if (parsed.accessToken) {
-          response.cookies.set("accessToken", parsed.accessToken, {
-            path: parsed.Path || "/",
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: Number(parsed["Max-Age"]),
-          });
-        }
+        const [cookieName, cookieValue] = cookieStr.split(";")[0].split("=");
 
-        if (parsed.refreshToken) {
-          response.cookies.set("refreshToken", parsed.refreshToken, {
-            path: parsed.Path || "/",
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: Number(parsed["Max-Age"]),
-          });
-        }
+        response.cookies.set(cookieName, cookieValue, {
+          path: parsed.Path || "/",
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          maxAge: parsed["Max-Age"] ? Number(parsed["Max-Age"]) : undefined,
+        });
       }
     }
 
     return response;
   } catch (err: any) {
     return NextResponse.json(
-      { error: err.response?.data?.error || err.message },
+      {
+        error: err.response?.data?.error || err.message,
+      },
       { status: err.response?.status || 500 },
     );
   }
