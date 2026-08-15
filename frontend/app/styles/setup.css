@@ -505,3 +505,10 @@ textarea {
 :is(.swiper-button-prev, .swiper-button-next).swiper-button-disabled {
   display: none;
 }
+
+@media screen and (max-width: 767px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+  }
+}
