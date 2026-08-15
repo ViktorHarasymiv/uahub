@@ -11,8 +11,13 @@ import { Navigation } from "swiper/modules";
 import ListingItem from "./ListingItem";
 
 import style from "./Style.module.css";
+import { Listing } from "@/app/store/useListingStore";
 
-export default function ListingSwiper({ date }) {
+type PromoteSwiperProps = {
+  date: Listing[];
+};
+
+export default function ListingSwiper({ date }: PromoteSwiperProps) {
   return (
     <Swiper
       slidesPerView={4}

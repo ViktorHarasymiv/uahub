@@ -1,8 +1,13 @@
+import { Listing } from "@/app/store/useListingStore";
 import style from "./Style.module.css";
 
 import Banner from "@/public/image/offerzone.webp";
 
-export default function PromoteItem({ item }: any) {
+type PromoteSwiperProps = {
+  item: Listing;
+};
+
+export default function PromoteItem({ item }: PromoteSwiperProps) {
   const photo = item.photos?.[0]
     ? `http://localhost:1997${item.photos[0]}`
     : Banner.src;
@@ -16,7 +21,9 @@ export default function PromoteItem({ item }: any) {
       <div className={style.content}>
         <h3 className={style.title}>{item.fields.title}</h3>
 
-        {item.price && <p className={style.price}>{item.price} zł</p>}
+        {item.fields.price && (
+          <p className={style.price}>{item.fields.price} zł</p>
+        )}
 
         <p className={style.location}>{item.fields.location}</p>
       </div>

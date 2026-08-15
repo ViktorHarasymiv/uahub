@@ -3,10 +3,13 @@ import { getAllListings, nextServer } from "../lib/api/api";
 
 export interface Listing {
   _id: string;
-  title: string;
-  description: string;
-  price: number;
-  images: string[];
+  photos: string[];
+  fields: {
+    title: string;
+    description: string;
+    price?: number;
+    location?: string;
+  };
   // додай свої поля
 }
 

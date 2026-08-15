@@ -1,8 +1,13 @@
+import { Listing } from "@/app/store/useListingStore";
 import style from "./Style.module.css";
 
 import Banner from "@/public/image/offerzone.webp";
 
-export default function ListingItem({ item }: any) {
+type PromoteSwiperProps = {
+  item: Listing;
+};
+
+export default function ListingItem({ item }: PromoteSwiperProps) {
   const photo = item.photos?.[0]
     ? `http://localhost:1997${item.photos[0]}`
     : Banner.src;
