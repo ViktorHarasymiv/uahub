@@ -1,0 +1,11 @@
+.title_block {
+  margin-bottom: var(--section-title-m-b);
+  display: flex;
+  gap: 18px;
+  align-items: end;
+}
+
+.title {
+  font-size: clamp(1rem, 0.8786rem + 0.5178vw, 1.5rem);
+  font-weight: 700;
+}
