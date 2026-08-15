@@ -66,3 +66,43 @@ export const getAllAdsService = async () => {
 export const getAdsByCategoryService = async (category) => {
   return listingCollection.find({ category }).sort({ createdAt: -1 });
 };
+
+//
+
+// JOB
+
+export const getRobotaService = async ({ filters, sort, page, limit }) => {
+  const sortOptions = {};
+
+  switch (sort) {
+    case 'latest':
+      sortOptions.createdAt = -1;
+      break;
+    case 'salary_desc':
+      sortOptions.salary = -1;
+      break;
+    case 'salary_asc':
+      sortOptions.salary = 1;
+      break;
+    default:
+      sortOptions.createdAt = -1;
+  }
+
+  const skip = (page - 1) * limit;
+
+  const items = await listingCollection
+    .find(filters)
+    .sort(sortOptions)
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  const total = await listingCollection.countDocuments(filters);
+
+  return {
+    page,
+    limit,
+    total,
+    items,
+  };
+};

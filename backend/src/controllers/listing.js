@@ -3,6 +3,7 @@ import { listingCollection } from '../db/models/listing.js';
 import {
   createListingService,
   getAllListingsService,
+  getRobotaService,
 } from '../services/listing.js';
 
 // ALL
@@ -133,3 +134,43 @@ export async function getListingByIdController(req) {
     res.status(500).json({ error: 'Internal server error' });
   }
 }
+
+// CATEGORY
+
+// JOB
+
+export const getRobotaController = async (req, res) => {
+  try {
+    const {
+      city,
+      type,
+      salaryFrom,
+      salaryTo,
+      sort = 'latest',
+      page = 1,
+      limit = 20,
+    } = req.query;
+
+    const filters = { category: 'praca' };
+
+    if (city) filters.city = city;
+    if (type) filters.type = type;
+
+    if (salaryFrom || salaryTo) {
+      filters.salary = {};
+      if (salaryFrom) filters.salary.$gte = Number(salaryFrom);
+      if (salaryTo) filters.salary.$lte = Number(salaryTo);
+    }
+
+    const result = await getRobotaService({
+      filters,
+      sort,
+      page: Number(page),
+      limit: Number(limit),
+    });
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

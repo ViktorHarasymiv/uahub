@@ -8,6 +8,7 @@ import { upload } from '../utils/multer.js';
 import {
   createListingController,
   getAllListingsController,
+  getRobotaController,
 } from '../controllers/listing.js';
 
 import { listingSchemaValidation } from '../validation/listing.js';
@@ -15,6 +16,7 @@ import { listingSchemaValidation } from '../validation/listing.js';
 const router = express.Router();
 
 router.get('/all', ctrlWrapper(getAllListingsController));
+router.get('/robota', ctrlWrapper(getRobotaController));
 
 router.use(authMiddleware);
 
