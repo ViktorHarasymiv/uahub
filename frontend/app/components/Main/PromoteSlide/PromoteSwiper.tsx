@@ -11,8 +11,13 @@ import "swiper/css/navigation";
 // import required modules
 import { Grid, Navigation } from "swiper/modules";
 import PromoteItem from "./PromoteItem";
+import { Listing } from "@/app/store/useListingStore";
 
-export default function PromoteSwiper({ date }) {
+type PromoteSwiperProps = {
+  date: Listing[];
+};
+
+export default function PromoteSwiper({ date }: PromoteSwiperProps) {
   return (
     <Swiper
       slidesPerView={4}
