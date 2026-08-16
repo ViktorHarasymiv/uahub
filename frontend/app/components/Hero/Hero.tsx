@@ -3,8 +3,10 @@ import Image from "next/image";
 import style from "./Style.module.css";
 
 import Baner from "@/public/image/new_banner_desktop_2x.webp";
+import { useWindowWidth } from "@/app/hook/useWindowWidth";
 
 export default function Hero() {
+  const width = useWindowWidth();
   return (
     <div className="container">
       <section className={style.hero_section}>
@@ -13,9 +15,11 @@ export default function Hero() {
           <span className="accent">88 061</span> ofert pracy od najlepszych
           pracodawców
         </h1>
-        <div className={style.hero_baner}>
-          <Image src={Baner} alt="Baner" className={style.baner_image} />
-        </div>
+        {width > 767 && (
+          <div className={style.hero_baner}>
+            <Image src={Baner} alt="Baner" className={style.baner_image} />
+          </div>
+        )}
       </section>
     </div>
   );
