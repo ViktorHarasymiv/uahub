@@ -1,5 +1,6 @@
-import Image from "next/image";
+"use client";
 
+import Image from "next/image";
 import style from "./Style.module.css";
 
 import Baner from "@/public/image/new_banner_desktop_2x.webp";
