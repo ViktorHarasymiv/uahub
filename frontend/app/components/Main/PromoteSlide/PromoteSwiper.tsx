@@ -20,10 +20,11 @@ type PromoteSwiperProps = {
 export default function PromoteSwiper({ date }: PromoteSwiperProps) {
   return (
     <Swiper
+      slidesPerView={1}
+      spaceBetween={20}
       grid={{
         rows: 2,
       }}
-      spaceBetween={30}
       modules={[Grid, Navigation]}
       navigation={true}
       className={style.slider}
@@ -32,16 +33,13 @@ export default function PromoteSwiper({ date }: PromoteSwiperProps) {
           slidesPerView: 1.5,
           spaceBetween: 16,
         },
-        480: {
+
+        768: {
           slidesPerView: 2.5,
           spaceBetween: 20,
         },
-        768: {
-          slidesPerView: 3.5,
-          spaceBetween: 24,
-        },
         1024: {
-          slidesPerView: 4.5,
+          slidesPerView: 3.5,
           spaceBetween: 30,
         },
       }}

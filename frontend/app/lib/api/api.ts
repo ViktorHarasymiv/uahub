@@ -81,6 +81,15 @@ export const createListing = async (formData: FormData) => {
   return res;
 };
 
+export const getJobListings = async (params = {}) => {
+  const query = new URLSearchParams(params).toString();
+
+  const url = query ? `/listing/robota?${query}` : `/listing/robota`;
+
+  const res = await nextServer.get(url);
+  return res.data;
+};
+
 // CATEGORIES
 
 // GET /categories/all

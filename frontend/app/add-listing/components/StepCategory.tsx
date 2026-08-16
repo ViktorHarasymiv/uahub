@@ -5,17 +5,10 @@ import style from "./Style.module.css";
 
 import { Category } from "@/app/types/category";
 import { useState } from "react";
-import StepHeader from "./StepHeader";
 
 export default function StepCategory() {
   const [hasFields, setHasField] = useState<boolean | null>(null);
-  const {
-    categoryName,
-    subCategoryName,
-    setCategory,
-    setSubCategory,
-    setStep,
-  } = useQuickAdStore();
+  const { setCategory, setSubCategory, setStep } = useQuickAdStore();
 
   const categoriesData = useCategoriesStore((s) => s.categories);
   const subcategories = useCategoriesStore((s) => s.subcategories);
@@ -59,15 +52,17 @@ export default function StepCategory() {
       {/* BODY */}
       <div className={style.category_wrapper}>
         {!hasFields
-          ? categoriesData.map((cat) => (
-              <button
-                key={cat._id}
-                onClick={() => handleCategoryClick(cat)}
-                className="tag_button"
-              >
-                {cat.name}
-              </button>
-            ))
+          ? categoriesData
+              .filter((cat) => cat.parent === null) // ← ось ця умова
+              .map((cat) => (
+                <button
+                  key={cat._id}
+                  onClick={() => handleCategoryClick(cat)}
+                  className="tag_button"
+                >
+                  {cat.name}
+                </button>
+              ))
           : subcategories.length > 0 && (
               <div className={style.category_wrapper}>
                 {subcategories.map((sub) => (

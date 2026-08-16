@@ -20,7 +20,8 @@ type PromoteSwiperProps = {
 export default function ListingSwiper({ date }: PromoteSwiperProps) {
   return (
     <Swiper
-      spaceBetween={30}
+      slidesPerView={1}
+      spaceBetween={20}
       navigation={true}
       modules={[Navigation]}
       className={style.slider}
@@ -29,16 +30,13 @@ export default function ListingSwiper({ date }: PromoteSwiperProps) {
           slidesPerView: 1.5,
           spaceBetween: 16,
         },
-        480: {
+
+        768: {
           slidesPerView: 2.5,
           spaceBetween: 20,
         },
-        768: {
-          slidesPerView: 3.5,
-          spaceBetween: 24,
-        },
         1024: {
-          slidesPerView: 4.5,
+          slidesPerView: 3.5,
           spaceBetween: 30,
         },
       }}

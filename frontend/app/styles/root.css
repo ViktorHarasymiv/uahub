@@ -17,8 +17,11 @@
   /* COLOR */
 
   --accent-color: #d40000;
+  --accent-color-rgba: rgba(212, 0, 0, 0.6);
   --border-color: #0d7c7e;
   --border-gray: #f2f4f5ff;
+
+  --light-yellow-background: #fdf9e0;
 
   --bar-top-background: #f5f5f7;
   --bar-background: #1c1c1e;
@@ -79,8 +82,7 @@
 /* ============================================== RESERVE IDEAS */
 
 /* 
-  --light-yellow: #fff9d9;
-  --light-blue: #d9f2ff;
+  
 
   --light-yellow2: #f7e27a;
   --light-blue2: #8dd4f7;

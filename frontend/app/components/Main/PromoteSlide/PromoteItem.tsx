@@ -2,15 +2,25 @@ import { Listing } from "@/app/store/useListingStore";
 import style from "./Style.module.css";
 
 import Banner from "@/public/image/offerzone.webp";
+import ComAvatar from "@/public/com_avatar.png";
+import { Icons } from "@/app/ui/Icons/icons";
+import { formatDateTime } from "@/app/config/formatDateTime";
+import { useI18n } from "@/app/i18n/useI18n";
+import { formatJobSalary } from "@/app/config/formatJobSalary";
 
 type PromoteSwiperProps = {
   item: Listing;
 };
 
 export default function PromoteItem({ item }: PromoteSwiperProps) {
+  const { messages } = useI18n();
+
   const photo = item.photos?.[0]
     ? `http://localhost:1997${item.photos[0]}`
     : Banner.src;
+
+  const { date } = formatDateTime("2026-07-26T20:24:12.090+00:00");
+  const formattedSalary = formatJobSalary(item.fields);
 
   return (
     <div className={style.card}>
@@ -19,13 +29,37 @@ export default function PromoteItem({ item }: PromoteSwiperProps) {
       </div>
 
       <div className={style.content}>
+        <div className={style.company_logo_block}>
+          <img
+            src={ComAvatar.src}
+            alt="company logo"
+            width={65}
+            height={65}
+            className={style.company_logo}
+          />
+        </div>
         <h3 className={style.title}>{item.fields.title}</h3>
 
-        {item.fields.price && (
-          <p className={style.price}>{item.fields.price} zł</p>
-        )}
+        <p className={style.price}>{formattedSalary}</p>
 
-        <p className={style.location}>{item.fields.location}</p>
+        <div className={style.info_block}>
+          <div className={style.location}>
+            <Icons.location />
+            {item.fields.location}
+          </div>
+
+          <div className={style.time_block}>
+            <div>
+              <Icons.time />
+              <span className={style.time_title}>{messages["card.time"]}</span>
+              <span>{date}</span>
+            </div>
+            <div>
+              <Icons.view />
+              View
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

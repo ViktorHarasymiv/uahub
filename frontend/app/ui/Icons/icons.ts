@@ -18,6 +18,9 @@ import {
   MoveRight,
   Smile,
   NotebookPen,
+  Eye,
+  Clock,
+  MapPin,
 } from "lucide-react";
 
 export const Icons = {
@@ -40,4 +43,7 @@ export const Icons = {
   moveRight: MoveRight,
   smile: Smile,
   notebookPen: NotebookPen,
+  view: Eye,
+  time: Clock,
+  location: MapPin,
 } as const;

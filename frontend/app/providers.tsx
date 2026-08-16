@@ -6,11 +6,12 @@ import { useListingsStore } from "./store/useListingStore";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const loadCategories = useCategoriesStore((s) => s.loadCategories);
-  const { getAllListings } = useListingsStore();
+  const { getAllListings, getListingsByCategory } = useListingsStore();
 
   useEffect(() => {
     loadCategories();
     getAllListings();
+    getListingsByCategory();
   }, []);
 
   return <>{children}</>;

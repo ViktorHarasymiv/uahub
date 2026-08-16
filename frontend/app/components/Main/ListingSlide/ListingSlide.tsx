@@ -9,13 +9,14 @@ import ListingSwiper from "./ListingSwiper";
 export default function ListingSlide() {
   const { messages } = useI18n();
 
-  const { listings } = useListingsStore();
+  const { listingsJob } = useListingsStore();
+  console.log(listingsJob);
 
   return (
     <section>
       <div className="container">
         <SectionTitle title={messages["section.title"]} icons={Icon.src} />
-        <ListingSwiper date={listings} />
+        <ListingSwiper date={listingsJob} />
       </div>
     </section>
   );
