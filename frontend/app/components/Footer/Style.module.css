@@ -9,9 +9,6 @@
   gap: 44px;
 }
 
-.nav_wrapper {
-}
-
 .nav_list {
   display: flex;
   flex-direction: column;

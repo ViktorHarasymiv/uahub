@@ -259,6 +259,18 @@
   top: 0;
 }
 
+.header_mobile_logo {
+  padding-block: 6px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--dark);
+}
+
 .mobile_nav {
   width: 100%;
 }

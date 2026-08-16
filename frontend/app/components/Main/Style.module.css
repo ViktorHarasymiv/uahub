@@ -1,5 +1,5 @@
 .slider {
-  padding: 15px;
+  padding: 10px;
 }
 
 .card {
@@ -54,6 +54,8 @@
 }
 
 .content svg {
+  margin-right: 4px;
+
   width: 14px;
   height: 14px;
 

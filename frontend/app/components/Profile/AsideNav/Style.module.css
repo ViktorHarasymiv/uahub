@@ -55,6 +55,13 @@
   gap: 14px;
 }
 
+@media screen and (max-width: 767px) {
+  .nav_list {
+    max-height: 350px;
+    overflow-y: scroll;
+  }
+}
+
 .link {
   padding: 12px;
 

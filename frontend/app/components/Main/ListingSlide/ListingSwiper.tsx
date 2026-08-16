@@ -10,7 +10,7 @@ import { Navigation } from "swiper/modules";
 
 import ListingItem from "./ListingItem";
 
-import style from "./Style.module.css";
+import style from "../Style.module.css";
 import { Listing } from "@/app/store/useListingStore";
 
 type PromoteSwiperProps = {

@@ -7,7 +7,7 @@ import Baner from "@/public/image/new_banner_desktop_2x.webp";
 export default function Hero() {
   return (
     <div className="container">
-      <section>
+      <section className={style.hero_section}>
         <h1 className={style.hero_title}>
           Znajdź wymarzoną pracę dla siebie <br />
           <span className="accent">88 061</span> ofert pracy od najlepszych

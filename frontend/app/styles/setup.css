@@ -23,8 +23,6 @@ main {
   display: flex;
   flex-direction: column;
 
-  gap: 44px;
-
   flex: 1;
 
   background-color: var(--white);
@@ -71,6 +69,12 @@ footer {
 
 .logo:hover {
   transform: rotateY(18deg) scale(0.95);
+}
+
+@media screen and (max-width: 767px) {
+  .logo {
+    height: 28px;
+  }
 }
 
 /* BUTTON */
@@ -148,7 +152,7 @@ button:active {
 /* SVG */
 
 svg {
-  margin-right: 4px;
+  margin-right: 14px;
   color: var(--dark);
 
   width: 18px;

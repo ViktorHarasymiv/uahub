@@ -1,5 +1,5 @@
 import { Listing } from "@/app/store/useListingStore";
-import style from "./Style.module.css";
+import style from "../Style.module.css";
 
 import Banner from "@/public/image/offerzone.webp";
 import ComAvatar from "@/public/com_avatar.png";

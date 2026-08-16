@@ -1,7 +1,7 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import style from "./Style.module.css";
+import style from "../Style.module.css";
 
 // Import Swiper styles
 import "swiper/css";
@@ -30,7 +30,7 @@ export default function PromoteSwiper({ date }: PromoteSwiperProps) {
       className={style.slider}
       breakpoints={{
         320: {
-          slidesPerView: 1.5,
+          slidesPerView: 1.4,
           spaceBetween: 16,
         },
 
