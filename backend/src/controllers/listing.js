@@ -2,6 +2,7 @@ import { listingCollection } from '../db/models/listing.js';
 
 import {
   createListingService,
+  getAdByIdService,
   getAllListingsService,
   getRobotaService,
 } from '../services/listing.js';
@@ -111,7 +112,7 @@ export const updateAdController = async (req, res, next) => {
 
 // BY ID
 
-export async function getListingByIdController(req) {
+export async function getListingByIdController(req, res) {
   try {
     const id = req.params.id;
 
@@ -120,6 +121,8 @@ export async function getListingByIdController(req) {
     }
 
     const ad = await getAdByIdService(id);
+
+    console.log(ad);
 
     if (!ad) {
       return next(createHttpError(404, 'Ad not found'));

@@ -75,6 +75,11 @@ export const getAllListings = async () => {
   return res.data;
 };
 
+export const getListingById = async (id: string) => {
+  const res = await nextServer.get(`/listing/${id}`);
+  return res.data;
+};
+
 export const createListing = async (formData: FormData) => {
   const res = await nextServer.post("/listing/create", formData);
 

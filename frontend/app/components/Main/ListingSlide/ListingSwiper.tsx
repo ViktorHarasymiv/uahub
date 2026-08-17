@@ -8,10 +8,9 @@ import "swiper/css/navigation";
 // import required modules
 import { Navigation } from "swiper/modules";
 
-import ListingItem from "./ListingItem";
-
 import style from "../Style.module.css";
 import { Listing } from "@/app/store/useListingStore";
+import SlideCardItem from "../components/SlideCardItem/SlideCardItem";
 
 type PromoteSwiperProps = {
   date: Listing[];
@@ -43,7 +42,7 @@ export default function ListingSwiper({ date }: PromoteSwiperProps) {
     >
       {date.map((item) => (
         <SwiperSlide key={item._id}>
-          <ListingItem item={item} />
+          <SlideCardItem item={item} />
         </SwiperSlide>
       ))}
     </Swiper>

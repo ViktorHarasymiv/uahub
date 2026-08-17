@@ -8,6 +8,7 @@ import { upload } from '../utils/multer.js';
 import {
   createListingController,
   getAllListingsController,
+  getListingByIdController,
   getRobotaController,
 } from '../controllers/listing.js';
 
@@ -17,6 +18,8 @@ const router = express.Router();
 
 router.get('/all', ctrlWrapper(getAllListingsController));
 router.get('/robota', ctrlWrapper(getRobotaController));
+
+router.get('/:id', ctrlWrapper(getListingByIdController));
 
 router.use(authMiddleware);
 

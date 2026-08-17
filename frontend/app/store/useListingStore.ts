@@ -1,5 +1,10 @@
 import { create } from "zustand";
-import { getAllListings, getJobListings, nextServer } from "../lib/api/api";
+import {
+  getAllListings,
+  getJobListings,
+  getListingById,
+  nextServer,
+} from "../lib/api/api";
 
 export interface Listing {
   _id: string;
@@ -18,21 +23,25 @@ export interface Listing {
 interface ListingsState {
   listings: Listing[];
   listingsJob: Listing[];
+  currentListing: Listing | null; // ← додано
   loading: boolean;
   error: string | null;
 
   getAllListings: () => Promise<void>;
-  getListingsByCategory: () => Promise<void>;
+  getListingsByCategory: (params?: Record<string, any>) => Promise<void>;
+  getListingById: (id: string) => Promise<void>; // ← додано
   createListing: (formData: FormData) => Promise<void>;
 }
 
 export const useListingsStore = create<ListingsState>((set, get) => ({
   listings: [],
   listingsJob: [],
+  currentListing: null,
   loading: false,
   error: null,
 
   // GET ALL LISTINGS
+
   getAllListings: async () => {
     try {
       set({ loading: true, error: null });
@@ -51,6 +60,8 @@ export const useListingsStore = create<ListingsState>((set, get) => ({
     }
   },
 
+  // GET LISTING BY CATEGORY
+
   getListingsByCategory: async (params = {}) => {
     try {
       set({ loading: true, error: null });
@@ -66,6 +77,26 @@ export const useListingsStore = create<ListingsState>((set, get) => ({
     } catch (err: any) {
       set({
         error: err?.response?.data?.message || "Помилка завантаження категорії",
+        loading: false,
+      });
+    }
+  },
+
+  // GET LISTING BY ID
+  getListingById: async (id: string) => {
+    try {
+      set({ loading: true, error: null });
+
+      const res = await getListingById(id);
+
+      set({
+        currentListing: res.data,
+        loading: false,
+      });
+    } catch (err: any) {
+      set({
+        error:
+          err?.response?.data?.message || "Помилка завантаження оголошення",
         loading: false,
       });
     }
