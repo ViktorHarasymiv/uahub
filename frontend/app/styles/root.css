@@ -10,7 +10,7 @@
   --margin-buttom-default: 24px;
   --header-height: 94px;
 
-  --section-padding: 4em;
+  --section-padding: 2em;
 
   --section-title-m-b: 28px;
 
@@ -72,7 +72,7 @@
 
   /* HOVER */
 
-  --colorsBackgroundSecondary: #f2f4f5ff;
+  --colorsBackgroundSecondary: #f5f5f7;
 
   /* ACTIVE LINK */
 

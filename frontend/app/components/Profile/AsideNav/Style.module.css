@@ -11,6 +11,8 @@
   border-radius: var(--block-b-radius);
 
   box-shadow: var(--shadow-default);
+
+  background-color: var(--white-accent);
 }
 
 /* PROFILE PULPIT */

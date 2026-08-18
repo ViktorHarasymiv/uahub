@@ -24,9 +24,39 @@ export const checkEmail = async (email: string) => {
 };
 
 export const login = async (data: LoginRequest) => {
-  const res = await nextServer.post("/auth/login", data);
+  try {
+    const res = await nextServer.post("/auth/login", data);
 
-  return { success: true, data: res.data };
+    return {
+      success: true,
+      data: res.data,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      message: err.response?.data?.message || "Помилка авторизації",
+      status: err.response?.status || 500,
+    };
+  }
+};
+
+// DELETE
+
+export const deleteAccount = async () => {
+  try {
+    const res = await nextServer.delete("/auth/delete");
+
+    return {
+      success: true,
+      data: res.data,
+    };
+  } catch (err: any) {
+    return {
+      success: false,
+      message: err.response?.data?.message || "Помилка видалення",
+      status: err.response?.status || 500,
+    };
+  }
 };
 
 // PATCH

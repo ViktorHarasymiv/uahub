@@ -21,6 +21,7 @@ import {
   Eye,
   Clock,
   MapPin,
+  DatabaseX,
 } from "lucide-react";
 
 export const Icons = {
@@ -46,4 +47,5 @@ export const Icons = {
   view: Eye,
   time: Clock,
   location: MapPin,
+  databaseX: DatabaseX,
 } as const;

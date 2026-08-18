@@ -5,6 +5,7 @@ import { UsersCollection } from '../db/models/user.js';
 import {
   checkEmailService,
   checkSessionService,
+  deleteAccountService,
   loginService,
   logoutUser,
   refreshUsersSession,
@@ -43,6 +44,24 @@ export const loginUserController = async (req, res, next) => {
     });
   } catch (error) {
     next(error); // передаємо до глобального error handler
+  }
+};
+
+// DELETE
+
+export const deleteAccountController = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+
+    const result = await deleteAccountService(userId);
+
+    res.json({
+      status: 200,
+      message: 'Account successfully deleted',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
   }
 };
 

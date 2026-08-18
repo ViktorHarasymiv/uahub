@@ -92,7 +92,7 @@
   font-size: 14px;
 
   width: 100%;
-  height: 44px;
+  max-height: 52px;
 }
 
 /* HELP DESC */
@@ -295,6 +295,7 @@
 }
 
 .accent_btn {
+  color: var(--white);
   border: 2px solid var(--accent-color);
   background-color: var(--accent-color);
 }

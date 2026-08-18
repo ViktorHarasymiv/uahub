@@ -6,8 +6,10 @@ import {
   refreshSession,
   checkServerSession,
   logout,
+  deleteAccount,
 } from "../lib/api/api";
 import { User } from "../types/auth";
+import toast from "react-hot-toast";
 
 interface AuthState {
   user: User | null;
@@ -21,6 +23,7 @@ interface AuthState {
     password: string;
     rememberMe: boolean;
   }) => Promise<boolean>;
+  deleteAccount: () => Promise<boolean>;
   logout: () => Promise<void>;
   fetchMe: () => Promise<boolean>;
   fetchData: () => Promise<boolean>;
@@ -52,23 +55,29 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   login: async (data) => {
     try {
-      set({ loading: true });
+      set({ loading: true, error: null });
 
-      const ok = await login(data); // axios POST /auth/login
+      const res = await login(data);
 
-      if (!ok) {
-        set({ loading: false });
+      if (!res.success) {
+        toast.error(res.message);
+        set({
+          error: res.message,
+          loading: false,
+        });
         return false;
+      } else {
+        toast.success(res.data.message);
       }
 
-      // 🔥 одразу тягнемо юзера
+      // якщо логін успішний — тягнемо юзера
       const meOk = await get().fetchData();
 
       set({ loading: false });
 
-      return meOk; // повертаємо true якщо юзер підтягнувся
+      return meOk;
     } catch (err) {
-      set({ error: "Error", loading: false });
+      set({ error: "Помилка логіну", loading: false });
       return false;
     }
   },
@@ -76,6 +85,23 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   logout: async () => {
     await logout();
     set({ isAuth: false, user: null });
+  },
+
+  deleteAccount: async () => {
+    try {
+      const res = await deleteAccount();
+
+      if (res.data.status === 200) {
+        // очищаємо локальні дані
+        get().logout();
+        return true;
+      }
+
+      return false;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
   },
 
   fetchMe: async () => {

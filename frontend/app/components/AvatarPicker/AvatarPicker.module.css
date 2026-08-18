@@ -24,6 +24,8 @@
 }
 
 .custom_avatar_input {
+  cursor: pointer;
+
   padding: 0px;
 
   position: absolute;
@@ -38,21 +40,32 @@
 }
 
 .button_mask {
+  cursor: pointer;
+
   position: absolute;
 
   width: 100%;
 
   padding: var(--block-padding);
   border-radius: var(--block-b-radius);
+
   background-color: var(--accent-color);
+
   font-weight: 600;
 
   color: var(--white);
+
+  transition: var(--transition2);
+}
+
+.photo_block:hover .button_mask {
+  transform: scale(1.02);
 }
 
 .avatar {
   width: 160px;
   height: 160px;
+
   border-radius: 50%;
 
   object-fit: cover;

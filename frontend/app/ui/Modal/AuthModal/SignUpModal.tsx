@@ -270,7 +270,7 @@ export default function SignUpModal() {
           onSubmit={(values) => handleSubmit(values)}
         >
           {/* INPUTS */}
-          {({ values, handleChange, handleBlur }) => (
+          {({ values, handleChange }) => (
             <Form
               style={{ display: "flex", flexDirection: "column", gap: "12px" }}
             >

@@ -1,0 +1,43 @@
+.confirm_block {
+  z-index: 9999;
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm_content {
+  padding: 2em;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: var(--block-b-radius);
+  box-shadow: var(--shadow-default);
+
+  background-color: var(--white-accent);
+}
+
+.confirm_title {
+  margin-bottom: 4px;
+
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.confirm_subtitle {
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.action_block {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  gap: 16px;
+}

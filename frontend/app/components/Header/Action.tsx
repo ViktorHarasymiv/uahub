@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Link from "next/link";
 
 import Button from "@/app/ui/Button/Button";
@@ -16,7 +17,7 @@ import { useI18nStore } from "@/app/store/i18nStore";
 import AccountNav_PL from "@/app/json/AccountNav_PL";
 import AccountNav_EN from "@/app/json/AccountNav_EN";
 import AccountNav_UA from "@/app/json/AccountNav_UA";
-import { useState } from "react";
+import { useConfirmStore } from "@/app/store/useConfirmStore";
 
 function Action() {
   const { messages } = useI18n();
@@ -118,7 +119,14 @@ function Action() {
                 </li>
                 <li className={style.drop_logout_block}>
                   <Icons.logout style={{ color: "var(--dark)" }} />
-                  <button onClick={logOut} style={{ padding: "0px" }}>
+                  <button
+                    onClick={() =>
+                      useConfirmStore.getState().show({
+                        description: messages["confirm.description.account"],
+                        onConfirm: logOut,
+                      })
+                    }
+                  >
                     Вихід
                   </button>
                 </li>

@@ -7,5 +7,11 @@
   "listing.subtitle": "Zrób pierwszy krok — Twoje ogłoszenie może dziś pomóc komuś znaleźć to, czego szuka",
   "section.title": "Najnowsze rekomendacje - Praca",
   "section.promote": "Promowane oferty",
-  "card.time": "Dodano"
+  "card.time": "Dodane",
+  "confirm.title": "Potwierdzenie działania",
+  "confirm.description": "Potwierdź swoje działanie",
+  "confirm.description.account": "Czy na pewno chcesz wylogować się ze swojego konta?",
+  "confirm.description.account.delete": "Czy na pewno chcesz usunąć swoje konto?",
+  "confirm.action": "Potwierdź",
+  "confirm.cancel": "Anuluj"
 }

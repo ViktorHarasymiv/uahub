@@ -5,6 +5,7 @@ import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { registerUserSchema } from '../validation/auth.js';
 import {
   checkEmailController,
+  deleteAccountController,
   loginUserController,
   logoutUserController,
   meController,
@@ -40,5 +41,6 @@ router.post('/refresh', refreshUserSessionController);
 // DATA
 
 router.get('/me', authMiddleware, meController);
+router.delete('/delete', authMiddleware, ctrlWrapper(deleteAccountController));
 
 export default router;

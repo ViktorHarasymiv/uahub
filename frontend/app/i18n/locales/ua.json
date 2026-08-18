@@ -8,5 +8,12 @@
   "listing.nextBtn": "Перейти далі",
   "section.title": "Останні рекомендації — Робота",
   "section.promote": "Рекламні пропозиції",
-  "card.time": "Додано"
+  "card.time": "Додано",
+
+  "confirm.title": "Підтвердження дії",
+  "confirm.description": "Підтвердження свою дію",
+  "confirm.description.account": "Ви впевнені, що хочете вийти з системи?",
+  "confirm.description.account.delete": "Ви впевнені, що хочете видалити аккаунт?",
+  "confirm.action": "Підтвердити",
+  "confirm.cancel": "Скасувати"
 }

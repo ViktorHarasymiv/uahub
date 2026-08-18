@@ -29,7 +29,7 @@
 .input_base {
   padding: 0;
 
-  padding-block: 25px 5px;
+  padding-block: 20px 5px;
   padding-inline: 1em;
 
   border-radius: var(--block-b-radius);
@@ -61,4 +61,49 @@
 
   color: var(--accent-color);
   font-size: 10px;
+}
+
+/* BLOCK CONTENT */
+
+.block_title {
+  margin-bottom: 8px;
+
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.block_sub_title {
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.block_details {
+  font-size: 13px;
+}
+
+.block_details span {
+  margin-right: 8px;
+}
+
+.block_details p {
+  font-weight: 700;
+
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+/* PASSWORD TRICK */
+
+.show_trick {
+  cursor: pointer;
+
+  content: "";
+  position: absolute;
+
+  top: 50%;
+  right: 10px;
+
+  transform: translateY(-50%);
+
+  color: inherit;
 }

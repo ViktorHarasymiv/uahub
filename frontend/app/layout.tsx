@@ -12,6 +12,7 @@ import Footer from "./components/Footer/Footer";
 import Modal from "./ui/Modal/Modal";
 import MobileNavigation from "./ui/Modal/MobileNavModal/MobileNavigation";
 import { PromoBanner } from "./components/Ads/PromoBanner";
+import { ConfirmDialog } from "./components/ConfirmDialog/ConfirmDialog";
 
 export const metadata: Metadata = {
   title: "uahub.pl | Ukrainian community",
@@ -46,6 +47,11 @@ export default function RootLayout({
             </main>
             <Footer />
             <Modal />
+
+            {/* CONFIG SETUP */}
+
+            <ConfirmDialog />
+
             <Toaster
               position="top-right"
               toastOptions={{

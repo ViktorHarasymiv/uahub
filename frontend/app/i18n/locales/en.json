@@ -5,5 +5,11 @@
   "navigation.signIn": "Sign In",
   "navigation.signUp": "Sign Up",
   "listing.title": "Add a quick listing",
-  "listing.subtitle": "Take the first step — your listing could help someone find exactly what they need today"
+  "listing.subtitle": "Take the first step — your listing could help someone find exactly what they need today",
+  "confirm.title": "Action confirmation",
+  "confirm.description": "Confirm your action",
+  "confirm.description.account": "Are you sure you want to log out of your account?",
+  "confirm.description.account.delete": "Are you sure you want to delete your account?",
+  "confirm.action": "Confirm",
+  "confirm.cancel": "Cancel"
 }

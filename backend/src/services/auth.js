@@ -25,7 +25,7 @@ export const registerUser = async (payload) => {
   });
 };
 
-// LOGIN SERVICE
+// LOGIN
 
 export const loginService = async (payload) => {
   const { rememberMe } = payload;
@@ -33,13 +33,13 @@ export const loginService = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
 
   if (!user) {
-    throw createHttpError(401, 'Користувача не знайдено');
+    throw createHttpError(401, 'User not found');
   }
 
   const isEqual = await bcrypt.compare(payload.password, user.password);
 
   if (!isEqual) {
-    throw createHttpError(401, 'Невірний пароль');
+    throw createHttpError(401, 'Invalid Email or Password');
   }
 
   await SessionsCollection.deleteOne({ userId: user._id });
@@ -58,6 +58,24 @@ export const loginService = async (payload) => {
     accessTokenValidUntil: new Date(Date.now() + TWO_HOUR),
     refreshTokenValidUntil: refreshTokenValidUntil,
   });
+};
+
+// DELETE
+
+export const deleteAccountService = async (userId) => {
+  const user = await UsersCollection.findById(userId);
+
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  // Видаляємо всі сесії
+  await SessionsCollection.deleteMany({ userId });
+
+  // Видаляємо акаунт
+  await UsersCollection.findByIdAndDelete(userId);
+
+  return { success: true };
 };
 
 // LOG OUT

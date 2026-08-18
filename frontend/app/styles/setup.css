@@ -7,14 +7,16 @@
   flex-direction: column;
 
   flex: 1;
-
-  font-size: var(--font-size-base);
-  color: var(--dark);
 }
 
 body {
+  position: relative;
+
   display: flex;
   flex-direction: column;
+
+  font-size: var(--font-size-base) !important;
+  color: var(--dark) !important;
 }
 
 main {
@@ -222,10 +224,13 @@ svg {
 
 .section_block {
   width: 100%;
-  padding: var(--block-padding) 18px;
-  border-radius: var(--block-b-radius);
 
+  padding: 8px 24px 24px;
+
+  border-radius: var(--block-b-radius);
   box-shadow: var(--shadow-default);
+
+  background-color: var(--white-accent);
 }
 
 .block_position {
@@ -291,6 +296,10 @@ h4 {
 }
 
 /* INPUT */
+
+input[type="file" i]::-webkit-file-upload-button {
+  cursor: pointer;
+}
 
 input,
 textarea {
