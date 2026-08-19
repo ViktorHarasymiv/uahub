@@ -14,7 +14,8 @@ const usersSchema = new Schema(
 
     // Auth
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: false }, // optional if OAuth
+    pendingEmail: { type: String, required: false, unique: true },
+    password: { type: String, required: false },
 
     // OAuth
     googleId: { type: String, required: false },

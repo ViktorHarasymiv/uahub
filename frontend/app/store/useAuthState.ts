@@ -25,7 +25,7 @@ interface AuthState {
   }) => Promise<boolean>;
   deleteAccount: () => Promise<boolean>;
   logout: () => Promise<void>;
-  fetchMe: () => Promise<boolean>;
+  fetchMe: () => void;
   fetchData: () => Promise<boolean>;
   clearError: () => void;
 }
@@ -60,7 +60,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const res = await login(data);
 
       if (!res.success) {
-        toast.error(res.message);
+        toast.error(res.message ?? "Wystąpił błąd");
+
         set({
           error: res.message,
           loading: false,
@@ -110,7 +111,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       const check = await checkServerSession();
 
-      if (check?.valid) {
+      if (check.valid) {
         const data = await getMe();
         if (!data) {
           set({ isAuth: false, user: null });
@@ -119,25 +120,25 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         set({ isAuth: true, user: data.user });
         return true;
+      } else {
+        const refreshed = await refreshSession();
+
+        if (!refreshed.accessToken) {
+          await logout();
+          set({ isAuth: false, user: null });
+          return false;
+        }
       }
 
-      const refreshed = await refreshSession();
+      // const user = await getMe();
 
-      if (!refreshed?.accessToken) {
-        await logout();
-        set({ isAuth: false, user: null });
-        return false;
-      }
+      // if (!user) {
+      //   set({ isAuth: false, user: null });
+      //   return false;
+      // }
 
-      const user = await getMe();
-
-      if (!user) {
-        set({ isAuth: false, user: null });
-        return false;
-      }
-
-      set({ isAuth: true, user });
-      return true;
+      // set({ isAuth: true, user });
+      // return true;
     } catch {
       set({ isAuth: false, user: null });
       return false;

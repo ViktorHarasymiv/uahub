@@ -8,6 +8,20 @@ export type LoginRequest = {
   password: string;
 };
 
+export type emailChange = {
+  newEmail: string;
+};
+
+export type ResetPassword = {
+  email?: string;
+  password?: string;
+};
+
+export type ChangePassword = {
+  oldPassword: string;
+  newPassword: string;
+};
+
 export type User = {
   _id?: string;
   email?: string;

@@ -2,9 +2,13 @@
 
 import { useI18n } from "@/app/i18n/useI18n";
 import { useConfirmStore } from "@/app/store/useConfirmStore";
-import { editProfile } from "@/app/lib/api/api";
+import {
+  changeEmailRequest,
+  editProfile,
+  sendChangePassword,
+} from "@/app/lib/api/api";
 import { useAuthStore } from "@/app/store/useAuthState";
-import { LoginRequest } from "@/app/types/auth";
+import { ChangePassword, emailChange, LoginRequest } from "@/app/types/auth";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 
@@ -13,6 +17,7 @@ import Button from "@/app/ui/Button/Button";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { LuEyeOff } from "react-icons/lu";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function AccountSetup() {
   const { messages } = useI18n();
@@ -26,36 +31,59 @@ export default function AccountSetup() {
 
   const [showPass, setShowPass] = useState(false);
 
-  const initialValues: LoginRequest = {
-    email: user?.email || "",
-    password: "",
+  // EMAIL
+
+  const initialValues: emailChange = {
+    newEmail: "",
   };
 
-  const UserUpdateSchema = Yup.object().shape({
-    email: Yup.string()
+  const EmailChangeSchema = Yup.object().shape({
+    newEmail: Yup.string()
       .email("Niepoprawny email")
       .required("Email jest wymagany"),
-    password: Yup.string()
-      .min(6, "Мінімум 6 символів")
-      .required("Hasło jest wymagane"),
   });
 
-  const handleSubmit = async (
-    formValues: LoginRequest,
-    { setSubmitting }: FormikHelpers<LoginRequest>,
-  ) => {
-    try {
-      const res = await editProfile(formValues);
-      if (res) {
-        fetchData();
-      }
+  // SUBMIT EMAIL
 
+  const handleSubmit = async (values: emailChange) => {
+    try {
+      const res = await changeEmailRequest(values.newEmail);
       return res;
     } catch (error) {
       console.log(error);
-    } finally {
-      setSubmitting(false);
     }
+  };
+
+  // PASSWORD
+
+  const initialValuesPassword: ChangePassword = {
+    oldPassword: "",
+    newPassword: "",
+  };
+
+  const SchemaPassword = Yup.object().shape({
+    oldPassword: Yup.string().required("Wpisz obecne hasło"),
+    newPassword: Yup.string()
+      .min(6, "Hasło musi mieć minimum 6 znaków")
+      .required("Wpisz nowe hasło"),
+  });
+
+  // SUBMIT PASSWORD
+
+  const handleSubmitPassword = async (values: typeof initialValuesPassword) => {
+    if (!user) return;
+
+    const res = await sendChangePassword(
+      values.oldPassword,
+      values.newPassword,
+    );
+
+    if (!res.success) {
+      toast.error(res.message ?? "Błąd zmiany hasła");
+      return;
+    }
+
+    toast.success("Hasło zostało zmienione");
   };
 
   return (
@@ -65,7 +93,7 @@ export default function AccountSetup() {
       <div className="block_internal">
         <Formik
           initialValues={initialValues}
-          validationSchema={UserUpdateSchema}
+          validationSchema={EmailChangeSchema}
           onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
@@ -84,9 +112,9 @@ export default function AccountSetup() {
               </div>
               <div className="input_block">
                 <label className="input_label">Email</label>
-                <Field name="email" type="email" className="input_base" />
+                <Field name="newEmail" type="email" className="input_base" />
                 <ErrorMessage
-                  name="email"
+                  name="newEmail"
                   component="span"
                   className="input_error"
                 />
@@ -104,9 +132,9 @@ export default function AccountSetup() {
 
       <div className="block_internal">
         <Formik
-          initialValues={initialValues}
-          validationSchema={UserUpdateSchema}
-          onSubmit={handleSubmit}
+          initialValues={initialValuesPassword}
+          validationSchema={SchemaPassword}
+          onSubmit={handleSubmitPassword}
         >
           {({ isSubmitting }) => (
             <Form className="form_block">
@@ -118,7 +146,7 @@ export default function AccountSetup() {
                 <label className="input_label">Obecne hasło</label>
 
                 <Field
-                  name="password"
+                  name="oldPassword"
                   type={showPass ? "name" : "password"}
                   placeholder="Obecne hasło"
                   className="input_base"
@@ -146,7 +174,7 @@ export default function AccountSetup() {
               <div className="input_block">
                 <label className="input_label">Nowe hasło</label>
                 <Field
-                  name="password"
+                  name="newPassword"
                   type={showPass ? "name" : "password"}
                   placeholder="Nowe hasło"
                   className="input_base"

@@ -5,11 +5,13 @@ export const SORT_ORDER = {
   DESC: 'desc',
 };
 
+// TIME CALC
+
 export const TWO_HOUR = 120 * 60 * 1000;
-
 export const ONE_DAY = 24 * 60 * 60 * 1000;
-
 export const ONE_HOUR = 60 * 60 * 1000;
+
+// SMTP MAIL
 
 export const SMTP = {
   SMTP_HOST: 'SMTP_HOST',
@@ -19,10 +21,10 @@ export const SMTP = {
   SMTP_FROM: 'SMTP_FROM',
 };
 
+// IMAGES PAYLOAD
+
 export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
-
 export const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'src/temp');
-
 export const UPLOAD_DIR = path.join(process.cwd(), 'src/uploads');
 
 export const CLOUDINARY = {
@@ -30,5 +32,7 @@ export const CLOUDINARY = {
   API_KEY: 'API_KEY',
   API_SECRET: 'API_SECRET',
 };
+
+// SWAGGER
 
 export const SWAGGER_PATH = path.join(process.cwd(), 'docs', 'swagger.json');

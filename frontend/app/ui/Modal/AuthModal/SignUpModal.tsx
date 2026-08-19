@@ -114,7 +114,6 @@ export default function SignUpModal() {
 
         const res = await register(payload);
         closeModal();
-        console.log(res);
 
         if (res) {
           router.push("/profile");

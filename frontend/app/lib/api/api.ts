@@ -1,4 +1,6 @@
 import axios from "axios";
+import type { AxiosError } from "axios";
+
 import { RegisterRequest, LoginRequest, User } from "@/app/types/auth";
 
 const NEXT_PUBLIC_DOMEN = process.env.NEXT_PUBLIC_DOMEN;
@@ -31,7 +33,9 @@ export const login = async (data: LoginRequest) => {
       success: true,
       data: res.data,
     };
-  } catch (err: any) {
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message?: string }>;
+
     return {
       success: false,
       message: err.response?.data?.message || "Помилка авторизації",
@@ -43,20 +47,12 @@ export const login = async (data: LoginRequest) => {
 // DELETE
 
 export const deleteAccount = async () => {
-  try {
-    const res = await nextServer.delete("/auth/delete");
+  const res = await nextServer.delete("/auth/delete");
 
-    return {
-      success: true,
-      data: res.data,
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      message: err.response?.data?.message || "Помилка видалення",
-      status: err.response?.status || 500,
-    };
-  }
+  return {
+    success: true,
+    data: res.data,
+  };
 };
 
 // PATCH
@@ -146,4 +142,75 @@ export const getCategoryBySlug = async (slug: string) => {
 export const getSubcategories = async (slug: string) => {
   const res = await nextServer.get(`/categories/${slug}/children`);
   return res.data;
+};
+
+// RESET PASSWORD
+
+export async function sendResetEmail(email: string) {
+  const res = await nextServer.post(`/auth/request-reset-email`, { email });
+  return res;
+}
+
+export async function sendResetPassword(token: string, password: string) {
+  const res = await nextServer.post(`/auth/reset-password`, {
+    token,
+    password,
+  });
+  return res;
+}
+
+export async function sendChangePassword(
+  oldPassword: string,
+  newPassword: string,
+) {
+  try {
+    const res = await nextServer.post("/auth/change-password", {
+      oldPassword,
+      newPassword,
+    });
+
+    return { success: true, data: res.data };
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message?: string }>;
+
+    return {
+      success: false,
+      message: err.response?.data?.message || "Błąd zmiany hasła",
+      status: err.response?.status || 500,
+    };
+  }
+}
+
+// CHANGE E-MAIL
+
+export const changeEmailRequest = async (newEmail: string) => {
+  try {
+    const res = await nextServer.post("/auth/change-email/request", {
+      newEmail,
+    });
+    return { success: true, data: res.data };
+  } catch (error) {
+    const err = error as AxiosError<{ message?: string }>;
+    return {
+      success: false,
+      message: err.response?.data?.message ?? "Błąd zmiany e-mail",
+    };
+  }
+};
+
+export const changeEmailConfirm = async (token: string) => {
+  try {
+    const res = await nextServer.get(
+      `/auth/change-email/confirm?token=${token}`,
+    );
+
+    return { success: true, data: res.data };
+  } catch (error) {
+    const err = error as AxiosError<{ message?: string }>;
+
+    return {
+      success: false,
+      message: err.response?.data?.message ?? "Błąd potwierdzenia e-mail",
+    };
+  }
 };

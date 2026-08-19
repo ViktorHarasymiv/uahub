@@ -6,3 +6,25 @@ export const registerUserSchema = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().required(),
 });
+
+export const requestResetEmailSchema = Joi.object({
+  email: Joi.string().email().required(),
+});
+
+export const resetPasswordSchema = Joi.object({
+  password: Joi.string().required(),
+  token: Joi.string().required(),
+});
+
+export const changePasswordSchema = Joi.object({
+  oldPassword: Joi.string().min(6).required(),
+  newPassword: Joi.string().min(6).required(),
+});
+
+export const changeEmailRequestSchema = Joi.object({
+  newEmail: Joi.string().email().required(),
+});
+
+export const changeEmailConfirmSchema = Joi.object({
+  token: Joi.string().required(),
+});

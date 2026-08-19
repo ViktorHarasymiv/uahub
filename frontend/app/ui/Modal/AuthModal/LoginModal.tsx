@@ -139,9 +139,15 @@ export default function LoginModal() {
               )}
             </Field>
 
-            <Link href={"#"} className={style.forgot_pass}>
+            <button
+              onClick={() => {
+                closeModal();
+                router.push("/reset-password");
+              }}
+              className={style.forgot_pass}
+            >
               Забули пароль?
-            </Link>
+            </button>
           </div>
 
           {/* ACTION */}

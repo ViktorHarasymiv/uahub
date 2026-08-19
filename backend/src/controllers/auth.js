@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken';
 import { SessionsCollection } from '../db/models/session.js';
 import { UsersCollection } from '../db/models/user.js';
 import {
+  changeEmailConfirmService,
+  changeEmailRequestService,
+  changePasswordService,
   checkEmailService,
   checkSessionService,
   deleteAccountService,
@@ -10,8 +13,11 @@ import {
   logoutUser,
   refreshUsersSession,
   registerUser,
+  requestResetToken,
+  resetPassword,
 } from '../services/auth.js';
 import { setupSession } from '../utils/setupSession.js';
+import createHttpError from 'http-errors';
 
 // REGISTATION
 
@@ -161,4 +167,80 @@ export const refreshUserSessionController = async (req, res) => {
       sessionId: session._id,
     },
   });
+};
+
+// RESET PASSWORD
+
+export const requestResetEmailController = async (req, res) => {
+  await requestResetToken(req.body.email);
+  res.json({
+    message: 'Reset password email was successfully sent!',
+    status: 200,
+    data: {},
+  });
+};
+
+export const resetPasswordController = async (req, res) => {
+  await resetPassword(req.body);
+  res.json({
+    message: 'Password was successfully reset!',
+    status: 200,
+    data: {},
+  });
+};
+
+export const changePasswordController = async (req, res, next) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user.id;
+
+    const result = await changePasswordService({
+      userId,
+      oldPassword,
+      newPassword,
+    });
+
+    res.json({
+      status: 200,
+      message: 'Password updated successfully',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// CHANGE E-MAIL
+
+export const changeEmailRequestController = async (req, res, next) => {
+  try {
+    const { newEmail } = req.body;
+    const userId = req.user.id;
+
+    const result = await changeEmailRequestService({ userId, newEmail });
+
+    res.json({
+      status: 200,
+      message: 'Activation link sent',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const changeEmailConfirmController = async (req, res, next) => {
+  try {
+    const { token } = req.query;
+
+    const result = await changeEmailConfirmService({ token });
+
+    res.json({
+      status: 200,
+      message: 'Email updated successfully',
+      data: result,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
