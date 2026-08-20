@@ -15,6 +15,11 @@ const listingSchema = new Schema(
       default: [null, null, null, null, null, null],
     },
 
+    views: {
+      type: Number,
+      default: 0,
+    },
+
     contact: {
       name: { type: String, required: true },
       phone: { type: String, required: true },

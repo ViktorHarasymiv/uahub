@@ -4,6 +4,7 @@ import { use, useEffect } from "react";
 
 import { useListingsStore } from "@/app/store/useListingStore";
 import Loader from "@/app/ui/Loader/Loader";
+import { incrementListingView } from "@/app/lib/api/api";
 
 interface OfferPageProps {
   params: Promise<{ id: string }>;
@@ -16,6 +17,7 @@ export default function OfferPage({ params }: OfferPageProps) {
 
   useEffect(() => {
     getListingById(id);
+    incrementListingView(id);
   }, [id]);
 
   if (loading || !currentListing) return <Loader />;

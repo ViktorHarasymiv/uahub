@@ -177,3 +177,24 @@ export const getRobotaController = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// COUNT VIEW
+
+export const incrementView = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const listing = await listingCollection.findByIdAndUpdate(
+      id,
+      { $inc: { views: 1 } },
+      { new: true },
+    );
+
+    res.json({
+      success: true,
+      data: listing.views,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

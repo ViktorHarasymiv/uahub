@@ -60,7 +60,7 @@ export default function SlideCardItem({ item }: PromoteSwiperProps) {
             </div>
             <div>
               <Icons.view />
-              View
+              {item.views}
             </div>
           </div>
         </div>

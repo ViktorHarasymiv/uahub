@@ -5,10 +5,18 @@ import {
   getListingById,
   nextServer,
 } from "../lib/api/api";
+import { AxiosError } from "axios";
 
 export interface Listing {
   _id: string;
   photos: string[];
+  category: string;
+  subCategory?: string;
+  contact: {
+    name: string;
+    phone: string;
+    email: string;
+  };
   fields: {
     title: string;
     description: string;
@@ -16,6 +24,7 @@ export interface Listing {
     salary?: string;
     location?: string;
   };
+  views: number;
   createdAt: string;
   // додай свої поля
 }
@@ -28,7 +37,7 @@ interface ListingsState {
   error: string | null;
 
   getAllListings: () => Promise<void>;
-  getListingsByCategory: (params?: Record<string, any>) => Promise<void>;
+  getListingsByCategory: (params?: Record<string, unknown>) => Promise<void>;
   getListingById: (id: string) => Promise<void>; // ← додано
   createListing: (formData: FormData) => Promise<void>;
 }
@@ -41,7 +50,6 @@ export const useListingsStore = create<ListingsState>((set, get) => ({
   error: null,
 
   // GET ALL LISTINGS
-
   getAllListings: async () => {
     try {
       set({ loading: true, error: null });
@@ -52,31 +60,32 @@ export const useListingsStore = create<ListingsState>((set, get) => ({
         listings: res,
         loading: false,
       });
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
       set({
-        error: err?.response?.data?.message || "Помилка завантаження оголошень",
+        error:
+          error.response?.data?.message || "Помилка завантаження оголошень",
         loading: false,
       });
     }
   },
 
   // GET LISTING BY CATEGORY
-
   getListingsByCategory: async (params = {}) => {
     try {
       set({ loading: true, error: null });
 
       const res = await getJobListings(params);
 
-      console.log(res);
-
       set({
         listingsJob: res.items || res,
         loading: false,
       });
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
       set({
-        error: err?.response?.data?.message || "Помилка завантаження категорії",
+        error:
+          error.response?.data?.message || "Помилка завантаження категорії",
         loading: false,
       });
     }
@@ -93,10 +102,11 @@ export const useListingsStore = create<ListingsState>((set, get) => ({
         currentListing: res.data,
         loading: false,
       });
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
       set({
         error:
-          err?.response?.data?.message || "Помилка завантаження оголошення",
+          error.response?.data?.message || "Помилка завантаження оголошення",
         loading: false,
       });
     }
@@ -113,9 +123,10 @@ export const useListingsStore = create<ListingsState>((set, get) => ({
       await get().getAllListings();
 
       set({ loading: false });
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
       set({
-        error: err?.response?.data?.message || "Помилка створення оголошення",
+        error: error.response?.data?.message || "Помилка створення оголошення",
         loading: false,
       });
     }

@@ -1,8 +1,9 @@
+import { Listing } from "../store/useListingStore";
 import ListingSlider from "./ListingSlider";
 import styles from "./Style.module.css";
 
 interface ListingCardProps {
-  item: any;
+  item: Listing;
 }
 
 export default function ListingCard({ item }: ListingCardProps) {
@@ -24,7 +25,7 @@ export default function ListingCard({ item }: ListingCardProps) {
         )}
 
         <p className={styles.category}>
-          Категорія: {item.categoryName || item.category}
+          Категорія: {item.subCategory || item.category}
         </p>
 
         {/* Extra fields */}

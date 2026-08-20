@@ -121,6 +121,11 @@ export const getJobListings = async (params = {}) => {
   return res.data;
 };
 
+export const incrementListingView = async (id: string) => {
+  const res = await nextServer.patch(`/listing/${id}/view`);
+  return res;
+};
+
 // CATEGORIES
 
 // GET /categories/all
