@@ -8,12 +8,10 @@ import handlebars from 'handlebars';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 
-import { randomBytes } from 'crypto';
-
 import { UsersCollection } from '../db/models/user.js';
 import { SessionsCollection } from '../db/models/session.js';
 
-import { ONE_DAY, TEMPLATES_DIR, TWO_HOUR } from '../constants/index.js';
+import { ONE_DAY, TEMPLATES_DIR } from '../constants/index.js';
 
 import { SMTP } from '../constants/index.js';
 import { getEnvVar } from '../utils/getEnvVar.js';
@@ -47,26 +45,28 @@ export const loginService = async (payload) => {
   }
 
   const isEqual = await bcrypt.compare(payload.password, user.password);
-
   if (!isEqual) {
     throw createHttpError(401, 'Invalid Email or Password');
   }
 
+  // Видаляємо стару сесію користувача
   await SessionsCollection.deleteOne({ userId: user._id });
 
-  const accessToken = randomBytes(30).toString('base64');
-  const refreshToken = randomBytes(30).toString('base64');
+  // Створюємо базову сесію (2 години + 1 день)
+  const baseSession = createSession();
 
-  const refreshTokenValidUntil = rememberMe
-    ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 днів
-    : new Date(Date.now() + 5 * 60 * 1000); // 5 хв
+  // Якщо rememberMe → збільшуємо refreshTokenValidUntil
+  if (rememberMe) {
+    baseSession.refreshTokenValidUntil = Date.now() + ONE_DAY * 30; // 30 днів
+  }
 
+  // Створюємо сесію в базі
   return await SessionsCollection.create({
     userId: user._id,
-    accessToken,
-    refreshToken,
-    accessTokenValidUntil: new Date(Date.now() + TWO_HOUR),
-    refreshTokenValidUntil: refreshTokenValidUntil,
+    accessToken: baseSession.accessToken,
+    refreshToken: baseSession.refreshToken,
+    accessTokenValidUntil: baseSession.accessTokenValidUntil,
+    refreshTokenValidUntil: baseSession.refreshTokenValidUntil,
   });
 };
 
@@ -172,28 +172,31 @@ export const checkSessionService = async (req, res) => {
 // REFRESH SESSION
 
 export const refreshUsersSession = async ({ refreshToken }) => {
-  // refreshToken тут вже raw
   const session = await SessionsCollection.findOne({ refreshToken });
+  console.log(session);
 
   if (!session) {
     throw createHttpError(401, 'Refresh token not found');
   }
 
-  const isExpired = new Date() > new Date(session.refreshTokenValidUntil);
+  const isExpired = Date.now() > session.refreshTokenValidUntil;
+
   if (isExpired) {
+    await SessionsCollection.deleteOne({ _id: session._id });
     throw createHttpError(401, 'Refresh token expired');
   }
 
   // Створюємо нову сесію
   const newSessionData = createSession();
 
+  // Видаляємо стару
+  await SessionsCollection.deleteOne({ _id: session._id });
+
+  // Створюємо нову
   const newSession = await SessionsCollection.create({
     userId: session.userId,
     ...newSessionData,
   });
-
-  // Видаляємо стару сесію
-  await SessionsCollection.deleteOne({ refreshToken });
 
   return newSession;
 };

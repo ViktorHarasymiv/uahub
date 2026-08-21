@@ -9,7 +9,7 @@ export const setupSession = (res, session) => {
   });
 
   // Обчислюємо час життя refresh токена
-  let refreshMs = session.refreshTokenValidUntil.getTime() - Date.now();
+  let refreshMs = session.refreshTokenValidUntil - Date.now();
 
   // Якщо refreshMs негативний або занадто малий — ставимо fallback
   if (refreshMs < 1000 * 60 * 60) {

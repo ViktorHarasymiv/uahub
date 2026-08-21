@@ -16,7 +16,7 @@ export default function PrivateRoute({
 
   useEffect(() => {
     if (!loading && !isAuth) {
-      router.push("/sign-in");
+      router.push("/");
     }
   }, [loading, isAuth, router]);
 
@@ -25,7 +25,7 @@ export default function PrivateRoute({
   }
 
   if (!isAuth) {
-    return null; // поки router.push робить редірект
+    return <Loader mode="fullscreen" />; // поки router.push робить редірект
   }
 
   return children;

@@ -120,25 +120,23 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
         set({ isAuth: true, user: data.user });
         return true;
-      } else {
-        const refreshed = await refreshSession();
-
-        if (!refreshed.accessToken) {
-          await logout();
-          set({ isAuth: false, user: null });
-          return false;
-        }
       }
 
-      // const user = await getMe();
+      // accessToken протух → пробуємо refresh
+      await refreshSession();
 
-      // if (!user) {
-      //   set({ isAuth: false, user: null });
-      //   return false;
-      // }
+      // ❗ refreshSession ставить cookie, тому refreshed може бути пустим
+      // але це НЕ означає, що refresh не спрацював
+      const data = await getMe();
 
-      // set({ isAuth: true, user });
-      // return true;
+      if (!data) {
+        await logout();
+        set({ isAuth: false, user: null });
+        return false;
+      }
+
+      set({ isAuth: true, user: data.user });
+      return true;
     } catch {
       set({ isAuth: false, user: null });
       return false;

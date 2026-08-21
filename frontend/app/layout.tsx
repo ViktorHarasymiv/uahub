@@ -48,7 +48,7 @@ export default function RootLayout({
             <Footer />
             <Modal />
 
-            {/* CONFIG SETUP */}
+            {/* CONFIG SETUPS */}
 
             <ConfirmDialog />
 

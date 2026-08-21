@@ -1,5 +1,3 @@
-// src/controllers/auth.js
-import jwt from 'jsonwebtoken';
 import { SessionsCollection } from '../db/models/session.js';
 import { UsersCollection } from '../db/models/user.js';
 import {
@@ -7,7 +5,6 @@ import {
   changeEmailRequestService,
   changePasswordService,
   checkEmailService,
-  checkSessionService,
   deleteAccountService,
   loginService,
   logoutUser,
@@ -150,12 +147,17 @@ export const sessionController = async (req, res) => {
 // REFRESH SESSION
 
 export const refreshUserSessionController = async (req, res) => {
-  const rawToken = decodeURIComponent(req.cookies.refreshToken);
+  const rawToken = decodeURIComponent(req.cookies.refreshToken || '');
+
+  if (!rawToken) {
+    throw createHttpError(401, 'Refresh token missing');
+  }
 
   const session = await refreshUsersSession({
     refreshToken: rawToken,
   });
 
+  // ❗ Ставимо нові cookie
   setupSession(res, session);
 
   res.json({
