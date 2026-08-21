@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import Button from "../../Button/Button";
 
 import { Formik, Form, Field, ErrorMessage, FieldProps } from "formik";
 import * as Yup from "yup";
@@ -140,6 +140,7 @@ export default function LoginModal() {
             </Field>
 
             <button
+              type={"button"}
               onClick={() => {
                 closeModal();
                 router.push("/reset-password");
@@ -153,7 +154,10 @@ export default function LoginModal() {
           {/* ACTION */}
 
           <div className={style.action_wrapper}>
-            <button type="submit" className={style.submit_btn}>
+            <button
+              type="submit"
+              className={`${style.submit_btn} ${style.accent_btn}`}
+            >
               Увійти
             </button>
             <div className={style.line}>or</div>

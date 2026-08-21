@@ -241,7 +241,7 @@ svg {
 }
 
 .block_internal {
-  padding: var(--block-padding);
+  padding: 18px;
   border-radius: var(--block-b-radius);
 
   background-color: var(--colorsBackgroundSecondary);

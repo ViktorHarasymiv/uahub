@@ -16,16 +16,12 @@ export default function Setup() {
   const initialValues: User = {
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
-    email: user?.email || "",
     phone: user?.phone || "",
   };
 
   const UserUpdateSchema = Yup.object().shape({
     firstName: Yup.string().min(2).max(50).required("Imię jest wymagane"),
     lastName: Yup.string().min(2).max(50).required("Nazwisko jest wymagane"),
-    email: Yup.string()
-      .email("Niepoprawny email")
-      .required("Email jest wymagany"),
     phone: Yup.string().min(9).max(15).required("Numer telefonu jest wymagany"),
   });
 
@@ -52,6 +48,7 @@ export default function Setup() {
   return (
     <div className="block_position">
       {/* CHANGE DATE */}
+
       <div className="block_internal">
         <Formik
           initialValues={initialValues}
@@ -60,6 +57,7 @@ export default function Setup() {
         >
           {({ isSubmitting }) => (
             <Form className="form_block">
+              <h2 className="block_title">Zmień swoje dane</h2>
               <div className="input_block">
                 <label className="input_label">
                   Imię <span className="accent">*</span>
@@ -77,7 +75,9 @@ export default function Setup() {
               </div>
 
               <div className="input_block">
-                <label className="input_label">Nazwisko</label>
+                <label className="input_label">
+                  Nazwisko <span className="accent">*</span>
+                </label>
                 <Field
                   name="lastName"
                   className="input_base"
@@ -91,17 +91,9 @@ export default function Setup() {
               </div>
 
               <div className="input_block">
-                <label className="input_label">Email</label>
-                <Field name="email" type="email" className="input_base" />
-                <ErrorMessage
-                  name="email"
-                  component="span"
-                  className="input_error"
-                />
-              </div>
-
-              <div className="input_block">
-                <label className="input_label">Telefon</label>
+                <label className="input_label">
+                  Telefon <span className="accent">*</span>
+                </label>
                 <Field
                   name="phone"
                   placeholder="Wpisz numer telefonu"
@@ -120,9 +112,14 @@ export default function Setup() {
           )}
         </Formik>
       </div>
+
       {/* CHANGE AVATAR */}
+
       <div className="block_internal">
-        <AvatarUpdateForm initialPhoto={user.photoUrl} />
+        <div className="form_block">
+          <h2 className="block_title">Zmień lub dodaj swoje zdjęcie</h2>
+          <AvatarUpdateForm initialPhoto={user.photoUrl} />
+        </div>
       </div>
     </div>
   );

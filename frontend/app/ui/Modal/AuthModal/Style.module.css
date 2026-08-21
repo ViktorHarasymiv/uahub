@@ -1,10 +1,12 @@
 /* GENERAL */
 
 .wrapper {
+  position: relative;
+
   max-width: 440px;
   width: 100%;
 
-  padding: 56px 28px 64px;
+  padding: 56px 28px 45px;
 
   display: flex;
   flex-direction: column;
@@ -24,13 +26,14 @@
 
   position: absolute;
 
-  top: 10px;
-  right: 0px;
+  top: 15px;
+  right: 15px;
 
   display: block;
 }
 
 .close svg {
+  margin-right: 0px;
   color: var(--dark-opacity);
 
   width: 32px;
@@ -48,7 +51,7 @@
 
 .title {
   margin-bottom: 24px;
-  font-size: 24px;
+  font-size: clamp(1.25rem, 1.1893rem + 0.2589vw, 1.5rem);
 
   text-align: left;
 }
@@ -103,7 +106,7 @@
   justify-content: space-between;
   align-items: center;
 
-  font-size: 15px;
+  font-size: 14px !important;
 }
 
 .forgot_pass {
@@ -114,7 +117,7 @@
 /* PROTECTED DESC */
 
 .protected {
-  margin-top: 20px;
+  margin-top: 5px;
   font-size: 12px;
 }
 
@@ -350,5 +353,9 @@
 @media screen and (min-width: 767px) {
   .signUp_wrapper {
     display: flex;
+  }
+
+  .help_wrapper {
+    font-size: 15px !important;
   }
 }

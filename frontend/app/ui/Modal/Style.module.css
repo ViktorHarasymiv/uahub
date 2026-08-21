@@ -23,10 +23,10 @@
 
   border-radius: 10px;
 
-  max-height: 90%;
+  max-height: 75%;
   min-height: 150px;
 
-  max-width: 90%;
+  max-width: 95%;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   animation: modalFadeIn 0.25s ease;
 }

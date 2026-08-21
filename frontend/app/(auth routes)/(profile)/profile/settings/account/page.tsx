@@ -110,9 +110,17 @@ export default function AccountSetup() {
                   <p>{user?.email}</p>
                 </div>
               </div>
+
               <div className="input_block">
-                <label className="input_label">Email</label>
-                <Field name="newEmail" type="email" className="input_base" />
+                <label className="input_label">
+                  Email <span className="accent">*</span>
+                </label>
+                <Field
+                  name="newEmail"
+                  type="email"
+                  className="input_base"
+                  placeholder="Wprowadź nowy e-mail"
+                />
                 <ErrorMessage
                   name="newEmail"
                   component="span"
@@ -143,7 +151,9 @@ export default function AccountSetup() {
               </div>
 
               <div className="input_block">
-                <label className="input_label">Obecne hasło</label>
+                <label className="input_label">
+                  Obecne hasło <span className="accent">*</span>
+                </label>
 
                 <Field
                   name="oldPassword"
@@ -172,7 +182,9 @@ export default function AccountSetup() {
               </div>
 
               <div className="input_block">
-                <label className="input_label">Nowe hasło</label>
+                <label className="input_label">
+                  Nowe hasło <span className="accent">*</span>
+                </label>
                 <Field
                   name="newPassword"
                   type={showPass ? "name" : "password"}
