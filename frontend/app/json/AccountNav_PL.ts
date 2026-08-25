@@ -7,7 +7,6 @@ interface NavItem {
 }
 
 const AccountNav_PL: NavItem[] = [
-  { label: "Twój pulpit", href: "/profile", icon: "home" },
   {
     label: "Oferty dopasowane do Ciebie",
     href: "/profile/recommendations",
@@ -15,11 +14,6 @@ const AccountNav_PL: NavItem[] = [
   },
   { label: "Zapisane", href: "/profile/saved", icon: "star" },
   { label: "Powiadomienia", href: "/profile/notifications", icon: "bell" },
-  {
-    label: "Ustawienia konta",
-    href: "/profile/settings",
-    icon: "settings",
-  },
 ];
 
 export default AccountNav_PL;

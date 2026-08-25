@@ -18,8 +18,6 @@
 /* PROFILE PULPIT */
 
 .profile_pulpit_block {
-  margin-bottom: 34px;
-
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -44,55 +42,4 @@
 
 .user_email {
   font-size: 14px;
-}
-
-/* NAVIGATION LINK */
-
-.nav_list {
-  display: flex;
-  flex-direction: column;
-
-  flex-wrap: nowrap;
-
-  gap: 14px;
-}
-
-@media screen and (max-width: 767px) {
-  .nav_list {
-    max-height: 350px;
-    overflow-y: scroll;
-  }
-}
-
-.link {
-  padding: 12px;
-
-  display: flex;
-  align-items: center;
-
-  border-radius: var(--block-b-radius);
-}
-
-.link:last-child {
-  position: relative;
-
-  margin-top: 91px;
-}
-
-.link:last-child::before {
-  position: absolute;
-
-  top: -18px;
-  left: 0;
-
-  content: "";
-
-  width: 100%;
-  height: 0.004em;
-
-  background-color: var(--colorsOpacitySecondaryMedium);
-}
-
-.link:hover {
-  background-color: var(--colorsBackgroundSecondary);
 }

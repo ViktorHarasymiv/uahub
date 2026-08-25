@@ -61,4 +61,8 @@ export type User = {
     expiresAt?: string;
     isAutoRenew?: boolean;
   };
+
+  // BISSNES ACCOUNT
+
+  accountType?: string;
 };

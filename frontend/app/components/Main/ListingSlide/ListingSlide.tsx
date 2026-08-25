@@ -10,7 +10,6 @@ export default function ListingSlide() {
   const { messages } = useI18n();
 
   const { listingsJob } = useListingsStore();
-  console.log(listingsJob);
 
   return (
     <section>

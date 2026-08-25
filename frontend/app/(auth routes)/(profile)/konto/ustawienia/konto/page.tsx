@@ -2,14 +2,10 @@
 
 import { useI18n } from "@/app/i18n/useI18n";
 import { useConfirmStore } from "@/app/store/useConfirmStore";
-import {
-  changeEmailRequest,
-  editProfile,
-  sendChangePassword,
-} from "@/app/lib/api/api";
+import { changeEmailRequest, sendChangePassword } from "@/app/lib/api/api";
 import { useAuthStore } from "@/app/store/useAuthState";
-import { ChangePassword, emailChange, LoginRequest } from "@/app/types/auth";
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import { ChangePassword, emailChange } from "@/app/types/auth";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import Button from "@/app/ui/Button/Button";
@@ -18,6 +14,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { LuEyeOff } from "react-icons/lu";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import RoleSwitcher from "../../components/RoleSwitcher/RoleSwitcher";
 
 export default function AccountSetup() {
   const { messages } = useI18n();
@@ -25,10 +22,7 @@ export default function AccountSetup() {
 
   const { deleteAccount } = useAuthStore();
 
-  const fetchData = useAuthStore((s) => s.fetchData);
-
   // STATE
-
   const [showPass, setShowPass] = useState(false);
 
   // EMAIL
@@ -86,8 +80,36 @@ export default function AccountSetup() {
     toast.success("Hasło zostało zmienione");
   };
 
+  const changeAccountType = () => {
+    if (!user) return;
+
+    if (user.accountType == "private") return "business";
+    else {
+      return "private";
+    }
+  };
+
+  console.log(user);
+
   return (
     <div className="block_position">
+      {/* ACCOUNT TYPE */}
+
+      <div className="block_internal">
+        <h2 className="block_title">Typ konta</h2>
+        <p className="block_sub_title">
+          Jeśli chcesz publikować oferty w imieniu swojej firmy, przełącz się na
+          konto firmowe.
+        </p>
+        <div className="block_switcher">
+          <div className="block_details">
+            <span>Obecny typ:</span>
+            <p>{user?.accountType} account</p>
+          </div>
+          <RoleSwitcher onChange={() => changeAccountType()} />
+        </div>
+      </div>
+
       {/* EMAIL */}
 
       <div className="block_internal">

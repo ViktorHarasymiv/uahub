@@ -22,7 +22,7 @@ export default function SlideCardItem({ item }: PromoteSwiperProps) {
     ? `http://localhost:1997${item.photos[0]}`
     : Banner.src;
 
-  const { date } = formatDateTime("2026-07-26T20:24:12.090+00:00");
+  const { date, time } = formatDateTime(item.createdAt);
   const formattedSalary = formatJobSalary(item.fields);
 
   return (
@@ -56,7 +56,9 @@ export default function SlideCardItem({ item }: PromoteSwiperProps) {
             <div>
               <Icons.time />
               <span className={style.time_title}>{messages["card.time"]}</span>
-              <span>{date}</span>
+              <span>
+                {date} {time}
+              </span>
             </div>
             <div>
               <Icons.view />

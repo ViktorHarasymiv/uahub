@@ -67,6 +67,11 @@ export const uploadPhoto = async (formData: FormData) => {
   return res.data;
 };
 
+export const switchAccountType = async (newType: "private" | "business") => {
+  const res = await nextServer.patch("/users/account-type", { newType });
+  return res.data;
+};
+
 // LOGOUT
 
 export const logout = async () => {

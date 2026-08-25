@@ -27,15 +27,17 @@ export default function ListingSwiper({ date }: PromoteSwiperProps) {
       breakpoints={{
         320: {
           slidesPerView: 1.5,
+          slidesPerGroup: 1,
           spaceBetween: 16,
         },
-
         768: {
           slidesPerView: 2.5,
+          slidesPerGroup: 2,
           spaceBetween: 20,
         },
         1024: {
           slidesPerView: 3.5,
+          slidesPerGroup: 3,
           spaceBetween: 30,
         },
       }}

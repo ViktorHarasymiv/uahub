@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import {
+  patchAccountTypeController,
   patchPhotoController,
   patchUserController,
 } from '../controllers/user.js';
@@ -24,5 +25,9 @@ router.patch(
   upload.single('photoUrl'),
   ctrlWrapper(patchPhotoController),
 );
+
+// BUSSINES
+
+router.patch('/account-type', patchAccountTypeController);
 
 export default router;

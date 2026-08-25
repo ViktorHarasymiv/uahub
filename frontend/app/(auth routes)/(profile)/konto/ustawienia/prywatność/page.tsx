@@ -1,5 +1,5 @@
 "use client";
 
-export default function PrivacySetup() {
+export default function PrivacyPage() {
   return <div>PrivacySetup</div>;
 }

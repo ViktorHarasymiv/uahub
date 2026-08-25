@@ -107,3 +107,13 @@
 
   color: inherit;
 }
+
+/* SWITCHER */
+
+.block_switcher {
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+}

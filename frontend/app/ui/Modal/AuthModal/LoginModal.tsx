@@ -54,7 +54,7 @@ export default function LoginModal() {
 
     if (success) {
       closeModal();
-      router.push("/profile");
+      router.push("/konto");
     } else {
       return;
     }

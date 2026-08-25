@@ -44,7 +44,7 @@ const styles: Record<string, React.CSSProperties> = {
   fullscreenWrapper: {
     position: "fixed",
     inset: 0,
-    backgroundColor: "#ffffff",
+    backgroundColor: "var(--white)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

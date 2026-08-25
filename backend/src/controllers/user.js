@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
 import { userUpdateValidator } from '../validation/user.js';
-import { updateUser } from '../services/user.js';
+import { updateAccountTypeService, updateUser } from '../services/user.js';
 import { UsersCollection } from '../db/models/user.js';
 
 // PATH USER INFO
@@ -8,25 +8,13 @@ import { UsersCollection } from '../db/models/user.js';
 export const patchUserController = async (req, res, next) => {
   try {
     const userId = req.user?.id || req.session?.userId;
+
     if (!userId) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    // Валідація тіла запиту
-    const { error, value } = userUpdateValidator.validate(req.body, {
-      abortEarly: false,
-      stripUnknown: true,
-    });
-
-    if (error) {
-      return res
-        .status(400)
-        .json({ error: error.details.map((d) => d.message) });
-    }
-
-    const updateData = { ...value };
-
-    // if (photoUrl) updateData.avatar = photoUrl;
+    // ❗ На цьому етапі req.body вже валідний
+    const updateData = req.body;
 
     const updatedUser = await updateUser(userId, updateData);
 
@@ -76,5 +64,34 @@ export const patchPhotoController = async (req, res) => {
   } catch (error) {
     console.error('patchPhotoController error:', error);
     return res.status(500).json({ error: 'Failed to update avatar' });
+  }
+};
+
+// BUSSINES ACCOUNT
+
+export const patchAccountTypeController = async (req, res, next) => {
+  try {
+    const userId = req.user?.id || req.session?.userId;
+
+    if (!userId) {
+      return next(createHttpError(401, 'Unauthorized'));
+    }
+
+    const { newType } = req.body;
+
+    if (!newType) {
+      return next(createHttpError(400, 'Missing newType'));
+    }
+
+    const updated = await updateAccountTypeService(userId, newType);
+
+    res.json({
+      status: 200,
+      message: 'Account type updated',
+      data: updated,
+    });
+  } catch (error) {
+    console.error('patchAccountType error:', error);
+    next(createHttpError(500, error.message || 'Internal server error'));
   }
 };

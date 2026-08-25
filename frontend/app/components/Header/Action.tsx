@@ -12,12 +12,7 @@ import { useAuthStore } from "@/app/store/useAuthState";
 // ICONS
 
 import { Icons } from "@/app/ui/Icons/icons";
-import { usePathname } from "next/navigation";
-import { useI18nStore } from "@/app/store/i18nStore";
-import AccountNav_PL from "@/app/json/AccountNav_PL";
-import AccountNav_EN from "@/app/json/AccountNav_EN";
-import AccountNav_UA from "@/app/json/AccountNav_UA";
-import { useConfirmStore } from "@/app/store/useConfirmStore";
+import DropNavigation from "./components/DropNavigation/DropNavigation";
 
 function Action() {
   const { messages } = useI18n();
@@ -25,7 +20,6 @@ function Action() {
   const openModal = useModalStore((s) => s.openModal);
 
   const isAuth = useAuthStore((s) => s.isAuth);
-  const logOut = useAuthStore((s) => s.logout);
 
   const user = useAuthStore((s) => s.user);
 
@@ -33,22 +27,6 @@ function Action() {
 
   const firstLetter = (user?.lastName || "").slice(0, 1) + ".";
   const userId = (user?._id || "").slice(0, 8);
-
-  const pathname = usePathname();
-  const locale = useI18nStore((s) => s.locale);
-
-  let nav;
-
-  switch (locale) {
-    case "pl":
-      nav = AccountNav_PL;
-      break;
-    case "en":
-      nav = AccountNav_EN;
-      break;
-    default:
-      nav = AccountNav_UA;
-  }
 
   return (
     <>
@@ -91,48 +69,9 @@ function Action() {
             </div>
 
             {/* DROP NAVIGATION */}
-            <nav className={style.drop_user_nav}>
-              <ul className={style.drop_user_list}>
-                <li className={style.drop_user_block}>{user?.email}</li>
-                <li className={style.drop_nav}>
-                  {nav.map((item) => {
-                    const Icon = Icons[item.icon];
-
-                    const active =
-                      item.href === "/profile"
-                        ? pathname === "/profile"
-                        : pathname.startsWith(item.href);
-
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`${style.link}
-                ${active ? "active_link" : ""}
-              `}
-                      >
-                        <Icon className="icon" />
-                        {item.label}
-                      </Link>
-                    );
-                  })}
-                </li>
-                <li className={style.drop_logout_block}>
-                  <Icons.logout style={{ color: "var(--dark)" }} />
-                  <button
-                    onClick={() =>
-                      useConfirmStore.getState().show({
-                        description: messages["confirm.description.account"],
-                        onConfirm: logOut,
-                      })
-                    }
-                  >
-                    Вихід
-                  </button>
-                </li>
-              </ul>
-            </nav>
+            <DropNavigation user={user} />
           </li>
+          {/* DECOR */}
           <li>
             <span className={style.line}></span>
           </li>
@@ -145,6 +84,7 @@ function Action() {
         </ul>
       ) : (
         <ul className={style.action_wrapper}>
+          {/* SIGN IN */}
           <li className={style.nav_item}>
             <Button
               styles={{
@@ -159,7 +99,7 @@ function Action() {
           <li>
             <span className={style.line}></span>
           </li>
-          {/* DECOR */}
+          {/* SIGN UP */}
           <li className={style.nav_item}>
             <Button action={() => openModal("signUp")}>
               <span>{messages["navigation.signUp"]}</span>

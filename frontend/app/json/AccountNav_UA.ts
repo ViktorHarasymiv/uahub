@@ -7,7 +7,6 @@ interface NavItem {
 }
 
 const AccountNav_UA: NavItem[] = [
-  { label: "Твоя панель", href: "/profile", icon: "home" },
   { label: "Додати оголошення", href: "/add-listing", icon: "listing" },
   { label: "Мої оголошення", href: "/my-listings", icon: "notebookPen" },
   {
@@ -17,11 +16,6 @@ const AccountNav_UA: NavItem[] = [
   },
   { label: "Збережені", href: "/profile/saved", icon: "star" },
   { label: "Сповіщення", href: "/profile/notifications", icon: "bell" },
-  {
-    label: "Налаштування акаунта",
-    href: "/profile/settings",
-    icon: "settings",
-  },
 ];
 
 export default AccountNav_UA;

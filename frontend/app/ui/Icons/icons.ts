@@ -22,6 +22,8 @@ import {
   Clock,
   MapPin,
   DatabaseX,
+  BriefcaseBusiness,
+  ChartSpline,
 } from "lucide-react";
 
 export const Icons = {
@@ -48,4 +50,6 @@ export const Icons = {
   time: Clock,
   location: MapPin,
   databaseX: DatabaseX,
+  business: BriefcaseBusiness,
+  stats: ChartSpline,
 } as const;

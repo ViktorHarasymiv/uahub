@@ -1,13 +1,5 @@
 import { create } from "zustand";
-import {
-  getMe,
-  login,
-  register,
-  refreshSession,
-  checkServerSession,
-  logout,
-  deleteAccount,
-} from "../lib/api/api";
+import { getMe, login, register, logout, deleteAccount } from "../lib/api/api";
 import { User } from "../types/auth";
 import toast from "react-hot-toast";
 
@@ -26,13 +18,18 @@ interface AuthState {
   deleteAccount: () => Promise<boolean>;
   logout: () => Promise<void>;
   fetchMe: () => void;
-  fetchData: () => Promise<boolean>;
+  fetchData: () => void;
   clearError: () => void;
 }
 
+const preview =
+  typeof window !== "undefined"
+    ? JSON.parse(localStorage.getItem("userPreview") || "null")
+    : null;
+
 export const useAuthStore = create<AuthState>((set, get) => ({
-  user: null,
-  isAuth: false,
+  user: preview,
+  isAuth: !!preview,
   loading: true,
   error: null,
 
@@ -41,15 +38,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   register: async (data) => {
     try {
       set({ loading: true });
-
-      await register(data); // axios service
-
+      await register(data);
       set({ loading: false });
-
-      return true; // реєстрація успішна
-    } catch (err) {
+      return true;
+    } catch {
       set({ error: "Error", loading: false });
-      return false; // реєстрація неуспішна
+      return false;
     }
   },
 
@@ -61,23 +55,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       if (!res.success) {
         toast.error(res.message ?? "Wystąpił błąd");
-
-        set({
-          error: res.message,
-          loading: false,
-        });
+        set({ error: res.message, loading: false });
         return false;
       } else {
         toast.success(res.data.message);
+        get().fetchMe();
       }
 
-      // якщо логін успішний — тягнемо юзера
-      const meOk = await get().fetchData();
-
-      set({ loading: false });
-
-      return meOk;
-    } catch (err) {
+      return true;
+    } catch {
       set({ error: "Помилка логіну", loading: false });
       return false;
     }
@@ -85,22 +71,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   logout: async () => {
     await logout();
+    localStorage.removeItem("userPreview");
     set({ isAuth: false, user: null });
   },
 
   deleteAccount: async () => {
     try {
       const res = await deleteAccount();
-
       if (res.data.status === 200) {
-        // очищаємо локальні дані
         get().logout();
+        localStorage.removeItem("userPreview");
         return true;
       }
-
       return false;
-    } catch (err) {
-      console.log(err);
+    } catch {
       return false;
     }
   },
@@ -109,54 +93,25 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ loading: true });
 
     try {
-      const check = await checkServerSession();
-
-      if (check.valid) {
-        const data = await getMe();
-        if (!data) {
-          set({ isAuth: false, user: null });
-          return false;
-        }
-
-        set({ isAuth: true, user: data.user });
-        return true;
-      }
-
-      // accessToken протух → пробуємо refresh
-      await refreshSession();
-
-      // ❗ refreshSession ставить cookie, тому refreshed може бути пустим
-      // але це НЕ означає, що refresh не спрацював
       const data = await getMe();
 
-      if (!data) {
-        await logout();
-        set({ isAuth: false, user: null });
-        return false;
-      }
-
-      set({ isAuth: true, user: data.user });
-      return true;
-    } catch {
-      set({ isAuth: false, user: null });
-      return false;
-    } finally {
-      set({ loading: false });
-    }
-  },
-
-  fetchData: async () => {
-    set({ loading: true });
-
-    try {
-      const res = await getMe();
-
-      if (!res || !res.user) {
+      if (!data || !data.user) {
+        localStorage.removeItem("userPreview");
         set({ user: null, isAuth: false });
         return false;
       }
 
-      set({ user: res.user, isAuth: true });
+      localStorage.setItem(
+        "userPreview",
+        JSON.stringify({
+          firstName: data.user.firstName,
+          lastName: data.user.lastName,
+          photoUrl: data.user.photoUrl,
+          _id: data.user._id,
+        }),
+      );
+
+      set({ user: data.user, isAuth: true });
       return true;
     } catch {
       set({ user: null, isAuth: false });
@@ -164,5 +119,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     } finally {
       set({ loading: false });
     }
+  },
+
+  fetchData: async () => {
+    return get().fetchMe();
   },
 }));

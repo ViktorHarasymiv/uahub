@@ -32,12 +32,50 @@ const usersSchema = new Schema(
     // Security
     lastLoginAt: { type: Date, required: false },
 
-    // Subscription (optional)
-    subscription: {
-      plan: { type: String, enum: ['free', 'pro', 'premium'], default: 'free' },
-      expiresAt: { type: Date, required: false },
-      isAutoRenew: { type: Boolean, default: false },
+    // BISSNES ACCOUNT
+
+    accountType: {
+      type: String,
+      enum: ['private', 'business'],
+      default: 'private',
     },
+
+    businessStatus: {
+      type: String,
+      enum: ['active', 'inactive'],
+      default: 'inactive',
+    },
+
+    business: {
+      name: { type: String, required: false },
+      description: { type: String, required: false },
+      logoUrl: { type: String, required: false },
+      bannerUrl: { type: String, required: false },
+
+      // Contact
+      phone: { type: String, required: false },
+      email: { type: String, required: false },
+      website: { type: String, required: false },
+
+      // Address
+      country: { type: String, required: false },
+      city: { type: String, required: false },
+      street: { type: String, required: false },
+
+      // Socials
+      facebook: { type: String, required: false },
+      instagram: { type: String, required: false },
+      telegram: { type: String, required: false },
+      viber: { type: String, required: false },
+
+      // Landing page activation
+      landingActive: { type: Boolean, default: false },
+
+      // Future: stats, views, etc.
+      views: { type: Number, default: 0 },
+    },
+
+    // ============================================================
   },
   { timestamps: true, versionKey: false },
 );

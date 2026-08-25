@@ -28,6 +28,7 @@ export const ConfirmDialog = () => {
         </p>
         <div className={style.action_block}>
           <Button
+            type={"button"}
             accent
             action={() => {
               hide();
@@ -37,7 +38,7 @@ export const ConfirmDialog = () => {
             {config.confirmText || messages["confirm.action"]}
           </Button>
 
-          <Button action={hide}>
+          <Button type={"button"} action={hide}>
             {config.cancelText || messages["confirm.cancel"]}
           </Button>
         </div>

@@ -392,14 +392,11 @@
 
   top: 100%;
 
-  width: 100%;
+  width: 280px;
 }
 
 .drop_user_list {
-  max-width: 270px;
-  width: fit-content;
-
-  padding-block: 24px;
+  padding: var(--block-padding);
 
   -webkit-backdrop-filter: blur(40px) saturate(200%);
   will-change: transform, opacity, backdrop-filter;
@@ -420,10 +417,6 @@
 .user_block:hover .drop_user_nav {
   pointer-events: all;
   opacity: 1;
-}
-
-.drop_user_list li > button {
-  color: var(--dark) !important;
 }
 
 /* NAVIGATION LINK */
@@ -455,12 +448,6 @@
   align-items: center;
 }
 
-.link:last-child {
-  position: relative;
-
-  margin-top: 40px;
-}
-
 .link:last-child::before {
   position: absolute;
 
@@ -485,6 +472,20 @@
 }
 
 .drop_logout_block {
-  padding-inline: 24px;
-  padding-top: 24px;
+  margin-top: 10px;
+  padding: 12px;
+
+  border-top: 1px solid var(--colorsOpacitySecondaryMedium);
+}
+
+.drop_logout_block button {
+  font-weight: 400;
+}
+
+.drop_logout_block svg {
+  margin-right: 0px;
+}
+
+.drop_logout_block:hover {
+  background-color: var(--colorsBackgroundSecondary);
 }

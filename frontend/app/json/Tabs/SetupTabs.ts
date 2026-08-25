@@ -1,7 +1,7 @@
 const Tabs = [
-  { href: "/profile/settings/privacy", label: "Prywatność" },
-  { href: "/profile/settings/account", label: "Konto" },
-  { href: "/profile/settings/setup", label: "Twoje dane" },
+  { href: "/konto/ustawienia", label: "Prywatność" },
+  { href: "/konto/ustawienia/konto", label: "Konto" },
+  { href: "/konto/ustawienia/twoje-dane", label: "Twoje dane" },
 ];
 
 export default Tabs;
