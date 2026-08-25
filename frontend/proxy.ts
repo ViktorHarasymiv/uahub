@@ -1,105 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { parse } from "cookie";
-import { checkServerSession } from "./app/lib/api/api";
 
-const privateRoutes = ["/konto"];
-const authRoutes = ["/sign-in", "/sign-up"];
+export function proxy(request: NextRequest) {
+  const accessToken = request.cookies.get("accessToken");
+  const refreshToken = request.cookies.get("refreshToken");
 
-export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-  const cookieStore = await cookies();
+  const isPrivate = request.nextUrl.pathname.startsWith("/konto");
 
-  const accessToken = cookieStore.get("accessToken")?.value;
-  const refreshToken = cookieStore.get("refreshToken")?.value;
-
-  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
-  const isPrivateRoute = privateRoutes.some((route) =>
-    pathname.startsWith(route),
-  );
-
-  // ⭐ SSR-cookie-check: якщо є refreshToken → вважаємо користувача потенційно авторизованим
-  if (!accessToken && refreshToken) {
-    const data = await checkServerSession();
-    const setCookie = data.headers["set-cookie"];
-
-    if (setCookie) {
-      const cookieArray = Array.isArray(setCookie) ? setCookie : [setCookie];
-
-      for (const cookieStr of cookieArray) {
-        const parsed = parse(cookieStr);
-
-        const normalizeSameSite = (
-          value?: string,
-        ): "lax" | "strict" | "none" => {
-          if (!value) return "none"; // ⭐ критично важливо
-
-          const v = value.toLowerCase();
-
-          if (v === "lax") return "lax";
-          if (v === "strict") return "strict";
-          if (v === "none") return "none";
-
-          return "none"; // ⭐ fallback
-        };
-
-        const options = {
-          expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-          path: parsed.Path || "/", // ⭐ теж важливо
-          maxAge: Number(parsed["Max-Age"]),
-          httpOnly: true,
-          secure: true,
-          sameSite: normalizeSameSite(parsed.SameSite),
-        };
-
-        if (parsed.accessToken)
-          cookieStore.set("accessToken", parsed.accessToken, options);
-
-        if (parsed.refreshToken)
-          cookieStore.set("refreshToken", parsed.refreshToken, options);
-      }
-
-      // ⭐ Якщо сесія активна → блокуємо доступ до /sign-in
-      if (isAuthRoute) {
-        return NextResponse.redirect(new URL("/", request.url), {
-          headers: {
-            Cookie: cookieStore.toString(),
-          },
-        });
-      }
-
-      // ⭐ Дозволяємо доступ до приватних маршрутів
-      if (isPrivateRoute) {
-        return NextResponse.next({
-          headers: {
-            Cookie: cookieStore.toString(),
-          },
-        });
-      }
-    }
+  if (isPrivate && !accessToken && !refreshToken) {
+    return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  // ⭐ Якщо немає accessToken і немає refreshToken
-  if (!accessToken) {
-    if (isAuthRoute) {
-      return NextResponse.next();
-    }
-
-    if (isPrivateRoute) {
-      return NextResponse.redirect(new URL("/sign-in", request.url));
-    }
-  }
-
-  // ⭐ Якщо accessToken існує
-  if (isAuthRoute) {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
-  if (isPrivateRoute) {
-    return NextResponse.next();
-  }
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/konto/:path*", "/sign-in", "/sign-up"],
+  matcher: ["/konto/:path*"],
+  runtime: "nodejs",
 };

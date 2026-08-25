@@ -95,6 +95,7 @@ export const refreshSession = async () => {
 
 export const checkServerSession = async () => {
   const res = await nextServer.get("/auth/session");
+  console.log(res);
 
   return res.data;
 };
