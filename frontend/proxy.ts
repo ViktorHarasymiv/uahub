@@ -31,8 +31,8 @@ export async function proxy(request: NextRequest) {
 
         const normalizeSameSite = (
           value?: string,
-        ): "lax" | "strict" | "none" | undefined => {
-          if (!value) return undefined;
+        ): "lax" | "strict" | "none" => {
+          if (!value) return "none"; // ⭐ критично важливо
 
           const v = value.toLowerCase();
 
@@ -40,12 +40,12 @@ export async function proxy(request: NextRequest) {
           if (v === "strict") return "strict";
           if (v === "none") return "none";
 
-          return undefined;
+          return "none"; // ⭐ fallback
         };
 
         const options = {
           expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-          path: parsed.Path,
+          path: parsed.Path || "/", // ⭐ теж важливо
           maxAge: Number(parsed["Max-Age"]),
           httpOnly: true,
           secure: true,
